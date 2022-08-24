@@ -1,14 +1,30 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import PrivateRoute from 'routes/PrivateRoute';
+import { NewsFeed } from '@pages/new-feed/news-feed';
+import React, { memo, useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router';
+import { routes } from 'routes';
 
 const PrivateRouteController = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <React.Fragment>
       <Routes>
-        <Route element={<div>Not found</div>} />
+        <Route
+          path={routes.home}
+          element={
+            <PrivateRoute>
+              <NewsFeed />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </React.Fragment>
   );
 };
 
-export default PrivateRouteController;
+export default memo(PrivateRouteController);

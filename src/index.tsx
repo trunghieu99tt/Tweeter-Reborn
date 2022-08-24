@@ -1,8 +1,12 @@
+/// <reference types="@welldone-software/why-did-you-render" />
+import './wdyr';
+
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import AppProvider from '@context/app.context';
 
@@ -15,6 +19,8 @@ import './index.css';
 import './i18.config';
 import reportWebVitals from './reportWebVitals';
 
+const queryClient = new QueryClient();
+
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
@@ -23,7 +29,9 @@ ReactDOM.render(
           <RecoilRoot>
             <HelmetProvider>
               <Provider store={store}>
-                <App />
+                <QueryClientProvider client={queryClient}>
+                  <App />
+                </QueryClientProvider>
               </Provider>
             </HelmetProvider>
           </RecoilRoot>

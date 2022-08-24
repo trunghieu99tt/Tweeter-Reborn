@@ -60,6 +60,10 @@ const calcDiffTimeString = (date: Date): string => {
   return date.toLocaleDateString();
 };
 
+export const eliminateSerializeType = <T>(obj: T): Record<string, any> => {
+  return JSON.parse(JSON.stringify(obj));
+};
+
 export {
   urlify,
   nFormatter,

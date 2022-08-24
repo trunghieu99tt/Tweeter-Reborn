@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ELanguage, TAppState } from '@type/app.type';
+import { EThemes } from 'constants/style.constant';
 
-export interface IAppState {
-  theme: 'dark' | 'light';
-  language: 'en' | 'vi';
-}
-
-const appInitialState: IAppState = {
-  theme: 'light',
-  language: 'en',
+const appInitialState: TAppState = {
+  theme: EThemes.LIGHT,
+  language: ELanguage.En,
+  loading: {
+    visible: false,
+    component: null,
+  },
+  socket: null,
 };
 
 export const appSlice = createSlice({
@@ -20,8 +22,15 @@ export const appSlice = createSlice({
     setLanguage: (state, action) => {
       state.language = action.payload;
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setSocket: (state, action) => {
+      state.socket = action.payload;
+    },
   },
 });
 
-export const { setTheme, setLanguage } = appSlice.actions;
+export const { setTheme, setLanguage, setLoading, setSocket } =
+  appSlice.actions;
 export default appSlice.reducer;

@@ -11,7 +11,9 @@ export interface BaseEvent<Payload> {
 }
 
 export enum EventBusName {
-  LOGOUT = 'LOGOUT',
+  Logout = 'LOGOUT',
+  Login = 'LOGIN',
+  Error = 'ERROR',
 }
 
 export default class EventBus {

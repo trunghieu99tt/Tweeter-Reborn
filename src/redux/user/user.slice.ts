@@ -1,6 +1,5 @@
 import { IUser } from '@type/user.type';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsers } from './user.async-action';
 
 export interface IUserState {
   user: IUser | null;
@@ -22,20 +21,20 @@ export const userSlice = createSlice({
       state.user = action.payload;
     },
   },
-  extraReducers(builder) {
-    builder
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = action.payload[0];
-        state.users = action.payload;
-      })
-      .addCase(fetchUsers.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchUsers.rejected, (state) => {
-        state.isLoading = false;
-      });
-  },
+  // extraReducers(builder) {
+  //   builder
+  //     .addCase(fetchUsers.fulfilled, (state, action) => {
+  //       state.isLoading = false;
+  //       state.user = action.payload[0];
+  //       state.users = action.payload;
+  //     })
+  //     .addCase(fetchUsers.pending, (state) => {
+  //       state.isLoading = true;
+  //     })
+  //     .addCase(fetchUsers.rejected, (state) => {
+  //       state.isLoading = false;
+  //     });
+  // },
 });
 
 export const { setUser } = userSlice.actions;

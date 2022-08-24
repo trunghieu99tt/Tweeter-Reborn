@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { UserService } from 'services/user.service';
+import useUserService from 'services/user.service';
 
-export const fetchUsers = createAsyncThunk('users/fetchAll', async () => {
-  return UserService.getAll();
+export const fetchMe = createAsyncThunk('users/me', async () => {
+  return [];
 });

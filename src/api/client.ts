@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { API_URL } from '@config/secret';
 import { ResponseCode } from 'constants/http-status.constant';
+import { ELocalStorageKey } from '@constants';
 
 const headers = {
   Accept: 'application/json',
@@ -16,10 +17,10 @@ const client = axios.create({
 });
 
 const requestInterceptor = (config: AxiosRequestConfig) => {
-  const token = localStorage.getItem('token');
+  const rawToken = localStorage.getItem(ELocalStorageKey.AccessToken);
 
-  if (token && config.headers) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+  if (rawToken && config.headers) {
+    config.headers['Authorization'] = `Bearer ${JSON.parse(rawToken)}`;
   }
 
   return config;
@@ -55,7 +56,7 @@ const errorResponseInterceptor = (error: any) => {
 };
 
 client.interceptors.response.use((response) => {
-  return response?.data;
+  return response;
 }, errorResponseInterceptor);
 
 export default client;
