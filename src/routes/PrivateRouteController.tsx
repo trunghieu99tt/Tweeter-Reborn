@@ -1,5 +1,5 @@
 import PrivateRoute from 'routes/PrivateRoute';
-import { NewsFeed } from '@pages/new-feed/news-feed';
+import { NewsFeed } from '@pages/new-feed';
 import React, { memo, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import { routes } from 'routes';

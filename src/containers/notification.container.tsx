@@ -40,7 +40,6 @@ const NotificationContainer = ({ screen }: Props) => {
 
   const { getCurrentUser } = useUserService();
   const user = getCurrentUser();
-
   const { getNotifications, markAsRead } = useNotificationService();
 
   const {

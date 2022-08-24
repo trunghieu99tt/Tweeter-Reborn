@@ -20,6 +20,8 @@
     "craco": "^0.0.3",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "fabric": "^5.2.1",
+    "fabricjs-react": "^1.0.8",
     "framer-motion": "^4.1.17",
     "i18next": "^21.6.0",
     "i18next-browser-languagedetector": "^6.1.2",

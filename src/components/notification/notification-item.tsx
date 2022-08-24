@@ -1,19 +1,18 @@
+import UserAvatarSmall from '@components/shared/small-avatar';
 import { INotification } from '@type/notification.type';
+import { calcDiffTimeString } from '@utils/helper';
 import {
   EBorderRadius,
   EFontSize,
   EFontWeight,
 } from 'constants/style.constant';
+import _ from 'lodash';
+import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import useNotificationService from 'services/notification.service';
-import userService from 'services/user.service';
-import styled from 'styled-components';
-import { calcDiffTimeString } from '@utils/helper';
-import UserAvatarSmall from '@components/shared/small-avatar';
-import _ from 'lodash';
-import React, { memo } from 'react';
 import useUserService from 'services/user.service';
+import styled from 'styled-components';
 
 type Props = {
   data: INotification;

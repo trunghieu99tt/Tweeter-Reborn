@@ -4,21 +4,18 @@ import UncontrolledInput from '@components/shared/uncontrolled-input';
 import { ELocalStorageKey, EUserQuery } from '@constants';
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { setLoading } from '@redux/app/app.slice';
-import { setUser } from '@redux/user/user.slice';
 import { ILogin } from '@type/user.type';
 import { EFontWeight } from 'constants/style.constant';
 import { EGender } from 'constants/user.constant';
+import _ from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiLock, BiMailSend, BiUserCircle, BiUserPin } from 'react-icons/bi';
+import { useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { useAuthService } from 'services/auth.service';
 import { AppDispatch } from 'store';
 import styled from 'styled-components';
-import _ from 'lodash';
-import { useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router';
-import { routes } from 'routes';
 
 enum EAuthScreen {
   Login = 'login',
@@ -77,7 +74,6 @@ const Auth = () => {
   const { loginMutation, registerMutation } = useAuthService();
   const formRef = React.useRef<HTMLFormElement>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const [storedAccessToken, setAccessToken] = useLocalStorage(
     ELocalStorageKey.AccessToken,
     '',

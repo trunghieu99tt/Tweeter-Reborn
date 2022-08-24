@@ -32,8 +32,6 @@ client.interceptors.request.use(requestInterceptor, (error) => {
 
 const errorResponseInterceptor = (error: any) => {
   const statusCode = error?.response?.status;
-  const originalRequest = error?.response?.config;
-  const { data } = error?.response;
 
   if (statusCode === ResponseCode.TOKEN_REMOVED) {
     // logout

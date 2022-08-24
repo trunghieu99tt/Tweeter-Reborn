@@ -15,3 +15,12 @@ export enum EAuthQuery {
   Login = 'Login',
   Register = 'Register',
 }
+
+export enum EStoryQuery {
+  GetStories = 'GetStories',
+}
+
+export enum EHashTagQuery {
+  GetPopularTags = 'GetPopularTags',
+  UpdateHashTag = 'UpdateHashTag',
+}
