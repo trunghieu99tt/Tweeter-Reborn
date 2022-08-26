@@ -1,7 +1,7 @@
 import Loader1 from '@components/shared/loaders/loader-1';
 import Loading from '@components/shared/loading/loading';
 import Auth from '@pages/auth';
-import { NewsFeed } from '@pages/new-feed';
+import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
 import { useMyTheme } from '@talons/useMyTheme';
 import React from 'react';

@@ -1,6 +1,7 @@
 import { EEndpoints } from '@constants';
 import { IHashtag } from '@type/hash-tag.type';
 import { nFormatter } from '@utils/helper';
+import { EFontSize, EFontWeight } from 'constants/style.constant';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -13,7 +14,7 @@ const TagItem = ({ data }: { data: IHashtag }) => {
   return (
     <StyledTagItemRoot
       key={`popular-tag-${_id}`}
-      to={`${EEndpoints.HASH_TAG}/${name}`}
+      to={`${EEndpoints.HashTag}/${name}`}
     >
       <StyledTagName>#{name}</StyledTagName>
       <StyledTagCounter>
@@ -27,16 +28,17 @@ export default React.memo(TagItem);
 export const StyledTagItemRoot = styled(Link)`
   margin-bottom: 2.5rem;
   display: block;
-  color: var(--blue-1);
+  color: ${({ theme }) => theme.backgroundColor2};
 `;
 
 export const StyledTagName = styled.p`
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: ${EFontSize.Font7};
+  font-weight: ${EFontWeight.FontWeight600};
+  word-break: break-all;
 `;
 
 export const StyledTagCounter = styled.span`
-  color: var(--gray-1);
-  font-size: 1.2rem;
-  font-weight: 500;
+  color: ${({ theme }) => theme.textColor1};
+  font-size: ${EFontSize.Font3};
+  font-weight: ${EFontWeight.FontWeight500};
 `;

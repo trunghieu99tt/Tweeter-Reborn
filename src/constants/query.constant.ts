@@ -14,6 +14,7 @@ export enum ENotificationQuery {
 export enum EAuthQuery {
   Login = 'Login',
   Register = 'Register',
+  Logout = 'Logout',
 }
 
 export enum EStoryQuery {
@@ -23,4 +24,13 @@ export enum EStoryQuery {
 export enum EHashTagQuery {
   GetPopularTags = 'GetPopularTags',
   UpdateHashTag = 'UpdateHashTag',
+}
+
+export enum ETweetQuery {
+  CreateTweet = 'CreateTweet',
+  UpdateTweet = 'UpdateTweet',
+  GetLatestTweets = 'GetLatestTweets',
+  GetSavedTweets = 'GetSavedTweets',
+  GetPopularTweets = 'GetPopularTweets',
+  GetTweetByHashTag = 'GetTweetByHashTag',
 }

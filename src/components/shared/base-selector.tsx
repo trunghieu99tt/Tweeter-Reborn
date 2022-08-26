@@ -10,16 +10,22 @@ type TOptions<T> = {
   id: string | number;
   value: T;
   label: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 type Props<T> = {
-  value: T;
+  value?: T;
   onChange: (input: T) => void;
   options: TOptions<T>[];
+  renderValue?: (value: T) => React.ReactNode;
 };
 
-const BaseSelector = <T,>({ value, onChange, options }: Props<T>) => {
+const BaseSelector = <T,>({
+  value,
+  onChange,
+  options,
+  renderValue,
+}: Props<T>) => {
   const currentLanguage = useSelector(
     (state: RootState) => state.appState.language,
   );
@@ -46,11 +52,23 @@ const BaseSelector = <T,>({ value, onChange, options }: Props<T>) => {
 
   const SelectedItem = options.find((option) => option.value === value);
 
+  const selectedItem = useMemo(() => {
+    if (renderValue && typeof renderValue === 'function') {
+      return renderValue(value);
+    }
+
+    return (
+      <React.Fragment>
+        <StyledSelectedItemIcon>{SelectedItem?.icon}</StyledSelectedItemIcon>
+        <StyledSelectedItemText>{SelectedItem?.label}</StyledSelectedItemText>
+      </React.Fragment>
+    );
+  }, [renderValue]);
+
   return (
     <Wrapper ref={dropdownRef}>
       <StyledSelectedItem onClick={toggleDropdown}>
-        <StyledSelectedItemIcon>{SelectedItem?.icon}</StyledSelectedItemIcon>
-        <StyledSelectedItemText>{SelectedItem?.label}</StyledSelectedItemText>
+        {selectedItem}
       </StyledSelectedItem>
       <Dropdown isVisible={visibleDropdown} items={selections} />
     </Wrapper>

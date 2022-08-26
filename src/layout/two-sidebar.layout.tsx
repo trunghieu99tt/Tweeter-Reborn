@@ -1,3 +1,4 @@
+import { EBoxShadow } from 'constants/style.constant';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -23,6 +24,7 @@ export const TwoSideBarLayout = ({
 
 const Container = styled.div`
   max-width: 75%;
+  flex: 1;
   margin: 2.5rem auto;
   display: flex;
   gap: 2.5rem;
@@ -30,10 +32,11 @@ const Container = styled.div`
 `;
 
 const LeftSideBar = styled.aside`
-  flex: 1;
+  width: 30rem;
   max-width: 30rem;
   max-height: 100vh;
   top: 7rem;
+  padding: 0 2rem 2rem 2rem;
 
   @media (max-width: 1024px) {
     display: none;
@@ -43,12 +46,10 @@ const RightSideBar = styled.aside`
   max-height: 100vh;
   position: sticky;
   top: 7rem;
-  background: #ffffff;
-  box-shadow: var(--box-shadow-1);
   border-radius: 1.2rem;
-  max-height: 50rem;
   overflow: auto;
-  padding: 2rem;
+  padding: 0 2rem 2rem 2rem;
+
   width: 30rem;
 `;
 const MainContent = styled.div`

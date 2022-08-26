@@ -1,3 +1,4 @@
+import { EMedia } from '@constants';
 import { EThemes } from 'constants/style.constant';
 import { Component } from 'react';
 import { Socket } from 'socket.io-client';
@@ -55,4 +56,17 @@ export interface IApiResponse<T = any> {
 export interface IPaginationParams {
   limit: number;
   page: number;
+}
+
+export interface IMedia {
+  id?: string;
+  url: string;
+  type?: EMedia;
+  file?: File | null;
+}
+
+export enum EUploadFileType {
+  Tweet = 'tweet',
+  Background = 'background',
+  Avatar = 'avatar',
 }

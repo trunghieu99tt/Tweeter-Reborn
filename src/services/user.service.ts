@@ -8,28 +8,38 @@ const useUserService = () => {
   const queryClient = useQueryClient();
 
   const validateUser = async (username: string): Promise<IUser> => {
-    const users = await client.get(EEndpoints.USERS);
+    const users = await client.get(EEndpoints.User);
     const user = users.data.find((u: IUser) => u.username === username);
     return user;
   };
 
-  const getMe = async (): Promise<IUser | undefined> => {
-    const response = await client.get(`${EEndpoints.USERS}/me`);
-    console.log('response', response);
+  const fetchMe = async (): Promise<IUser | undefined> => {
+    const response = await client.get(`${EEndpoints.User}/me`);
 
-    return new UserModel(response?.data?.data).parseUser();
+    const data = new UserModel(response?.data?.data).getData();
+    return data;
   };
 
   const getCurrentUser = (): IUser => {
-    return new UserModel(
-      queryClient.getQueryData(EUserQuery.GetMe),
-    ).parseUser();
+    return new UserModel(queryClient.getQueryData(EUserQuery.GetMe)).getData();
+  };
+
+  const getPopularUsers = async (): Promise<IUser[]> => {
+    try {
+      const response = await client.get(`${EEndpoints.User}/popular`);
+      return response.data.data.map((user: IUser) =>
+        new UserModel(user).getData(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {
     validateUser,
-    getMe,
+    getMe: fetchMe,
     getCurrentUser,
+    getPopularUsers,
   };
 };
 

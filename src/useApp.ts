@@ -27,7 +27,6 @@ export const useApp = () => {
       localStorage.removeItem(ELocalStorageKey.AccessToken);
     },
   });
-  const user = getMeQuery.data;
 
   useEffect(() => {
     registerEventBus();
@@ -38,7 +37,7 @@ export const useApp = () => {
   }, []);
 
   return {
-    user,
+    user: getMeQuery.data,
     isLoadingUser: getMeQuery.isLoading,
   };
 };

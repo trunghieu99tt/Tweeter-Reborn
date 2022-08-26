@@ -7,7 +7,7 @@ export const useHashTagService = () => {
   const queryClient = useQueryClient();
   const getMostPopularHashTags = async (): Promise<IHashtag[]> => {
     try {
-      const response = await client.get(`${EEndpoints.HASH_TAG}/most-popular`);
+      const response = await client.get(`${EEndpoints.HashTag}/most-popular`);
       return response.data?.data || [];
     } catch (error) {
       console.error(`${getMostPopularHashTags.name} error`);
@@ -16,7 +16,7 @@ export const useHashTagService = () => {
 
   const updateHashtag = async ({ name, count }: IUpdateHashtagDTO) => {
     try {
-      const response = await client.patch(`${EEndpoints.HASH_TAG}/${name}`, {
+      const response = await client.patch(`${EEndpoints.HashTag}/${name}`, {
         count,
       });
       return response.data;

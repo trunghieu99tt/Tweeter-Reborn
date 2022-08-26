@@ -1,10 +1,15 @@
 import { EBorder, EFontSize, EFontWeight } from 'constants/style.constant';
-import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, {
+  forwardRef,
+  Ref,
+  useCallback,
+  useImperativeHandle,
+} from 'react';
 import styled from 'styled-components';
 import Button from './button';
 
 interface Props {
-  isOpen: boolean;
   body?: React.ReactNode;
   okText?: React.ReactNode;
   header?: React.ReactNode;
@@ -16,47 +21,82 @@ interface Props {
   onCancel?: () => void;
 }
 
-const Modal = ({
-  body,
-  header,
-  isOpen,
-  okText,
-  zIndex,
-  cancelText,
+export interface ModalRef {
+  showModal?: () => void;
+  closeModal?: () => void;
+}
 
-  onOk,
-  onCancel,
+const config = {
+  initial: { opacity: 0, scale: 0 },
+  animate: { opacity: 1, scale: 1, transformOrigin: 'center center' },
+  exit: { opacity: 0, scale: 0 },
+};
 
-  customHeaderStyles,
-}: Props): JSX.Element => {
+const Modal = (
+  {
+    body,
+    header,
+    okText,
+    zIndex,
+    cancelText,
+
+    onOk,
+    onCancel,
+
+    customHeaderStyles,
+  }: Props,
+  ref: Ref<ModalRef>,
+): JSX.Element => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  const showModal = useCallback(() => {
+    setIsVisible(true);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setIsVisible(false);
+  }, []);
+
+  useImperativeHandle(ref, () => ({ showModal, closeModal }), []);
+
+  const onDismiss = useCallback(() => {
+    setIsVisible(false);
+    if (onCancel && typeof onCancel === 'function') {
+      onCancel();
+    }
+  }, [onCancel]);
+
   return (
-    <StyledRoot isOpen={isOpen} zIndex={zIndex}>
-      <StyledMask onClick={onCancel} />
-      <StyledMainContent>
-        <StyledHeader customHeaderStyles={customHeaderStyles}>
-          {header}
-        </StyledHeader>
-        <StyledBody>{body}</StyledBody>
-        {onOk && onCancel && (
-          <StyledFooter>
-            <Button onClick={onOk}>{okText || 'OK'}</Button>
-            <StyledCancelButton onClick={onCancel}>
-              {cancelText || 'Cancel'}
-            </StyledCancelButton>
-          </StyledFooter>
-        )}
-      </StyledMainContent>
-    </StyledRoot>
+    <AnimatePresence>
+      {isVisible && (
+        <StyledRoot zIndex={zIndex} {...config}>
+          <StyledMask onClick={onDismiss} />
+          <StyledMainContent>
+            <StyledHeader customHeaderStyles={customHeaderStyles}>
+              {header}
+            </StyledHeader>
+            <StyledBody>{body}</StyledBody>
+            {onOk && onCancel && (
+              <StyledFooter>
+                <Button onClick={onOk}>{okText || 'OK'}</Button>
+                <StyledCancelButton onClick={onDismiss}>
+                  {cancelText || 'Cancel'}
+                </StyledCancelButton>
+              </StyledFooter>
+            )}
+          </StyledMainContent>
+        </StyledRoot>
+      )}
+    </AnimatePresence>
   );
 };
 
-export default Modal;
+export default forwardRef(Modal);
 
-export const StyledRoot = styled('div')<{
-  isOpen: boolean;
+export const StyledRoot = styled(motion.div)<{
   zIndex?: number;
 }>`
-  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;

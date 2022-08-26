@@ -1,9 +1,9 @@
 import GenderSelector from '@components/selectors/gender-selector';
 import Button from '@components/shared/button';
 import UncontrolledInput from '@components/shared/uncontrolled-input';
-import { ELocalStorageKey, EUserQuery } from '@constants';
+import { ELocalStorageKey } from '@constants';
 import { useLocalStorage } from '@hooks/useLocalStorage';
-import { setLoading } from '@redux/app/app.slice';
+import { setGlobalLoading } from '@redux/app/app.slice';
 import { ILogin } from '@type/user.type';
 import { EFontWeight } from 'constants/style.constant';
 import { EGender } from 'constants/user.constant';
@@ -11,8 +11,9 @@ import _ from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiLock, BiMailSend, BiUserCircle, BiUserPin } from 'react-icons/bi';
-import { useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { routes } from 'routes';
 import { useAuthService } from 'services/auth.service';
 import { AppDispatch } from 'store';
 import styled from 'styled-components';
@@ -67,11 +68,11 @@ const registerFields: TInputField[] = [
 const getFieldNames = (fields: TInputField[]) => fields.map(({ name }) => name);
 
 const Auth = () => {
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [screen, setScreen] = useState<EAuthScreen>(EAuthScreen.Login);
   const [gender, setGender] = useState<EGender>(EGender.UNKNOWN);
-  const { loginMutation, registerMutation } = useAuthService();
+  const { loginMutation, registerMutation, refreshGetMe } = useAuthService();
   const formRef = React.useRef<HTMLFormElement>(null);
   const dispatch = useDispatch<AppDispatch>();
   const [storedAccessToken, setAccessToken] = useLocalStorage(
@@ -107,7 +108,7 @@ const Auth = () => {
     );
 
     dispatch(
-      setLoading({
+      setGlobalLoading({
         visible: true,
       }),
     );
@@ -115,36 +116,26 @@ const Auth = () => {
       if (screen === EAuthScreen.Login) {
         await loginMutation.mutateAsync(input as unknown as ILogin, {
           onSuccess: (data) => {
-            queryClient.invalidateQueries(EUserQuery.GetMe);
             setAccessToken(data.accessToken);
-          },
-          onSettled: () => {
-            dispatch(
-              setLoading({
-                visible: false,
-              }),
-            );
           },
         });
       } else {
         await registerMutation.mutateAsync(input, {
-          onSettled: () => {
-            dispatch(
-              setLoading({
-                visible: false,
-              }),
-            );
+          onSuccess: (data) => {
+            setAccessToken(data.accessToken);
           },
         });
       }
+      await refreshGetMe();
+      navigate(routes.home);
     } catch (error) {
       console.log(error);
-      dispatch(
-        setLoading({
-          visible: false,
-        }),
-      );
     }
+    dispatch(
+      setGlobalLoading({
+        visible: false,
+      }),
+    );
     event.currentTarget?.reset();
   };
 

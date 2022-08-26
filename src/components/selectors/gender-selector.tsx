@@ -13,8 +13,6 @@ type Props = {
 };
 
 const GenderSelector = ({ value, onChange }: Props) => {
-  console.log('GenderSelector');
-
   const currentLanguage = useSelector(
     (state: RootState) => state.appState.language,
   );

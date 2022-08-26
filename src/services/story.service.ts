@@ -7,7 +7,7 @@ import { QueryFunctionContext } from 'react-query';
 export const useStoryService = () => {
   const getStoryList = (input: Partial<IPaginationParams>) => {
     return ({ pageParam }: QueryFunctionContext) => {
-      return getList<any>(EEndpoints.STORY, pageParam, {
+      return getList<any>(EEndpoints.Story, pageParam, {
         limit: input.limit,
       });
     };

@@ -1,5 +1,5 @@
 import BaseSelector from '@components/shared/base-selector';
-import { memo, useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillPeopleFill } from 'react-icons/bs';
 import { MdPublic } from 'react-icons/md';
@@ -13,6 +13,8 @@ type Props = {
 };
 
 const AudienceSelector = ({ value, onChange }: Props) => {
+  console.log('AudienceSelector re-rendered');
+
   const currentLanguage = useSelector(
     (state: RootState) => state.appState.language,
   );

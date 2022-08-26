@@ -1,3 +1,8 @@
+import { EMedia } from '@constants';
+import { IMedia } from '@type/app.type';
+import { SyntheticEvent } from 'react';
+import { v4 as uuid } from 'uuid';
+
 const nFormatter = (num: number, digits = 2): string => {
   const lookup = [
     { value: 1, symbol: '' },
@@ -63,6 +68,38 @@ const calcDiffTimeString = (date: Date): string => {
 export const eliminateSerializeType = <T>(obj: T): Record<string, any> => {
   return JSON.parse(JSON.stringify(obj));
 };
+
+// Parse the tweet to extract hashtags and the first url ( for the link's preview )
+export const extractMetadata = (
+  body: string,
+): {
+  hashtags: string[];
+  urls: string[];
+} => {
+  const hashtags = body?.match(/(#[\w]+)/g) || [];
+  const urls = body?.match(/https?:\/\/\S+/g) || [];
+
+  let tags: string[] = [];
+
+  // Remove duplicates and the hash
+  if (hashtags && hashtags?.length > 0) {
+    tags = Array.from(new Set(hashtags)).map((h) => h.toString().substr(1));
+  }
+  return {
+    hashtags: tags,
+    urls,
+  };
+};
+
+export const initMedia = (url: string): IMedia => {
+  return {
+    id: uuid(),
+    url,
+    type: url?.includes(EMedia.Video) ? EMedia.Video : EMedia.Image,
+  };
+};
+
+export const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
 
 export {
   urlify,

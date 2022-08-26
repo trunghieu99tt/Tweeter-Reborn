@@ -37,6 +37,12 @@ export default class EventBus {
   }
 }
 
-export const onPushEventBus = (type: EventBusName, payload?: any) => {
+export const onPushEventBus = ({
+  type,
+  payload,
+}: {
+  type: EventBusName;
+  payload?: any;
+}) => {
   EventBus.getInstance().post({ type, payload });
 };

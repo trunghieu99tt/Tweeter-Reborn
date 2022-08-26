@@ -22,7 +22,7 @@ export const appSlice = createSlice({
     setLanguage: (state, action) => {
       state.language = action.payload;
     },
-    setLoading: (state, action) => {
+    setGlobalLoading: (state, action) => {
       state.loading = action.payload;
     },
     setSocket: (state, action) => {
@@ -31,6 +31,6 @@ export const appSlice = createSlice({
   },
 });
 
-export const { setTheme, setLanguage, setLoading, setSocket } =
+export const { setTheme, setLanguage, setGlobalLoading, setSocket } =
   appSlice.actions;
 export default appSlice.reducer;

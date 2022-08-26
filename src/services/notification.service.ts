@@ -8,7 +8,7 @@ import { QueryFunctionContext, useMutation } from 'react-query';
 const useNotificationService = () => {
   const readNotification = async (notificationIds: string[]): Promise<void> => {
     try {
-      await client.patch(`${EEndpoints.NOTIFICATION}/read`, {
+      await client.patch(`${EEndpoints.Notification}/read`, {
         notificationIds,
       });
     } catch (error) {
@@ -23,7 +23,7 @@ const useNotificationService = () => {
 
   const getNotifications = (input: Partial<IPaginationParams>) => {
     return ({ pageParam }: QueryFunctionContext) => {
-      return getList<INotification>(EEndpoints.NOTIFICATION, pageParam, {
+      return getList<INotification>(EEndpoints.Notification, pageParam, {
         limit: input.limit,
       });
     };
@@ -31,7 +31,7 @@ const useNotificationService = () => {
 
   const createNotification = async (input: INotificationDTO) => {
     try {
-      const response = await client.post(EEndpoints.NOTIFICATION, input);
+      const response = await client.post(EEndpoints.Notification, input);
 
       return response?.data;
     } catch (error) {

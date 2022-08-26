@@ -7,7 +7,7 @@ import {
   EFontWeight,
 } from 'constants/style.constant';
 import _ from 'lodash';
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import useNotificationService from 'services/notification.service';
@@ -19,6 +19,9 @@ type Props = {
 };
 
 const NotificationItem = ({ data }: Props) => {
+  useEffect(() => {
+    console.log('notification item re-rendered', data._id);
+  });
   const { t } = useTranslation();
   const { getCurrentUser } = useUserService();
   const user = getCurrentUser();
@@ -58,7 +61,12 @@ const NotificationItem = ({ data }: Props) => {
   );
 };
 
-export default memo(NotificationItem);
+export default memo(NotificationItem, (prevProps, nextProps) => {
+  console.log('notification item re-rendered', prevProps.data._id);
+  console.log('notification item re-rendered', nextProps.data._id);
+
+  return _.isEqual(prevProps.data, nextProps.data);
+});
 
 const StyledRoot = styled.article<{
   isUnRead: boolean;
@@ -75,11 +83,12 @@ const StyledRoot = styled.article<{
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${({ theme }) => theme.backgroundColor4};
   }
 
   ${(props) =>
-    props.isUnRead && `background-color: ${props.theme.colors.primary};`}
+    props.isUnRead &&
+    `background-color:${({ theme }) => theme.backgroundColor4};`}
 `;
 
 const StyledSenderAvatarWrapper = styled.div``;
@@ -88,7 +97,7 @@ const StyledMainContent = styled.div``;
 
 const StyledContent = styled.p`
   font-size: ${EFontSize.Font3};
-  color: ${({ theme }) => theme.colors.primaryTextColor};
+  color: ${({ theme }) => theme.textColor1};
   text-align: left;
   font-weight: ${EFontWeight.FontWeight400};
 `;
@@ -96,6 +105,6 @@ const StyledContent = styled.p`
 const StyledTime = styled.p`
   font-size: ${EFontSize.Font1};
   font-weight: ${EFontWeight.FontWeight500};
-  color: var(--green-2);
+  color: ${({ theme }) => theme.textColor5};
   text-align: left;
 `;

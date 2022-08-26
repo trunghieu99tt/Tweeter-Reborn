@@ -43,8 +43,10 @@ const StoryList = () => {
     <StyledRoot>
       <StyledItemWrapper>
         <CreateStoryLink />
-        {stories &&
-          Object.keys(groupedStoryByUsers)
+      </StyledItemWrapper>
+      {stories?.length > 0 && (
+        <StyledItemWrapper>
+          {Object.keys(groupedStoryByUsers)
             ?.slice(0, MAX_SHOWN_STORY_COUNT)
             .map((key: string) => {
               const values = groupedStoryByUsers[key];
@@ -55,7 +57,8 @@ const StoryList = () => {
                 />
               );
             })}
-      </StyledItemWrapper>
+        </StyledItemWrapper>
+      )}
     </StyledRoot>
   );
 };

@@ -14,13 +14,13 @@ export const useAuthService = () => {
     user: IUser;
   }> => {
     try {
-      const response = await client.post(`${EEndpoints.AUTH}/signin`, input);
+      const response = await client.post(`${EEndpoints.Auth}/signin`, input);
       const { accessToken, user } = response?.data;
       const userModel = new UserModel(user);
 
       return {
         accessToken,
-        user: userModel.parseUser(),
+        user: userModel.getData(),
       };
     } catch (error) {
       console.error(`${login.name} error`);
@@ -31,20 +31,20 @@ export const useAuthService = () => {
 
   const register = async (input: any) => {
     try {
-      const response = await client.post(`${EEndpoints.AUTH}/signup`, input);
+      const response = await client.post(`${EEndpoints.Auth}/signup`, input);
       return response?.data?.accessToken || '';
     } catch (error) {
       console.error(`${register.name} error`);
     }
   };
 
-  const refreshGetMe = () => {
-    queryClient.invalidateQueries(EUserQuery.GetMe);
+  const refreshGetMe = async () => {
+    await queryClient.invalidateQueries(EUserQuery.GetMe);
   };
 
   const logout = async () => {
     try {
-      await client.post(`${EEndpoints.AUTH}/logout`);
+      await client.post(`${EEndpoints.Auth}/logout`);
     } catch (error) {
       console.error(`${logout.name} error`);
     }
@@ -52,10 +52,12 @@ export const useAuthService = () => {
 
   const loginMutation = useMutation(EAuthQuery.Login, login);
   const registerMutation = useMutation(EAuthQuery.Register, register);
+  const logoutMutation = useMutation(EAuthQuery.Logout, logout);
 
   return {
     logout,
     refreshGetMe,
+    logoutMutation,
     loginMutation,
     registerMutation,
   };

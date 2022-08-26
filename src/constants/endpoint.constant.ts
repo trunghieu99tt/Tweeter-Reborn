@@ -1,7 +1,9 @@
 export enum EEndpoints {
-  USERS = 'user',
-  NOTIFICATION = 'notification',
-  AUTH = 'auth',
-  STORY = 'story',
-  HASH_TAG = 'hashtag',
+  User = 'user',
+  Notification = 'notification',
+  Auth = 'auth',
+  Story = 'story',
+  HashTag = 'hashtag',
+  Tweet = 'tweet',
+  Upload = 'upload',
 }

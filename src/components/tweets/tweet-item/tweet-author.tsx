@@ -1,0 +1,174 @@
+import BaseSelector from '@components/shared/base-selector';
+import Modal, { ModalRef } from '@components/shared/modal';
+import { StyledFlex } from '@components/shared/shared-style';
+import UserAvatarSmall from '@components/shared/small-avatar';
+import { EFormType } from '@constants';
+import { ITweet } from '@type/tweet.type';
+import { calcDiffTimeString } from '@utils/helper';
+import { EFontSize, EFontWeight } from 'constants/style.constant';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  AiOutlineDelete,
+  AiOutlineEdit,
+  AiOutlineRetweet,
+} from 'react-icons/ai';
+import { BiDotsVertical } from 'react-icons/bi';
+import { MdReportProblem } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import { routes } from 'routes';
+import useUserService from 'services/user.service';
+import styled from 'styled-components';
+import { v4 as uuid } from 'uuid';
+import TweetForm from '../tweet-form';
+
+type Props = {
+  tweet: ITweet;
+};
+
+const TweetItemHeader = ({ tweet }: Props) => {
+  const { t } = useTranslation();
+  const { getCurrentUser } = useUserService();
+  const currentUser = getCurrentUser();
+
+  const editTweetModalRef = useRef<ModalRef>(null);
+
+  const isAuthor = currentUser?._id === tweet?.author?._id;
+
+  const authorOptions = useMemo(() => {
+    return [
+      {
+        value: EFormType.Update,
+        label: t('tweet.update'),
+        id: uuid(),
+        icon: <AiOutlineEdit />,
+      },
+      {
+        value: EFormType.Delete,
+        label: t('tweet.delete'),
+        id: uuid(),
+        icon: <AiOutlineDelete />,
+      },
+    ];
+  }, [t]);
+
+  const nonAuthorOptions = useMemo(() => {
+    return [
+      {
+        value: EFormType.Report,
+        label: t('tweet.report'),
+        id: uuid(),
+        icon: <MdReportProblem />,
+      },
+    ];
+  }, [t]);
+
+  const renderTweetActionMenu = useCallback(() => {
+    return (
+      <StyledDropdownButton>
+        <BiDotsVertical />
+      </StyledDropdownButton>
+    );
+  }, [t]);
+
+  const onCloseEditModal = useCallback(() => {
+    editTweetModalRef.current?.closeModal();
+  }, []);
+
+  const onOpenEditModal = useCallback(() => {
+    editTweetModalRef.current?.showModal();
+  }, []);
+
+  const onSelectTweetActionItem = async (value: EFormType) => {
+    switch (value) {
+      case EFormType.Update:
+        onOpenEditModal();
+        break;
+      case EFormType.Delete:
+        break;
+      case EFormType.Report:
+        break;
+    }
+  };
+
+  return (
+    <React.Fragment>
+      {isAuthor && (
+        <Modal
+          ref={editTweetModalRef}
+          header={<h3>{t('tweet.edit')}</h3>}
+          body={
+            <TweetForm
+              type={EFormType.Update}
+              data={tweet}
+              onCancel={onCloseEditModal}
+            />
+          }
+        />
+      )}
+      <StyledHeader>
+        {tweet?.isRetweet && tweet?.retweetedBy && (
+          <StyledRetweetedBy to={`${routes.profile}/${tweet?.retweetedBy._id}`}>
+            <AiOutlineRetweet /> {`${tweet?.retweetedBy.name} retweeted`}
+          </StyledRetweetedBy>
+        )}
+        <StyledFlex align="center" justify="space-between">
+          <StyledAuthorWrapper>
+            <Link to={`/profile/${tweet?.author?._id}`}>
+              <UserAvatarSmall user={tweet?.author} />
+            </Link>
+            <div>
+              <Link to={`/profile/${tweet?.author?._id}`}>
+                <StyledAuthorName>{tweet?.author?.name || ''}</StyledAuthorName>
+              </Link>
+              <StyledDateCreated>
+                {calcDiffTimeString(tweet?.createdAt)}
+              </StyledDateCreated>
+            </div>
+          </StyledAuthorWrapper>
+          <BaseSelector
+            options={isAuthor ? authorOptions : nonAuthorOptions}
+            renderValue={renderTweetActionMenu}
+            onChange={onSelectTweetActionItem}
+          />
+        </StyledFlex>
+      </StyledHeader>
+    </React.Fragment>
+  );
+};
+
+export default TweetItemHeader;
+
+const StyledHeader = styled.header`
+  position: relative;
+`;
+
+const StyledAuthorWrapper = styled.div`
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+`;
+
+const StyledAuthorName = styled.h4`
+  font-weight: 600;
+  font-size: 1.6rem;
+`;
+
+const StyledDateCreated = styled.p`
+  color: var(--gray-4);
+  font-weight: 500;
+`;
+
+const StyledDropdownButton = styled.button`
+  cursor: pointer;
+`;
+
+const StyledRetweetedBy = styled(Link)`
+  margin-bottom: 1rem;
+  display: flex;
+  font-size: ${EFontSize.Font5};
+  gap: 1rem;
+  align-items: center;
+  font-weight: ${EFontWeight.FontWeight500};
+  color: ${({ theme }) => theme.textColor2};
+`;

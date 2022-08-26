@@ -23,7 +23,9 @@ html{
   box-sizing: border-box;
 }
 
-
+body {
+  background-color: #f2f2f2;
+}
 
 iframe {
   display: none;
@@ -43,8 +45,9 @@ h2,
 h3,
 h4,
 h5,
-p {
+p, ul, li, figure{
   margin: 0;
+  padding: 0
 }
 
 button {
