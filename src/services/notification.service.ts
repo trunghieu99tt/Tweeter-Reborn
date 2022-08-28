@@ -1,6 +1,7 @@
 import { EEndpoints, ENotificationQuery } from '@constants';
 import { IPaginationParams } from '@type/app.type';
 import { INotification, INotificationDTO } from '@type/notification.type';
+import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
 import { QueryFunctionContext, useMutation } from 'react-query';
@@ -29,23 +30,27 @@ const useNotificationService = () => {
     };
   };
 
-  const createNotification = async (input: INotificationDTO) => {
-    try {
-      const response = await client.post(EEndpoints.Notification, input);
+  const createNotification = (input: INotificationDTO) =>
+    tryCatchFn(async () => {
+      try {
+        const response = await client.post(EEndpoints.Notification, input);
 
-      return response?.data;
-    } catch (error) {
-      console.error(`${createNotification.name} error`);
-    }
-  };
+        return response?.data;
+      } catch (error) {
+        console.error(`${createNotification.name} error`);
+      }
+    });
 
   const markAsRead = async (ids: string[]) => {
     await readNotificationMutation.mutateAsync(ids);
   };
 
+  const createNotificationMutation = useMutation(createNotification);
+
   return {
     readNotification,
     getNotifications,
+    createNotificationMutation,
     createNotification,
     markAsRead,
   };

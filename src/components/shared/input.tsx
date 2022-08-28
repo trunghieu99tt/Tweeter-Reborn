@@ -1,8 +1,5 @@
-import React from 'react';
-import mergeClasses from '@utils/mergeClasses';
-import { ChangeEvent, forwardRef, InputHTMLAttributes } from 'react';
+import React, { ChangeEvent, forwardRef, InputHTMLAttributes } from 'react';
 
-import defaultClasses from './input.module.css';
 import styled from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -12,40 +9,33 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   invalid?: boolean;
   filter?: RegExp | undefined;
   label?: string;
-  onChange?: (el?: any, value?: any) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(
   (
-    {
-      classes: propsClasses,
-      icon = undefined,
-      filter = undefined,
-      label,
-      onChange,
-      ...otherProps
-    },
+    { icon = undefined, filter = undefined, label, onChange, ...otherProps },
     ref,
   ) => {
-    const classes = mergeClasses(defaultClasses, propsClasses);
-
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       if (
         !filter ||
         (event?.target?.value && filter.test(event.target.value))
       ) {
+        console.log('event.target.value', event.target.value);
+
         onChange && onChange(event);
       }
     };
 
     return (
-      <div className={classes.wrapper}>
+      <StyledRoot>
         <label>{label}</label>
         <div>
-          {icon && <div className={classes.icon}>{icon}</div>}
+          {icon && <div>{icon}</div>}
           <StyledInput {...otherProps} onChange={handleChange} ref={ref} />
         </div>
-      </div>
+      </StyledRoot>
     );
   },
 );
@@ -54,6 +44,10 @@ Input.displayName = 'MyInput';
 
 export default Input;
 
+const StyledRoot = styled.div`
+  width: 100%;
+`;
+
 const StyledInput = styled.input`
   padding: 1rem;
   border: 1px solid var(--gray-4);
@@ -61,4 +55,5 @@ const StyledInput = styled.input`
   font-size: 1.3rem;
   outline: none;
   width: 100%;
+  background: transparent;
 `;

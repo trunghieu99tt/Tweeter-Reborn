@@ -1,3 +1,5 @@
+import { useToggle } from '@hooks/useToggle';
+import { BaseControlledRef } from '@type/app.type';
 import { EBorder, EFontSize, EFontWeight } from 'constants/style.constant';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, {
@@ -21,11 +23,6 @@ interface Props {
   onCancel?: () => void;
 }
 
-export interface ModalRef {
-  showModal?: () => void;
-  closeModal?: () => void;
-}
-
 const config = {
   initial: { opacity: 0, scale: 0 },
   animate: { opacity: 1, scale: 1, transformOrigin: 'center center' },
@@ -45,22 +42,14 @@ const Modal = (
 
     customHeaderStyles,
   }: Props,
-  ref: Ref<ModalRef>,
+  ref: Ref<BaseControlledRef>,
 ): JSX.Element => {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const { hide, show, visible } = useToggle();
 
-  const showModal = useCallback(() => {
-    setIsVisible(true);
-  }, []);
-
-  const closeModal = useCallback(() => {
-    setIsVisible(false);
-  }, []);
-
-  useImperativeHandle(ref, () => ({ showModal, closeModal }), []);
+  useImperativeHandle(ref, () => ({ show, hide }), []);
 
   const onDismiss = useCallback(() => {
-    setIsVisible(false);
+    hide();
     if (onCancel && typeof onCancel === 'function') {
       onCancel();
     }
@@ -68,7 +57,7 @@ const Modal = (
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {visible && (
         <StyledRoot zIndex={zIndex} {...config}>
           <StyledMask onClick={onDismiss} />
           <StyledMainContent>

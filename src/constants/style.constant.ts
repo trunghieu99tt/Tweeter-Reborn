@@ -12,6 +12,7 @@ export const LIGHT_THEME = {
   backgroundColor2: '#2f80ed', // blue 1
   backgroundColor3: '#000',
   backgroundColor4: '#f2f2f2', // light 1
+  backgroundColor5: '#fafafa',
 
   borderColor1: '#e0e0e0', // gray 5
 };
@@ -30,6 +31,7 @@ export const DARK_THEME = {
   backgroundColor2: '#2f80ed',
   backgroundColor3: '#fff',
   backgroundColor4: '#f2f2f2',
+  backgroundColor5: '#fafafa',
 
   borderColor1: '#e0e0e0',
 };

@@ -1,7 +1,11 @@
 import ExternalLinkPreview from '@components/shared/external-link-preview';
 import MediaViewer from '@components/shared/media-viewer';
 import { ITweet } from '@type/tweet.type';
-import { extractMetadata, initMedia, stopPropagation } from '@utils/helper';
+import {
+  extractMetadata,
+  initMediaFromUrl,
+  stopPropagation,
+} from '@utils/helper';
 import { EFontSize } from 'constants/style.constant';
 import React, { useMemo } from 'react';
 import nl2br from 'react-nl2br';
@@ -55,7 +59,7 @@ const TweetContent = ({ tweet }: Props) => {
 
   const tweetMedias = useMemo(() => {
     return tweet.media.map((url: string) => {
-      const media = initMedia(url);
+      const media = initMediaFromUrl(url);
 
       return (
         <StyledTweetMedia key={media.id}>

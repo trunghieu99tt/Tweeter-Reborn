@@ -34,3 +34,8 @@ export enum ETweetQuery {
   GetPopularTweets = 'GetPopularTweets',
   GetTweetByHashTag = 'GetTweetByHashTag',
 }
+
+export enum ECommentQuery {
+  GetTweetComments = 'GetTweetComments',
+  CreateComment = 'CreateComment',
+}

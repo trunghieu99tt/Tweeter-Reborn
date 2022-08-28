@@ -1,16 +1,17 @@
-import { ITweet } from '@type/tweet.type';
-import { BiBookmark, BiComment } from 'react-icons/bi';
-import { FiRefreshCw } from 'react-icons/fi';
-import { FaRegHeart } from 'react-icons/fa';
-import styled, { css } from 'styled-components';
-import { ModalRef } from '@components/shared/modal';
-import React, { Suspense, useMemo, useRef, useState } from 'react';
-import { IUser } from '@type/user.type';
-import { useTranslation } from 'react-i18next';
-import useUserService from 'services/user.service';
-import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';
-import UserCard from '@components/user/user-card';
+import CreateCommentForm from '@components/comment/create-comment-form';
 import { shake, spin } from '@components/shared/shared-style';
+import UserCard from '@components/user/user-card';
+import { BaseControlledRef } from '@type/app.type';
+import { ITweet } from '@type/tweet.type';
+import { IUser } from '@type/user.type';
+import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';
+import React, { memo, Suspense, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BiBookmark, BiComment } from 'react-icons/bi';
+import { FaRegHeart } from 'react-icons/fa';
+import { FiRefreshCw } from 'react-icons/fi';
+import useUserService from 'services/user.service';
+import styled, { css } from 'styled-components';
 
 const Modal = React.lazy(() => import('@components/shared/modal'));
 
@@ -36,7 +37,8 @@ const TweetInteraction = ({ tweet }: Props) => {
   const currentUser = getCurrentUser();
 
   const { t } = useTranslation();
-  const userListModalRef = useRef<ModalRef>(null);
+  const userListModalRef = useRef<BaseControlledRef>(null);
+  const commentFormRef = useRef<HTMLInputElement>(null);
   const [userListType, setUserListType] = useState<EUserListType>(null);
 
   let userListData: IUser[] = [];
@@ -84,12 +86,9 @@ const TweetInteraction = ({ tweet }: Props) => {
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       setUserListType(userListType);
-      userListModalRef.current?.showModal();
+      userListModalRef.current?.show();
     };
 
-  const focusOnCommentForm = () => {
-    // focus on comment form
-  };
   const onRetweet = () => {
     // retweet tweet
   };
@@ -136,13 +135,13 @@ const TweetInteraction = ({ tweet }: Props) => {
         </StyledSummary>
 
         <StyledInteractionButtonGroup>
-          <StyledInteractionButton
+          {/* <StyledInteractionButton
             onClick={focusOnCommentForm}
             interactionType={EInteractionButton.Comment}
           >
             <BiComment />
             <span>{t('comment')}</span>
-          </StyledInteractionButton>
+          </StyledInteractionButton> */}
           <StyledInteractionButton
             onClick={onRetweet}
             retweeted={retweeted}
@@ -169,11 +168,12 @@ const TweetInteraction = ({ tweet }: Props) => {
           </StyledInteractionButton>
         </StyledInteractionButtonGroup>
       </StyledRoot>
+      <CreateCommentForm tweet={tweet} />
     </React.Fragment>
   );
 };
 
-export default TweetInteraction;
+export default memo(TweetInteraction);
 
 const StyledRoot = styled.div``;
 

@@ -19,3 +19,20 @@ export interface ICreateCommentDTO {
   content: string;
   media?: string;
 }
+
+export enum EAddCommentType {
+  CreateTweetComment = 'CreateTweetComment',
+  ReplyComment = 'ReplyComment',
+}
+
+export type TCreateTweetComment = {
+  type: EAddCommentType.CreateTweetComment;
+  tweetId: string;
+  comment: ICreateCommentDTO;
+};
+
+export type TReplyComment = {
+  type: EAddCommentType.ReplyComment;
+  commentId: string;
+  comment: ICreateCommentDTO;
+};

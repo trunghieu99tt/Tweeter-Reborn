@@ -1,6 +1,7 @@
 import { EMedia } from '@constants';
 import { IMedia } from '@type/app.type';
 import { SyntheticEvent } from 'react';
+import { EventBusName, onPushEventBus } from 'services/event-bus';
 import { v4 as uuid } from 'uuid';
 
 const nFormatter = (num: number, digits = 2): string => {
@@ -91,7 +92,7 @@ export const extractMetadata = (
   };
 };
 
-export const initMedia = (url: string): IMedia => {
+export const initMediaFromUrl = (url: string): IMedia => {
   return {
     id: uuid(),
     url,
@@ -99,7 +100,29 @@ export const initMedia = (url: string): IMedia => {
   };
 };
 
+export const initMediaFromFile = (file: File): IMedia => {
+  return {
+    id: uuid(),
+    file,
+    type: file?.type?.includes(EMedia.Video) ? EMedia.Video : EMedia.Image,
+    url: URL.createObjectURL(file),
+  };
+};
+
 export const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
+
+export const tryCatchFn = async (fn: Function, customMsg?: string) => {
+  try {
+    const res = await fn();
+    return res;
+  } catch (error: any) {
+    console.error(`${fn.name} error: ${error}`);
+    onPushEventBus({
+      type: EventBusName.Error,
+      payload: customMsg || error?.response?.data?.message,
+    });
+  }
+};
 
 export {
   urlify,

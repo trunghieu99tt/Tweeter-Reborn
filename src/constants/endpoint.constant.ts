@@ -6,4 +6,5 @@ export enum EEndpoints {
   HashTag = 'hashtag',
   Tweet = 'tweet',
   Upload = 'upload',
+  Comment = 'comment',
 }

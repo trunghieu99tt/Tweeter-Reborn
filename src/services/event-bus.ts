@@ -14,6 +14,7 @@ export enum EventBusName {
   Logout = 'LOGOUT',
   Login = 'LOGIN',
   Error = 'ERROR',
+  CreateNotification = 'CREATE_NOTIFICATION',
 }
 
 export default class EventBus {

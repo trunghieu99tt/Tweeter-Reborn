@@ -1,4 +1,3 @@
-import { EBoxShadow } from 'constants/style.constant';
 import React from 'react';
 import styled from 'styled-components';
 

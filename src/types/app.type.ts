@@ -70,3 +70,8 @@ export enum EUploadFileType {
   Background = 'background',
   Avatar = 'avatar',
 }
+
+export interface BaseControlledRef {
+  show?: () => void;
+  hide?: () => void;
+}

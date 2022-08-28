@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
 import DefaultManAvatar from '@images/man.svg';
-import DefaultWomanAvatar from '@images/woman.svg';
 import DefaultUnknownAvatar from '@images/user.png';
+import DefaultWomanAvatar from '@images/woman.svg';
 import { IUser } from '@type/user.type';
 import { EGender } from 'constants/user.constant';
+import React, { useEffect, useState } from 'react';
 import ImageWithPlaceholder from './image-with-place-holder';
 
 interface Props {
-  user: Pick<IUser, 'avatar' | 'gender' | 'name'>;
+  user: Pick<IUser, 'avatar' | 'gender' | 'name' | '_id'>;
   customStyles?: string;
 }
 

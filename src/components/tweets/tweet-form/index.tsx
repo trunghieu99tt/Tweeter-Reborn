@@ -1,4 +1,5 @@
 import Button from '@components/shared/button';
+import FileInput from '@components/shared/file-input';
 import { StyledFlex } from '@components/shared/shared-style';
 import TextAreaWithLinks from '@components/shared/textarea-with-links';
 import { EFormType } from '@constants';
@@ -8,7 +9,6 @@ import SectionWithHeadingContainer from 'containers/section-with-heading.contain
 import renderOnlyAuthenticated from 'hoc/switchRenderIfAuthenticated';
 import React, { memo, Suspense, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BsCardImage } from 'react-icons/bs';
 import styled from 'styled-components';
 import TweetFormMedia from './tweet-form-media';
 import { useTweetForm } from './useTweetForm';
@@ -78,14 +78,10 @@ const TweetForm = (props: Props) => {
           </StyledMain>
           <StyledFlex align="center" justify="space-between">
             <StyledFlex gap={1.5} align="center">
-              <StyledFileLabel htmlFor={inputFileId}>
-                <BsCardImage />
-              </StyledFileLabel>
-              <StyledFileInput
-                type="file"
-                id={inputFileId}
+              <FileInput
+                htmlFor={inputFileId}
                 onChange={onChangeFile}
-                multiple
+                isMultiple
               />
               <Suspense fallback={<div>...Loading...</div>}>
                 <AudienceSelector value={audience} onChange={setAudience} />
@@ -131,18 +127,4 @@ const StyledTweetInputWrapper = styled.div`
   min-height: 10rem;
   margin-bottom: 2rem;
   overflow: auto;
-`;
-
-export const StyledFileLabel = styled.label`
-  svg {
-    --size: 1.5rem;
-    width: var(--size);
-    height: var(--size);
-    fill: ${({ theme }) => theme.backgroundColor2};
-    cursor: pointer;
-  }
-`;
-
-export const StyledFileInput = styled.input`
-  display: none;
 `;

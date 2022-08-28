@@ -45,7 +45,7 @@ const NotificationItem = ({ data }: Props) => {
     >
       <StyledSenderAvatarWrapper>
         <UserAvatarSmall
-          user={_.pick(data?.sender, ['avatar', 'name', 'gender'])}
+          user={_.pick(data?.sender, ['avatar', 'name', 'gender', '_id'])}
         />
       </StyledSenderAvatarWrapper>
       <StyledMainContent>

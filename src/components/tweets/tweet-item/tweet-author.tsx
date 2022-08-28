@@ -1,8 +1,9 @@
 import BaseSelector from '@components/shared/base-selector';
-import Modal, { ModalRef } from '@components/shared/modal';
+import Modal from '@components/shared/modal';
 import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
 import { EFormType } from '@constants';
+import { BaseControlledRef } from '@type/app.type';
 import { ITweet } from '@type/tweet.type';
 import { calcDiffTimeString } from '@utils/helper';
 import { EFontSize, EFontWeight } from 'constants/style.constant';
@@ -31,7 +32,7 @@ const TweetItemHeader = ({ tweet }: Props) => {
   const { getCurrentUser } = useUserService();
   const currentUser = getCurrentUser();
 
-  const editTweetModalRef = useRef<ModalRef>(null);
+  const editTweetModalRef = useRef<BaseControlledRef>(null);
 
   const isAuthor = currentUser?._id === tweet?.author?._id;
 
@@ -72,11 +73,11 @@ const TweetItemHeader = ({ tweet }: Props) => {
   }, [t]);
 
   const onCloseEditModal = useCallback(() => {
-    editTweetModalRef.current?.closeModal();
+    editTweetModalRef.current?.show();
   }, []);
 
   const onOpenEditModal = useCallback(() => {
-    editTweetModalRef.current?.showModal();
+    editTweetModalRef.current?.hide();
   }, []);
 
   const onSelectTweetActionItem = async (value: EFormType) => {

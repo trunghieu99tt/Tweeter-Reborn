@@ -2,7 +2,7 @@ import { EMedia } from '@constants';
 import { setGlobalLoading } from '@redux/app/app.slice';
 import { IMedia } from '@type/app.type';
 import { ICreateTweetDTO, ITweet } from '@type/tweet.type';
-import { extractMetadata, initMedia } from '@utils/helper';
+import { extractMetadata, initMediaFromUrl } from '@utils/helper';
 import { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
@@ -26,12 +26,11 @@ export const useTweetForm = ({ tweet }: Props) => {
   const [body, setBody] = useState(tweet?.content || '');
   const [media, setMedia] = useState<IMedia[]>([]);
   const [initialMedias, setInitialMedias] = useState<IMedia[]>(
-    tweet?.media.map(initMedia) || [],
+    tweet?.media.map(initMediaFromUrl) || [],
   );
   const [audience, setAudience] = useState<number>(tweet?.audience || 0);
 
-  const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files || [];
+  const onChangeFile = (files: FileList) => {
     if (files?.length > 0) {
       const newMedias: IMedia[] = Array.from(files).map((file: File) => ({
         id: uuid(),
@@ -77,7 +76,7 @@ export const useTweetForm = ({ tweet }: Props) => {
       if (mediaResponse?.filter(Boolean).length === 0) {
         return;
       }
-      newMedia = [...mediaResponse.map(initMedia), ...initialMedias];
+      newMedia = [...mediaResponse.map(initMediaFromUrl), ...initialMedias];
     }
 
     return newMedia;
