@@ -24,6 +24,11 @@ const ImageWithPlaceholder = ({
     image.onerror = () => {
       setSrc(defaultSrc);
     };
+
+    return () => {
+      image.src = '';
+      setSrc('');
+    };
   }, [defaultSrc]);
 
   return <Image src={src} alt={alt} customStyles={customStyles}></Image>;

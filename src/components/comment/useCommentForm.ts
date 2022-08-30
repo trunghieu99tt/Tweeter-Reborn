@@ -105,7 +105,7 @@ export const useCommentForm = ({ tweet, comment }: Props) => {
   };
 
   const onEmojiClick = useCallback((data: IEmojiData) => {
-    setContent(`${comment}${data.emoji}`);
+    setContent((content) => `${content}${data.emoji}`);
   }, []);
 
   return {

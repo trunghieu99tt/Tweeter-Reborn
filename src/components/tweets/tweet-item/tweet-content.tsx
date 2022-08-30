@@ -55,10 +55,10 @@ const TweetContent = ({ tweet }: Props) => {
     return replacedText;
   };
 
-  const { urls } = extractMetadata(tweet.content);
+  const { urls } = extractMetadata(tweet?.content || '');
 
   const tweetMedias = useMemo(() => {
-    return tweet.media.map((url: string) => {
+    return tweet?.media?.map((url: string) => {
       const media = initMediaFromUrl(url);
 
       return (
@@ -67,7 +67,7 @@ const TweetContent = ({ tweet }: Props) => {
         </StyledTweetMedia>
       );
     });
-  }, [tweet.media]);
+  }, [tweet?.media]);
 
   return (
     <StyledRoot>

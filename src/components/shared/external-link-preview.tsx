@@ -17,7 +17,7 @@ const ExternalLinkPreview = ({ url }: Props) => {
     );
   }, []);
 
-  return <StyledLinkPreview fallback={LinkNotFound} url={url} />;
+  return LinkNotFound;
 };
 
 export default ExternalLinkPreview;

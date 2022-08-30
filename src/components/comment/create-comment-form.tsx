@@ -6,7 +6,7 @@ import UserAvatarSmall from '@components/shared/small-avatar';
 import { IComment } from '@type/comment.type';
 import { ITweet } from '@type/tweet.type';
 import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
-import React, { useEffect } from 'react';
+import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImCancelCircle } from 'react-icons/im';
 import { ClipLoader } from 'react-spinners';
@@ -63,7 +63,7 @@ const CreateCommentForm = ({ tweet, comment }: Props): JSX.Element => {
             <ImCancelCircle />
           </StyledCommentImageCancelButton>
           <StyledCommentMedia>
-            <MediaViewer data={media} />
+            <MediaViewer data={media} hasLightbox />
           </StyledCommentMedia>
         </StyledCommentImageWrapper>
       )}
@@ -71,7 +71,7 @@ const CreateCommentForm = ({ tweet, comment }: Props): JSX.Element => {
   );
 };
 
-export default switchRenderIfAuthenticated(CreateCommentForm, null);
+export default switchRenderIfAuthenticated(memo(CreateCommentForm), null);
 
 const StyledWrapper = styled('form')<{
   shouldIndent?: boolean;
@@ -82,6 +82,7 @@ const StyledWrapper = styled('form')<{
       : 'transform: translateX(4rem); width: 94%;margin: 1rem 0;'}
   display: flex;
   gap: 1.6rem;
+  padding: 1rem 0;
 `;
 
 const StyledInputWrapper = styled.div`

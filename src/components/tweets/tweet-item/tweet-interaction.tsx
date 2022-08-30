@@ -7,7 +7,7 @@ import { IUser } from '@type/user.type';
 import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';
 import React, { memo, Suspense, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiBookmark, BiComment } from 'react-icons/bi';
+import { BiBookmark } from 'react-icons/bi';
 import { FaRegHeart } from 'react-icons/fa';
 import { FiRefreshCw } from 'react-icons/fi';
 import useUserService from 'services/user.service';
@@ -71,13 +71,14 @@ const TweetInteraction = ({ tweet }: Props) => {
 
   const liked =
     (currentUser?._id &&
-      tweet.likes.findIndex((u: IUser) => u._id === currentUser?._id) !== -1) ||
+      tweet?.likes.findIndex((u: IUser) => u?._id === currentUser?._id) !==
+        -1) ||
     false;
 
   // current user saved this tweet or not
   const saved =
     (currentUser?._id &&
-      tweet?.saved?.findIndex((u: IUser) => u._id === currentUser?._id) !==
+      tweet?.saved?.findIndex((u: IUser) => u?._id === currentUser?._id) !==
         -1) ||
     false;
 
@@ -135,13 +136,6 @@ const TweetInteraction = ({ tweet }: Props) => {
         </StyledSummary>
 
         <StyledInteractionButtonGroup>
-          {/* <StyledInteractionButton
-            onClick={focusOnCommentForm}
-            interactionType={EInteractionButton.Comment}
-          >
-            <BiComment />
-            <span>{t('comment')}</span>
-          </StyledInteractionButton> */}
           <StyledInteractionButton
             onClick={onRetweet}
             retweeted={retweeted}

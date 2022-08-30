@@ -1,21 +1,40 @@
 import { EMedia } from '@constants';
+import { useToggle } from '@hooks/useToggle';
 import { IMedia } from '@type/app.type';
 import React, { memo } from 'react';
+import Lightbox from 'react-image-lightbox';
 import styled, { css } from 'styled-components';
 
 type Props = {
   data: IMedia;
+  hasLightbox?: boolean;
 };
 
-const MediaViewer = ({ data }: Props) => {
+const MediaViewer = ({ data, hasLightbox }: Props) => {
+  const { show, hide, visible } = useToggle();
+
   let content = null;
   if (data.type === EMedia.Image) {
-    content = <StyledImage src={data.url} alt={data.url} loading="lazy" />;
+    content = (
+      <StyledImage
+        onClick={show}
+        src={data.url}
+        alt={data.url}
+        loading="lazy"
+      />
+    );
   } else {
     content = <StyledVideo src={data.url} controls muted autoPlay loop />;
   }
 
-  return <StyledRoot>{content}</StyledRoot>;
+  return (
+    <StyledRoot>
+      {data.type === EMedia.Image && hasLightbox && visible && (
+        <Lightbox mainSrc={data.url} onCloseRequest={hide} />
+      )}
+      {content}
+    </StyledRoot>
+  );
 };
 
 export default memo(MediaViewer);

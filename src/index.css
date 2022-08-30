@@ -58,3 +58,7 @@ button {
 input[type="file"] {
   display: none;
 }
+
+.infinite-scroll-component {
+  overflow: initial !important;
+}

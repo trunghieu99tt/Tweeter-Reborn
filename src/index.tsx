@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import { store } from './store';
 
+import 'react-image-lightbox/style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './index.css';

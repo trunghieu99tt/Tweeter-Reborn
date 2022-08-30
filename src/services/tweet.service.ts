@@ -53,8 +53,6 @@ export const useTweetService = () => {
   const getLatestTweet =
     (limit: number) =>
     ({ pageParam }: QueryFunctionContext) => {
-      console.log('Go here');
-
       return getList<ITweet>(`${EEndpoints.Tweet}/latest`, pageParam, {
         limit,
       });

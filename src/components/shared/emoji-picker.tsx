@@ -1,7 +1,7 @@
 import { useOnClickOutside } from '@hooks/useOnClickOutside';
 import { useToggle } from '@hooks/useToggle';
 import EmojiPicker, { IEmojiData } from 'emoji-picker-react';
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useMemo, useRef } from 'react';
 import { HiOutlineEmojiHappy } from 'react-icons/hi';
 import styled from 'styled-components';
 
@@ -17,18 +17,13 @@ const MyEmojiPicker = (props: Props): JSX.Element => {
 
   const onClickEmoji = (event: React.MouseEvent, data: IEmojiData) => {
     event.preventDefault();
-    hide();
     if (typeof props.onEmojiClick === 'function') {
       props.onEmojiClick(data);
     }
   };
 
-  useEffect(() => {
-    console.log('render MyEmojiPicker');
-  });
-
-  return (
-    <StyledRoot ref={ref}>
+  const emoji = useMemo(() => {
+    return (
       <EmojiPicker
         onEmojiClick={onClickEmoji}
         pickerStyle={{
@@ -36,12 +31,17 @@ const MyEmojiPicker = (props: Props): JSX.Element => {
           bottom: '0',
           transform: 'translateY(-15%)',
           boxShadow: 'none',
-          display: visible ? 'block' : 'none',
         }}
       />
-      <button onClick={toggle}>
+    );
+  }, []);
+
+  return (
+    <StyledRoot ref={ref}>
+      <StyledEmojiWrapper visible={visible}>{emoji}</StyledEmojiWrapper>
+      <StyledButton onClick={toggle} type="button">
         <HiOutlineEmojiHappy />
-      </button>
+      </StyledButton>
     </StyledRoot>
   );
 };
@@ -49,3 +49,17 @@ const MyEmojiPicker = (props: Props): JSX.Element => {
 export default memo(MyEmojiPicker);
 
 const StyledRoot = styled.div``;
+
+const StyledEmojiWrapper = styled.div<{
+  visible: boolean;
+}>`
+  opacity: ${({ visible }) => (visible ? '1' : '0')};
+  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+  transition: opacity 0.2s ease-in-out;
+  position: relative;
+  z-index: 1;
+`;
+
+const StyledButton = styled.button`
+  cursor: pointer;
+`;
