@@ -21,7 +21,7 @@ import { routes } from 'routes';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
-import TweetForm from '../tweet-form';
+import TweetForm from '../form';
 
 type Props = {
   tweet: ITweet;

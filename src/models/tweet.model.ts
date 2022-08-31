@@ -19,7 +19,7 @@ const defaultTweet: ITweet = {
 };
 
 export class TweetModel {
-  private data: ITweet;
+  private data: ITweet = defaultTweet;
 
   constructor(tweet: ITweet | undefined | null) {
     Object.keys(defaultTweet).forEach((key) => {

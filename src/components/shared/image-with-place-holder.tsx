@@ -2,6 +2,8 @@ import React from 'react';
 import DefaultUnknownAvatar from '@images/user.png';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { ClipLoader } from 'react-spinners';
+import _ from 'lodash';
 
 interface Props {
   src: string;
@@ -17,12 +19,17 @@ const ImageWithPlaceholder = ({
   src: propsSrc,
 }: Props): JSX.Element => {
   const [src, setSrc] = useState<any>(propsSrc);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const image = document.createElement('img');
     image.src = src;
     image.onerror = () => {
+      setLoading(false);
       setSrc(defaultSrc);
+    };
+    image.onload = () => {
+      setLoading(false);
     };
 
     return () => {
@@ -30,6 +37,10 @@ const ImageWithPlaceholder = ({
       setSrc('');
     };
   }, [defaultSrc]);
+
+  if (loading) {
+    return <ClipLoader />;
+  }
 
   return <Image src={src} alt={alt} customStyles={customStyles}></Image>;
 };

@@ -38,4 +38,5 @@ export enum ETweetQuery {
 export enum ECommentQuery {
   GetTweetComments = 'GetTweetComments',
   CreateComment = 'CreateComment',
+  ReactComment = 'ReactComment',
 }

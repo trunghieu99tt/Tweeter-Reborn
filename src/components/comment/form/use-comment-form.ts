@@ -1,3 +1,4 @@
+import { ECommentQuery } from '@constants';
 import { IMedia } from '@type/app.type';
 import {
   EAddCommentType,
@@ -9,6 +10,7 @@ import { ITweet } from '@type/tweet.type';
 import { initMediaFromFile } from '@utils/helper';
 import { IEmojiData } from 'emoji-picker-react';
 import { ChangeEvent, useCallback, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useCommentService } from 'services/comment.service';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import { useUploadService } from 'services/upload.service';
@@ -19,6 +21,8 @@ type Props = {
 };
 
 export const useCommentForm = ({ tweet, comment }: Props) => {
+  const queryClient = useQueryClient();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [content, setContent] = useState<string>('');
   const [media, setMedia] = useState<IMedia | null>(null);
@@ -27,7 +31,6 @@ export const useCommentForm = ({ tweet, comment }: Props) => {
   const { createCommentMutation } = useCommentService();
 
   const onChangeContent = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('event.target');
     setContent(event.target.value);
   };
 
@@ -83,6 +86,11 @@ export const useCommentForm = ({ tweet, comment }: Props) => {
       },
       onSuccess: (data) => {
         if (data) {
+          queryClient.invalidateQueries([
+            ECommentQuery.GetTweetComments,
+            tweet._id,
+          ]);
+
           onPushEventBus({
             type: EventBusName.CreateNotification,
             payload: {

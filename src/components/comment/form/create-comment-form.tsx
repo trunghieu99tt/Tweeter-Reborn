@@ -12,7 +12,7 @@ import { ImCancelCircle } from 'react-icons/im';
 import { ClipLoader } from 'react-spinners';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
-import { useCommentForm } from './useCommentForm';
+import { useCommentForm } from './use-comment-form';
 
 type Props = {
   tweet: ITweet;
@@ -42,8 +42,8 @@ const CreateCommentForm = ({ tweet, comment }: Props): JSX.Element => {
   const fileInputId = `comment-file-${comment?._id || tweet?._id}`;
 
   return (
-    <React.Fragment>
-      <StyledWrapper onSubmit={onSubmit} shouldIndent={shouldIndent}>
+    <StyledRoot loading={loading}>
+      <StyledCommentForm onSubmit={onSubmit} shouldIndent={shouldIndent}>
         <UserAvatarSmall user={user} />
         <StyledInputWrapper>
           <Input
@@ -52,11 +52,19 @@ const CreateCommentForm = ({ tweet, comment }: Props): JSX.Element => {
             placeholder={`${t('addAComment')} ...`}
             disabled={loading}
           />
-          {loading && <ClipLoader />}
+          {loading && (
+            <ClipLoader
+              cssOverride={{
+                width: '2.5rem',
+                height: '2.5rem',
+                flexShrink: 0,
+              }}
+            />
+          )}
           <MyEmojiPicker onEmojiClick={onEmojiClick} />
           <FileInput htmlFor={fileInputId} onChange={onChangeFile} />
         </StyledInputWrapper>
-      </StyledWrapper>
+      </StyledCommentForm>
       {media?.url && (
         <StyledCommentImageWrapper>
           <StyledCommentImageCancelButton onClick={onCancelMedia}>
@@ -67,13 +75,24 @@ const CreateCommentForm = ({ tweet, comment }: Props): JSX.Element => {
           </StyledCommentMedia>
         </StyledCommentImageWrapper>
       )}
-    </React.Fragment>
+    </StyledRoot>
   );
 };
 
 export default switchRenderIfAuthenticated(memo(CreateCommentForm), null);
 
-const StyledWrapper = styled('form')<{
+const StyledRoot = styled.div<{
+  loading: boolean;
+}>`
+  ${({ loading }) =>
+    loading &&
+    `
+    opacity: 0.5;
+    pointer-events: none;
+  `}
+`;
+
+const StyledCommentForm = styled('form')<{
   shouldIndent?: boolean;
 }>`
   ${(props) =>

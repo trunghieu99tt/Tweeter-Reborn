@@ -1,5 +1,5 @@
 import InfinityTweetList from '@components/infinityList/infinity-tweet-list';
-import TweetForm from '@components/tweets/tweet-form';
+import TweetForm from '@components/tweets/form';
 import { EFormType, ETweetQuery } from '@constants';
 import LayoutWithHeader from '@layout/layout-with-header';
 import { TwoSideBarLayout } from '@layout/two-sidebar.layout';

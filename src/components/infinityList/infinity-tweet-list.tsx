@@ -1,6 +1,7 @@
-import TweetItem from '@components/tweets/tweet-item';
-import TweetSkeleton from '@components/tweets/tweet-item/tweet-item.skeleton';
+import TweetItem from '@components/tweets/item';
+import TweetSkeleton from '@components/tweets/item/tweet-item.skeleton';
 import { DEFAULT_LIST_LIMIT, ETweetQuery } from '@constants';
+import { useInfinityList } from '@hooks/useInfinityList';
 import { ITweet } from '@type/tweet.type';
 import {
   flattenInfinityList,
@@ -25,35 +26,31 @@ const InfinityTweetList = ({ queryKey }: Props) => {
       queryFunction = getLatestTweet(DEFAULT_LIST_LIMIT);
   }
 
-  const query = useInfiniteQuery(
-    queryKey,
+  const {
+    data: tweetData,
+    isLoading,
+    hasMore,
+    fetchNextPage,
+  } = useInfinityList<ITweet>({
     queryFunction,
-    generateInfinityQueryListConfig(),
-  );
-
-  const { data, isLoading, fetchNextPage } = query;
-  console.log('data', data);
-
-  const tweetItems = useMemo(() => {
-    const tweets = flattenInfinityList<ITweet>(data);
-    return tweets?.map((tweet: ITweet) => (
-      <TweetItem data={tweet} key={`infinity-tweet-list-${tweet._id}`} />
-    ));
-  }, [data]);
-  const pages = data?.pages;
-  const totalRecords = pages?.[0].total || 0;
-  const hasMore = tweetItems.length < totalRecords;
+    queryKey,
+    queryConfig: {
+      limit: DEFAULT_LIST_LIMIT,
+    },
+  });
 
   return (
     <React.Fragment>
-      {isLoading && tweetItems.length === 0 && <TweetSkeleton />}
+      {isLoading && tweetData.length === 0 && <TweetSkeleton />}
       <InfiniteScroll
-        dataLength={tweetItems.length}
+        dataLength={tweetData.length}
         next={fetchNextPage}
         hasMore={hasMore}
         loader={<TweetSkeleton />}
       >
-        {tweetItems}
+        {tweetData?.map((tweet: ITweet) => (
+          <TweetItem data={tweet} key={`infinity-tweet-list-${tweet._id}`} />
+        ))}
       </InfiniteScroll>
     </React.Fragment>
   );

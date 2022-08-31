@@ -22,8 +22,6 @@ const Input = forwardRef<HTMLInputElement, Props>(
         !filter ||
         (event?.target?.value && filter.test(event.target.value))
       ) {
-        console.log('event.target.value', event.target.value);
-
         onChange && onChange(event);
       }
     };
@@ -56,4 +54,8 @@ const StyledInput = styled.input`
   outline: none;
   width: 100%;
   background: transparent;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;

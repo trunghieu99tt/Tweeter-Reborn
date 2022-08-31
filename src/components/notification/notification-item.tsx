@@ -7,7 +7,7 @@ import {
   EFontWeight,
 } from 'constants/style.constant';
 import _ from 'lodash';
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import useNotificationService from 'services/notification.service';
@@ -19,9 +19,6 @@ type Props = {
 };
 
 const NotificationItem = ({ data }: Props) => {
-  useEffect(() => {
-    console.log('notification item re-rendered', data._id);
-  });
   const { t } = useTranslation();
   const { getCurrentUser } = useUserService();
   const user = getCurrentUser();

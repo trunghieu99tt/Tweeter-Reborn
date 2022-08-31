@@ -1,10 +1,11 @@
-import CreateCommentForm from '@components/comment/create-comment-form';
+import CreateCommentForm from '@components/comment/form/create-comment-form';
 import { shake, spin } from '@components/shared/shared-style';
 import UserCard from '@components/user/user-card';
 import { BaseControlledRef } from '@type/app.type';
 import { ITweet } from '@type/tweet.type';
 import { IUser } from '@type/user.type';
 import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';
+import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
 import React, { memo, Suspense, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiBookmark } from 'react-icons/bi';
@@ -38,7 +39,6 @@ const TweetInteraction = ({ tweet }: Props) => {
 
   const { t } = useTranslation();
   const userListModalRef = useRef<BaseControlledRef>(null);
-  const commentFormRef = useRef<HTMLInputElement>(null);
   const [userListType, setUserListType] = useState<EUserListType>(null);
 
   let userListData: IUser[] = [];
@@ -167,7 +167,7 @@ const TweetInteraction = ({ tweet }: Props) => {
   );
 };
 
-export default memo(TweetInteraction);
+export default switchRenderIfAuthenticated(memo(TweetInteraction), null);
 
 const StyledRoot = styled.div``;
 
@@ -176,7 +176,7 @@ const StyledSummary = styled.div`
   gap: 1.6rem;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 0.8rem;
+  margin: 0.8rem 0;
 
   @media (max-width: 576px) {
     justify-content: space-between;

@@ -6,6 +6,7 @@ import TweetItemHeader from './tweet-author';
 import TweetContent from './tweet-content';
 import TweetInteraction from './tweet-interaction';
 import TweetSkeleton from './tweet-item.skeleton';
+import TweetComments from './tweet-comment';
 
 type Props = {
   data: ITweet;
@@ -20,6 +21,7 @@ const TweetItem = ({ data, isLoading }: Props) => {
       <div>
         <TweetContent tweet={data} />
         <TweetInteraction tweet={data} />
+        <TweetComments tweetId={data?._id} />
       </div>
     </StyledRoot>
   );

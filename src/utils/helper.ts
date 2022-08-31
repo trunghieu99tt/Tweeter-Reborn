@@ -111,16 +111,22 @@ export const initMediaFromFile = (file: File): IMedia => {
 
 export const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
 
-export const tryCatchFn = async (fn: Function, customMsg?: string) => {
+export const tryCatchFn = async (
+  fn: Function,
+  shouldShowError?: boolean,
+  customMsg?: string,
+) => {
   try {
     const res = await fn();
     return res;
   } catch (error: any) {
     console.error(`${fn.name} error: ${error}`);
-    onPushEventBus({
-      type: EventBusName.Error,
-      payload: customMsg || error?.response?.data?.message,
-    });
+    if (shouldShowError) {
+      onPushEventBus({
+        type: EventBusName.Error,
+        payload: customMsg || error?.response?.data?.message,
+      });
+    }
   }
 };
 
