@@ -11,7 +11,7 @@ type Props = {
 
 const CommentReplyForm = ({ data }: Props, ref: Ref<BaseControlledRef>) => {
   const { show, hide, visible } = useToggle();
-  useImperativeHandle(ref, () => ({ show, hide }), []);
+  useImperativeHandle(ref, () => ({ show, hide }), [show, hide]);
 
   return (
     <StyledRoot visible={visible}>

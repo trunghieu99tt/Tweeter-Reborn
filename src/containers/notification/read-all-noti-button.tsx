@@ -24,33 +24,28 @@ const ReadAllNotificationButton = ({ notifications }: Props) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const markAllAsRead = useThrottle(
-    async () => {
-      const unreadNotificationIds = notifications
-        .filter((notification) => {
-          return (
-            notification?.isRead && !notification.isRead.includes(user?._id)
-          );
-        })
-        .map((notification) => notification._id)
-        .filter(Boolean);
+  const markAllAsRead = async () => {
+    console.log('mark all as read');
+    const unreadNotificationIds = notifications
+      .filter((notification) => {
+        return notification?.isRead && !notification.isRead.includes(user?._id);
+      })
+      .map((notification) => notification._id)
+      .filter(Boolean);
 
-      try {
-        if (unreadNotificationIds?.length > 0) {
-          setIsLoading(true);
-          await markAsRead(unreadNotificationIds);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error(`markAllAsRead error`, error);
-        if (unreadNotificationIds?.length > 0) {
-          setIsLoading(false);
-        }
+    try {
+      if (unreadNotificationIds?.length > 0) {
+        setIsLoading(true);
+        await markAsRead(unreadNotificationIds);
+        setIsLoading(false);
       }
-    },
-    2000,
-    [notifications, user],
-  );
+    } catch (error) {
+      console.error(`markAllAsRead error`, error);
+      if (unreadNotificationIds?.length > 0) {
+        setIsLoading(false);
+      }
+    }
+  };
 
   return (
     <StyledReadAllButton onClick={markAllAsRead} disabled={isLoading}>

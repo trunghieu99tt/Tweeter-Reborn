@@ -1,11 +1,10 @@
+import MediaViewer from '@components/shared/media-viewer';
 import { EViewMode } from '@constants';
 import { IMedia } from '@type/app.type';
 import { EFontSize, EFontWeight } from 'constants/style.constant';
-import styled from 'styled-components';
-import { ImCancelCircle } from 'react-icons/im';
-import MediaViewer from '@components/shared/media-viewer';
 import React, { memo } from 'react';
-import useUserService from 'services/user.service';
+import { ImCancelCircle } from 'react-icons/im';
+import styled from 'styled-components';
 
 type Props = {
   medias: IMedia[];
@@ -15,8 +14,6 @@ type Props = {
 const MAX_MEDIA_VIEW = 5;
 
 const TweetFormMedia = ({ medias, onResetMedia }: Props) => {
-  const { getCurrentUser } = useUserService();
-
   const mediaLength = medias.length;
   let listMode: EViewMode = EViewMode.None;
 

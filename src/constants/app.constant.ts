@@ -21,3 +21,9 @@ export enum EFormType {
   Delete = 'delete',
   Report = 'report',
 }
+
+export enum EUpdateType {
+  Create = 'create',
+  Update = 'update',
+  Delete = 'delete',
+}

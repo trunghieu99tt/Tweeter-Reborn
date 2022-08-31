@@ -9,6 +9,8 @@ import {
 import { ITweet } from '@type/tweet.type';
 import { initMediaFromFile } from '@utils/helper';
 import { IEmojiData } from 'emoji-picker-react';
+import _ from 'lodash';
+import { CommentModel } from 'models/comment.model';
 import { ChangeEvent, useCallback, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useCommentService } from 'services/comment.service';
@@ -84,8 +86,11 @@ export const useCommentForm = ({ tweet, comment }: Props) => {
         setLoading(false);
         resetFields();
       },
-      onSuccess: (data) => {
-        if (data) {
+      onSuccess: (updatedData) => {
+        if (updatedData) {
+          const updatedComment = new CommentModel(
+            updatedData as IComment,
+          ).getData();
           queryClient.invalidateQueries([
             ECommentQuery.GetTweetComments,
             tweet._id,
@@ -94,16 +99,13 @@ export const useCommentForm = ({ tweet, comment }: Props) => {
           onPushEventBus({
             type: EventBusName.CreateNotification,
             payload: {
-              text:
-                data.type === EAddCommentType.ReplyComment
-                  ? 'repliedYourComment'
-                  : 'commentedYourTweet',
+              text: !!comment ? 'repliedYourComment' : 'commentedYourTweet',
               receivers: [
-                data.type === EAddCommentType.ReplyComment
-                  ? data.comment.author.id
-                  : data.tweet.author.id,
+                !!comment
+                  ? _.pick(updatedComment, ['author', '_id'])
+                  : _.pick(updatedComment, ['tweet', 'author', '_id']),
               ],
-              url: `/tweet/${data.tweet._id}`,
+              url: `/tweet/${_.pick(updatedComment, ['tweet', '_id'])}`,
               type: 'comment',
             },
           });

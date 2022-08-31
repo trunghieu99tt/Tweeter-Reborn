@@ -45,6 +45,16 @@ export interface IGetList<T> {
   total: number;
 }
 
+export interface IInfinityListDataPage<T> {
+  data: T[];
+  total: number;
+}
+
+export interface IInfinityListData<T> {
+  pages: IInfinityListDataPage<T>[];
+  pageParams: any[];
+}
+
 export interface IApiResponse<T = any> {
   readonly data?: T;
   readonly total?: number;

@@ -34,7 +34,7 @@ const TweetContent = ({ tweet }: Props) => {
             href={match}
             onClick={stopPropagation}
             target="_blank"
-            rel="noopener, noreferrer"
+            rel="noopener noreferrer"
           >
             {match}
           </a>

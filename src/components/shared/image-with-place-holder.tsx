@@ -1,9 +1,7 @@
-import React from 'react';
 import DefaultUnknownAvatar from '@images/user.png';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
-import _ from 'lodash';
+import styled from 'styled-components';
 
 interface Props {
   src: string;

@@ -30,7 +30,7 @@ export const useCommentService = () => {
   const reactTweet = (id: string) =>
     tryCatchFn(async () => {
       const response = await client.patch(`${EEndpoints.Comment}/${id}/react`);
-      return new CommentModel(response?.data).getData();
+      return new CommentModel(response?.data?.data).getData();
     }, true);
 
   const createCommentMutation = useMutation(

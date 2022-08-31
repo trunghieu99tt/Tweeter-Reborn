@@ -1,9 +1,16 @@
+import BaseSelector from '@components/shared/base-selector';
 import Button from '@components/shared/button';
+import { StyledFlex } from '@components/shared/shared-style';
+import UserAvatarSmall from '@components/shared/small-avatar';
 import { ELocalStorageKey } from '@constants';
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { setGlobalLoading } from '@redux/app/app.slice';
+import { EFontSize, EFontWeight } from 'constants/style.constant';
+import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { GrNotification } from 'react-icons/gr';
+import { RiAccountCircleFill, RiLogoutBoxRLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { routes } from 'routes';
@@ -11,15 +18,8 @@ import { useAuthService } from 'services/auth.service';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import useUserService from 'services/user.service';
 import { AppDispatch } from 'store';
-import { v4 as uuid } from 'uuid';
-import { RiAccountCircleFill, RiLogoutBoxRLine } from 'react-icons/ri';
 import styled from 'styled-components';
-import { StyledFlex } from '@components/shared/shared-style';
-import UserAvatarSmall from '@components/shared/small-avatar';
-import { EFontSize, EFontWeight } from 'constants/style.constant';
-import BaseSelector from '@components/shared/base-selector';
-import { GrNotification } from 'react-icons/gr';
-import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
+import { v4 as uuid } from 'uuid';
 
 enum EMyAccountMenuOptions {
   Profile = 'profile',
@@ -107,7 +107,7 @@ const MyAccountMenu = () => {
         <StyledAvatarCaption>{user?.name}</StyledAvatarCaption>
       </React.Fragment>
     );
-  }, []);
+  }, [user]);
 
   return (
     <StyledRoot>

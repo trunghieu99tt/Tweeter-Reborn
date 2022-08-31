@@ -1,4 +1,5 @@
 import { IComment } from '@type/comment.type';
+import { CommentModel } from 'models/comment.model';
 import React from 'react';
 import { useCommentService } from 'services/comment.service';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
@@ -37,14 +38,15 @@ export const useCommentItem = ({ data }: Props) => {
       onError: () => {
         data.likes = initialLikes;
       },
-      onSuccess: (updatedData: IComment) => {
-        if (updatedData?.likes?.includes(currentUser._id)) {
+      onSuccess: (data: unknown) => {
+        const updatedComment = new CommentModel(data as IComment).getData();
+        if (updatedComment?.likes?.includes(currentUser._id)) {
           onPushEventBus({
             type: EventBusName.CreateNotification,
             payload: {
               text: 'likedYourComment',
-              receivers: [data.author._id],
-              url: `/tweet/${data?.tweet?._id}`,
+              receivers: [updatedComment.author._id],
+              url: `/tweet/${updatedComment?.tweet?._id}`,
               type: 'likedComment',
             },
           });

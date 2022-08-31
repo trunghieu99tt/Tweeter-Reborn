@@ -111,11 +111,11 @@ export const initMediaFromFile = (file: File): IMedia => {
 
 export const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
 
-export const tryCatchFn = async (
+export const tryCatchFn = async <T>(
   fn: Function,
   shouldShowError?: boolean,
   customMsg?: string,
-) => {
+): Promise<T> => {
   try {
     const res = await fn();
     return res;
@@ -127,6 +127,20 @@ export const tryCatchFn = async (
         payload: customMsg || error?.response?.data?.message,
       });
     }
+  }
+};
+
+/**
+ * Init a model with the _id field from string
+ */
+export const transformFieldToObjectWithId = <T>(
+  field: keyof T,
+  data: T,
+): void => {
+  if (typeof data[field] === 'string') {
+    data[field] = {
+      _id: data[field],
+    } as unknown as T[keyof T];
   }
 };
 

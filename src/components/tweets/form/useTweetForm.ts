@@ -3,7 +3,7 @@ import { setGlobalLoading } from '@redux/app/app.slice';
 import { IMedia } from '@type/app.type';
 import { ICreateTweetDTO, ITweet } from '@type/tweet.type';
 import { extractMetadata, initMediaFromUrl } from '@utils/helper';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import { useHashTagService } from 'services/hash-tag.service';

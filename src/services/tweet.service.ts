@@ -1,5 +1,6 @@
 import { EEndpoints, ETweetQuery } from '@constants';
 import { ICreateTweetDTO, ITweet } from '@type/tweet.type';
+import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
 import { TweetModel } from 'models/tweet.model';
@@ -58,12 +59,50 @@ export const useTweetService = () => {
       });
     };
 
+  const reactTweet = async (tweetId: string) =>
+    tryCatchFn<ITweet>(async () => {
+      const response = await client.post(
+        `${EEndpoints.Tweet}/react/${tweetId}`,
+      );
+      return response?.data;
+    }, true);
+
+  const retweet = async (tweetId: string) =>
+    tryCatchFn<ITweet>(async () => {
+      const response = await client.post(
+        `${EEndpoints.Tweet}/retweet/${tweetId}`,
+      );
+      return response?.data;
+    }, true);
+
+  const saveTweet = async (tweetId: string) =>
+    tryCatchFn(async () => {
+      const response = await client.post(`${EEndpoints.Tweet}/save/${tweetId}`);
+      return response?.data;
+    }, true);
+
+  const reportTweet = async (tweetId: string) =>
+    tryCatchFn(async () => {
+      const response = await client.patch(
+        `${EEndpoints.Tweet}/report/${tweetId}`,
+      );
+      return response?.data;
+    }, true);
+
   const createTweetMutation = useMutation(ETweetQuery.CreateTweet, createTweet);
   const updateTweetMutation = useMutation(ETweetQuery.UpdateTweet, updateTweet);
+  const reactTweetMutation = useMutation(ETweetQuery.ReactTweet, reactTweet);
+  const retweetMutation = useMutation(ETweetQuery.Retweet, retweet);
+  const saveTweetMutation = useMutation(ETweetQuery.SaveTweet, saveTweet);
+  const reportTweetMutation = useMutation(ETweetQuery.ReportTweet, reportTweet);
 
   return {
     getLatestTweet,
     createTweetMutation,
     updateTweetMutation,
+    reactTweetMutation,
+    retweetMutation,
+    saveTweetMutation,
+    reportTweetMutation,
   };
 };

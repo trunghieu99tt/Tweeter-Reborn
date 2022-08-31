@@ -30,9 +30,14 @@ export enum ETweetQuery {
   CreateTweet = 'CreateTweet',
   UpdateTweet = 'UpdateTweet',
   GetLatestTweets = 'GetLatestTweets',
+  GetNewsFeedTweets = 'GetNewsFeedTweets',
   GetSavedTweets = 'GetSavedTweets',
   GetPopularTweets = 'GetPopularTweets',
   GetTweetByHashTag = 'GetTweetByHashTag',
+  Retweet = 'Retweet',
+  ReactTweet = 'ReactTweet',
+  SaveTweet = 'SaveTweet',
+  ReportTweet = 'ReportTweet',
 }
 
 export enum ECommentQuery {

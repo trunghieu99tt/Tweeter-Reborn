@@ -3,18 +3,15 @@ import TweetSkeleton from '@components/tweets/item/tweet-item.skeleton';
 import { DEFAULT_LIST_LIMIT, ETweetQuery } from '@constants';
 import { useInfinityList } from '@hooks/useInfinityList';
 import { ITweet } from '@type/tweet.type';
-import {
-  flattenInfinityList,
-  generateInfinityQueryListConfig,
-} from '@utils/query';
-import React, { useMemo } from 'react';
+import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useInfiniteQuery } from 'react-query';
 import { useTweetService } from 'services/tweet.service';
 
 type Props = {
   queryKey: ETweetQuery;
 };
+
+const DEFAULT_TWEET_LIMIT = 3;
 
 const InfinityTweetList = ({ queryKey }: Props) => {
   let queryFunction = null;
@@ -23,7 +20,7 @@ const InfinityTweetList = ({ queryKey }: Props) => {
 
   switch (queryKey) {
     case ETweetQuery.GetLatestTweets:
-      queryFunction = getLatestTweet(DEFAULT_LIST_LIMIT);
+      queryFunction = getLatestTweet(DEFAULT_TWEET_LIMIT);
   }
 
   const {
@@ -35,7 +32,7 @@ const InfinityTweetList = ({ queryKey }: Props) => {
     queryFunction,
     queryKey,
     queryConfig: {
-      limit: DEFAULT_LIST_LIMIT,
+      limit: DEFAULT_TWEET_LIMIT,
     },
   });
 
