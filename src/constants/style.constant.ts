@@ -7,6 +7,7 @@ export const LIGHT_THEME = {
   textColor6: '#828282', // gray 1
   textColor7: '#bdbdbd', // gray 4
   textColor8: '#eb5757', // red
+  textColor9: '#333333', // gray 3
 
   backgroundColor1: '#fff',
   backgroundColor2: '#2f80ed', // blue 1
@@ -65,7 +66,7 @@ export enum EFontWeight {
 }
 
 export enum EBoxShadow {
-  BoxShadow1 = '0 10px 25px 0 rgb(27 44 113 / 15%)',
+  BoxShadow1 = '0px 10px 25px 0px rgb(27 44 113 / 15%)',
   BoxShadow2 = '0px 5px 25px 2px rgb(40 124 242 / 38%)',
 }
 

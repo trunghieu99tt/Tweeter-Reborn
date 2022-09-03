@@ -18,7 +18,7 @@ import EventBus, { EventBusName } from 'services/event-bus';
 import useNotificationService from 'services/notification.service';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
-import SectionWithHeadingContainer from '../section-with-heading.container';
+import SectionWithHeadingContainer from '../../layout/section-with-heading.layout';
 import ReadAllNotificationButton from './read-all-noti-button';
 
 export enum ENotificationScreen {

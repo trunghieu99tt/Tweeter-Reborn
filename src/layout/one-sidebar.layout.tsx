@@ -15,6 +15,17 @@ export const OneSideBarLayout = ({ sideBar, content }: Props) => {
   );
 };
 
-const Container = styled.div``;
-const SideBar = styled.aside``;
-const MainContent = styled.div``;
+const Container = styled.div`
+  max-width: 75%;
+  flex: 1;
+  margin: 2.5rem auto;
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+`;
+const SideBar = styled.aside`
+  width: 30%;
+`;
+const MainContent = styled.div`
+  flex: 1;
+`;

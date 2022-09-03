@@ -4,6 +4,7 @@ export const DEFAULT_LIST_LIMIT = 20;
 
 export enum EUserQuery {
   GetMe = 'GetMe',
+  GetUser = 'GetUser',
 }
 
 export enum ENotificationQuery {
@@ -34,6 +35,9 @@ export enum ETweetQuery {
   GetSavedTweets = 'GetSavedTweets',
   GetPopularTweets = 'GetPopularTweets',
   GetTweetByHashTag = 'GetTweetByHashTag',
+  GetTweetByUser = 'GetTweetByUser',
+  GetTweetMediaByUser = 'GetTweetMediaByUser',
+  GetLikedTweetByUser = 'GetLikedTweetByUser',
   Retweet = 'Retweet',
   ReactTweet = 'ReactTweet',
   SaveTweet = 'SaveTweet',

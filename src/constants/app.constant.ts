@@ -27,3 +27,9 @@ export enum EUpdateType {
   Update = 'update',
   Delete = 'delete',
 }
+
+export const MASONRY_CONFIG_BREAKPOINTS = {
+  default: 3,
+  700: 2,
+  500: 1,
+};

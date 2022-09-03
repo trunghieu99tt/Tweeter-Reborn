@@ -1,16 +1,11 @@
 import { BaseControlledRef } from '@type/app.type';
 import { ITweet } from '@type/tweet.type';
 import { IUser } from '@type/user.type';
+import { EUserListType } from 'constants/user.constant';
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTweetService } from 'services/tweet.service';
 import useUserService from 'services/user.service';
-
-enum EUserListType {
-  Liked = 'liked',
-  Saved = 'saved',
-  Retweeted = 'retweeted',
-}
 
 type Props = {
   tweet: ITweet;

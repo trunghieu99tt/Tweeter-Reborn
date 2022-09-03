@@ -128,6 +128,7 @@ export const StyledBody = styled.div`
   max-height: 50rem;
   overflow: auto;
   overflow-x: hidden;
+  padding: 1.5rem;
 `;
 
 export const StyledFooter = styled.div`

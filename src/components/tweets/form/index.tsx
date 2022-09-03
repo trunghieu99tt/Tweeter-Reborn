@@ -5,7 +5,7 @@ import TextAreaWithLinks from '@components/shared/textarea-with-links';
 import { EFormType } from '@constants';
 import { ITweet } from '@type/tweet.type';
 import { EFontSize, EFontWeight } from 'constants/style.constant';
-import SectionWithHeadingContainer from 'containers/section-with-heading.container';
+import SectionWithHeadingContainer from '@layout/section-with-heading.layout';
 import renderOnlyAuthenticated from 'hoc/switchRenderIfAuthenticated';
 import React, { memo, Suspense, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

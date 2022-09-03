@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import { EHashTagQuery } from '@constants';
-import SectionWithHeadingContainer from 'containers/section-with-heading.container';
+import SectionWithHeadingContainer from '@layout/section-with-heading.layout';
 import { IHashtag } from '@type/hash-tag.type';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';

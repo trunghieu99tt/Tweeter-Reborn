@@ -23,6 +23,7 @@ const TweetComments = ({ tweetId }: Props) => {
     data: comments,
     hasMore,
     isLoading,
+    fetchNextPage,
   } = useInfinityList<IComment>({
     queryKey: [ECommentQuery.GetTweetComments, tweetId],
     queryFunction: getTweetComments(DEFAULT_COMMENT_LIST_SIZE),
@@ -43,7 +44,9 @@ const TweetComments = ({ tweetId }: Props) => {
       {comments?.map((comment: IComment) => {
         return <CommentItem data={comment} key={`comment-${comment._id}`} />;
       })}
-      {hasMore && <button>{t('button.loadMore')}</button>}
+      {hasMore && (
+        <button onClick={() => fetchNextPage()}>{t('button.loadMore')}</button>
+      )}
     </StyledRoot>
   );
 };

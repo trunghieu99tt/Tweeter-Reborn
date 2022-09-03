@@ -1,14 +1,14 @@
 import TweetItem from '@components/tweets/item';
 import TweetSkeleton from '@components/tweets/item/tweet-item.skeleton';
-import { DEFAULT_LIST_LIMIT, ETweetQuery } from '@constants';
+import { ETweetQuery } from '@constants';
 import { useInfinityList } from '@hooks/useInfinityList';
 import { ITweet } from '@type/tweet.type';
-import React from 'react';
+import React, { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useTweetService } from 'services/tweet.service';
 
 type Props = {
-  queryKey: ETweetQuery;
+  queryKey: string;
 };
 
 const DEFAULT_TWEET_LIMIT = 3;
@@ -16,11 +16,24 @@ const DEFAULT_TWEET_LIMIT = 3;
 const InfinityTweetList = ({ queryKey }: Props) => {
   let queryFunction = null;
 
-  const { getLatestTweet } = useTweetService();
+  const { getLatestTweet, getUserTweets, getUserLikedTweets } =
+    useTweetService();
 
-  switch (queryKey) {
-    case ETweetQuery.GetLatestTweets:
-      queryFunction = getLatestTweet(DEFAULT_TWEET_LIMIT);
+  if (!queryKey.includes(',')) {
+    switch (queryKey) {
+      case ETweetQuery.GetLatestTweets:
+        queryFunction = getLatestTweet(DEFAULT_TWEET_LIMIT);
+        break;
+    }
+  } else {
+    const [key, _] = queryKey.split(',');
+    switch (key) {
+      case ETweetQuery.GetTweetByUser:
+        queryFunction = getUserTweets(DEFAULT_TWEET_LIMIT);
+        break;
+      case ETweetQuery.GetLikedTweetByUser:
+        queryFunction = getUserLikedTweets(DEFAULT_TWEET_LIMIT);
+    }
   }
 
   const {
@@ -30,11 +43,17 @@ const InfinityTweetList = ({ queryKey }: Props) => {
     fetchNextPage,
   } = useInfinityList<ITweet>({
     queryFunction,
-    queryKey,
+    queryKey: queryKey.includes(',') ? queryKey.split(',') : queryKey,
     queryConfig: {
       limit: DEFAULT_TWEET_LIMIT,
     },
   });
+
+  useEffect(() => {
+    return () => {
+      console.log('Unmount');
+    };
+  }, []);
 
   return (
     <React.Fragment>

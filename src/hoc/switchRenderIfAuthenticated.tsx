@@ -10,6 +10,8 @@ const switchRenderIfAuthenticated = <P extends Record<string, any>>(
     const { getCurrentUser } = useUserService();
     const user = getCurrentUser();
 
+    console.log('user', user);
+
     if (!user?._id?.length)
       return ShouldBeRenderedComponentIfNotAuthenticated ? (
         <ShouldBeRenderedComponentIfNotAuthenticated {...props} />

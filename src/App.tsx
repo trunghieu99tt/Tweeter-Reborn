@@ -5,7 +5,7 @@ import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
 import NotificationPage from '@pages/notifications';
 import { useMyTheme } from '@talons/useMyTheme';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router';
 import { routes } from 'routes';
 import PrivateRoute from 'routes/PrivateRoute';
@@ -13,6 +13,14 @@ import { ThemeProvider } from 'styled-components';
 import { useApp } from 'useApp';
 
 import './App.css';
+
+const ProfilePage = React.lazy(() => import('@pages/profile'));
+const ProfileMediaPage = React.lazy(
+  () => import('@pages/profile/profile-media'),
+);
+const ProfileLikedTweetPage = React.lazy(
+  () => import('@pages/profile/profile-liked-tweet'),
+);
 
 const App: React.FC = () => {
   const { isLoadingUser } = useApp();
@@ -28,6 +36,31 @@ const App: React.FC = () => {
         <React.Fragment>
           <Route path={routes.auth} element={<Auth />} />
           <Route path={routes.home} element={<NewsFeed />} />
+          {/* <Route path={routes.profile} />
+          <Route
+            path={`${routes.profile}/medias/:userId`}
+            element={
+              <Suspense fallback={<Loader1 />}>
+                <ProfileMediaPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path={`${routes.profile}/liked/:userId`}
+            element={
+              <Suspense fallback={<Loader1 />}>
+                <ProfileLikedTweetPage />
+              </Suspense>
+            }
+          /> */}
+          <Route
+            path={`${routes.profile}/:userId`}
+            element={
+              <Suspense fallback={<Loader1 />}>
+                <ProfilePage />
+              </Suspense>
+            }
+          />
           <Route
             path={routes.notifications}
             element={

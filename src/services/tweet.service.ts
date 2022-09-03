@@ -3,6 +3,7 @@ import { ICreateTweetDTO, ITweet } from '@type/tweet.type';
 import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
+import { profile } from 'console';
 import { TweetModel } from 'models/tweet.model';
 import { QueryFunctionContext, useMutation } from 'react-query';
 import { EventBusName, onPushEventBus } from './event-bus';
@@ -59,6 +60,43 @@ export const useTweetService = () => {
       });
     };
 
+  const getUserTweets =
+    (limit: number) =>
+    ({ pageParam, queryKey }: QueryFunctionContext) => {
+      const userId = queryKey[1];
+      const promise = getList<ITweet>(
+        `${EEndpoints.Tweet}/user/${userId}`,
+        pageParam,
+        {
+          limit,
+        },
+      );
+
+      return promise;
+    };
+
+  const getUserMedias =
+    (limit: number) =>
+    ({ pageParam, queryKey }: QueryFunctionContext) => {
+      const userId = queryKey[1];
+      return getList<ITweet>(
+        `${EEndpoints.Tweet}/user-medias/${userId}`,
+        pageParam,
+        {
+          limit,
+        },
+      );
+    };
+
+  const getUserLikedTweets =
+    (limit: number) =>
+    ({ pageParam, queryKey }: QueryFunctionContext) => {
+      const userId = queryKey[1];
+      return getList<ITweet>(`${EEndpoints.Tweet}/liked/${userId}`, pageParam, {
+        limit,
+      });
+    };
+
   const reactTweet = async (tweetId: string) =>
     tryCatchFn<ITweet>(async () => {
       const response = await client.post(
@@ -98,6 +136,10 @@ export const useTweetService = () => {
 
   return {
     getLatestTweet,
+    getUserTweets,
+    getUserMedias,
+    getUserLikedTweets,
+
     createTweetMutation,
     updateTweetMutation,
     reactTweetMutation,

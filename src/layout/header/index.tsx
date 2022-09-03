@@ -1,8 +1,8 @@
 import Logo from '@components/shared/logo';
 import styled from 'styled-components';
 import TopMenu from './top-menu';
-import React from 'react';
-import MyAccount from './my-account';
+import React, { memo } from 'react';
+import MyAccount from './my-account-menu';
 
 const Header = () => {
   return (
@@ -14,7 +14,7 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);
 
 const StyledRoot = styled.header`
   background: #fff;

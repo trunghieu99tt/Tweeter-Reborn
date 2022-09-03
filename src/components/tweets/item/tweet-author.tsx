@@ -31,7 +31,6 @@ const TweetItemHeader = ({ tweet }: Props) => {
   const { t } = useTranslation();
   const { getCurrentUser } = useUserService();
   const currentUser = getCurrentUser();
-
   const editTweetModalRef = useRef<BaseControlledRef>(null);
 
   const isAuthor = currentUser?._id === tweet?.author?._id;
@@ -127,11 +126,13 @@ const TweetItemHeader = ({ tweet }: Props) => {
               </StyledDateCreated>
             </div>
           </StyledAuthorWrapper>
-          <BaseSelector
-            options={isAuthor ? authorOptions : nonAuthorOptions}
-            renderValue={renderTweetActionMenu}
-            onChange={onSelectTweetActionItem}
-          />
+          {currentUser?._id && (
+            <BaseSelector
+              options={isAuthor ? authorOptions : nonAuthorOptions}
+              renderValue={renderTweetActionMenu}
+              onChange={onSelectTweetActionItem}
+            />
+          )}
         </StyledFlex>
       </StyledHeader>
     </React.Fragment>

@@ -33,6 +33,7 @@ const MyAccountMenu = () => {
   const { logoutMutation, refreshGetMe } = useAuthService();
   const { getCurrentUser } = useUserService();
   const user = getCurrentUser();
+
   const navigate = useNavigate();
   const [_, setAccessToken] = useLocalStorage(ELocalStorageKey.AccessToken, '');
   const dispatch = useDispatch<AppDispatch>();
@@ -49,7 +50,6 @@ const MyAccountMenu = () => {
       navigate(routes.auth);
       await refreshGetMe();
     } catch (error) {
-      console.log('error', error);
       onPushEventBus({
         type: EventBusName.Error,
         payload: 'auth.logout.error',

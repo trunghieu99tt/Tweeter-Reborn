@@ -75,6 +75,10 @@ export interface IMedia {
   file?: File | null;
 }
 
+export interface IMediaWithTweetId extends IMedia {
+  tweetId: string;
+}
+
 export enum EUploadFileType {
   Tweet = 'tweet',
   Background = 'background',

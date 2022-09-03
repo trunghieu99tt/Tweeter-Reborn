@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { API_URL } from '@config/secret';
 import { ResponseCode } from 'constants/http-status.constant';
 import { ELocalStorageKey } from '@constants';
+import { EventBusName, onPushEventBus } from 'services/event-bus';
 
 const headers = {
   Accept: 'application/json',
@@ -38,6 +39,10 @@ const errorResponseInterceptor = (error: any) => {
   }
 
   if (statusCode === ResponseCode.UNAUTHORIZED) {
+    onPushEventBus({
+      type: EventBusName.Logout,
+    });
+
     // const refreshRes: any = await apiRefreshToken();
     // if (refreshRes) {
     //   originalRequest.headers[

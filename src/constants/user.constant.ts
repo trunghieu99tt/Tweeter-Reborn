@@ -3,3 +3,11 @@ export enum EGender {
   FEMALE = 1,
   UNKNOWN = 2,
 }
+
+export enum EUserListType {
+  Liked = 'liked',
+  Saved = 'saved',
+  Retweeted = 'retweeted',
+  Following = 'following',
+  Followed = 'followed',
+}
