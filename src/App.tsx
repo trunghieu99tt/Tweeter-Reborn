@@ -3,10 +3,12 @@ import Loading from '@components/shared/loading/loading';
 import Auth from '@pages/auth';
 import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
+import NotificationPage from '@pages/notifications';
 import { useMyTheme } from '@talons/useMyTheme';
 import React from 'react';
 import { Route, Routes } from 'react-router';
 import { routes } from 'routes';
+import PrivateRoute from 'routes/PrivateRoute';
 import { ThemeProvider } from 'styled-components';
 import { useApp } from 'useApp';
 
@@ -26,6 +28,14 @@ const App: React.FC = () => {
         <React.Fragment>
           <Route path={routes.auth} element={<Auth />} />
           <Route path={routes.home} element={<NewsFeed />} />
+          <Route
+            path={routes.notifications}
+            element={
+              <PrivateRoute>
+                <NotificationPage />
+              </PrivateRoute>
+            }
+          />
           <Route element={<NotFound />} />
         </React.Fragment>
       </Routes>

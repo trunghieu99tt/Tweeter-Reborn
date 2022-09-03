@@ -8,7 +8,7 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-const REQ_TIMEOUT = 15000; // 15 seconds
+const REQ_TIMEOUT = 30 * 1000; // 20 seconds
 
 const client = axios.create({
   baseURL: API_URL || 'http://localhost:3000/api/',
