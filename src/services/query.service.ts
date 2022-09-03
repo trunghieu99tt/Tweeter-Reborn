@@ -1,6 +1,7 @@
 import { EUpdateType } from '@constants';
 import { IInfinityListData, IInfinityListDataPage } from '@type/app.type';
-import { useQueryClient } from 'react-query';
+import _ from 'lodash';
+import { UseMutationResult, useQueryClient } from 'react-query';
 
 export const useQueryService = () => {
   const queryClient = useQueryClient();
@@ -79,10 +80,15 @@ export const useQueryService = () => {
         break;
     }
 
+    console.log({
+      ...cachedData,
+      pages: updatedPages,
+    });
     queryClient.setQueryData(queryKey, {
       ...cachedData,
       pages: updatedPages,
     });
+    queryClient.invalidateQueries([queryKey]);
   };
 
   return {

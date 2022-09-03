@@ -1,18 +1,17 @@
 import CreateCommentForm from '@components/comment/form/create-comment-form';
 import { shake, spin } from '@components/shared/shared-style';
 import UserCard from '@components/user/user-card';
-import { BaseControlledRef } from '@type/app.type';
 import { ITweet } from '@type/tweet.type';
 import { IUser } from '@type/user.type';
 import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';
 import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
-import React, { memo, Suspense, useMemo, useRef, useState } from 'react';
+import React, { memo, Suspense, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiBookmark } from 'react-icons/bi';
 import { FaRegHeart } from 'react-icons/fa';
 import { FiRefreshCw } from 'react-icons/fi';
-import useUserService from 'services/user.service';
 import styled, { css } from 'styled-components';
+import { useTweetInteraction } from './use-tweet-interaction';
 
 const Modal = React.lazy(() => import('@components/shared/modal'));
 
@@ -34,71 +33,26 @@ enum EInteractionButton {
 }
 
 const TweetInteraction = ({ tweet }: Props) => {
-  const { getCurrentUser } = useUserService();
-  const currentUser = getCurrentUser();
+  const {
+    saved,
+    liked,
+    retweeted,
+    userListData,
+    tweetLikeCount,
+    tweetSavedCount,
+    userListModalRef,
+    tweetRetweetCount,
+    totalTweetComments,
+    modalUserListHeader,
+    onRetweet,
+    onSaveTweet,
+    onReactTweet,
+    showUserListModal,
+  } = useTweetInteraction({
+    tweet,
+  });
 
   const { t } = useTranslation();
-  const userListModalRef = useRef<BaseControlledRef>(null);
-  const [userListType, setUserListType] = useState<EUserListType>(null);
-
-  let userListData: IUser[] = [];
-  let modalUserListHeader = '';
-
-  switch (userListType) {
-    case EUserListType.Liked:
-      userListData = tweet?.likes || [];
-      modalUserListHeader = t('userLikedTweet');
-      break;
-    case EUserListType.Saved:
-      userListData = tweet?.saved || [];
-      modalUserListHeader = t('userSavedTweet');
-      break;
-    case EUserListType.Retweeted:
-      userListData = tweet?.retweeted || [];
-      modalUserListHeader = t('userRetweetedTweet');
-      break;
-  }
-
-  const tweetLikeCount = tweet?.likes?.length || 0;
-  const tweetSavedCount = tweet?.saved?.length || 0;
-  const tweetRetweetCount = tweet?.retweeted?.length || 0;
-  const totalTweetComments = 0;
-  const retweeted =
-    (currentUser?._id &&
-      tweet?.retweeted?.findIndex((u: IUser) => u._id === currentUser?._id) !==
-        -1) ||
-    false;
-
-  const liked =
-    (currentUser?._id &&
-      tweet?.likes.findIndex((u: IUser) => u?._id === currentUser?._id) !==
-        -1) ||
-    false;
-
-  // current user saved this tweet or not
-  const saved =
-    (currentUser?._id &&
-      tweet?.saved?.findIndex((u: IUser) => u?._id === currentUser?._id) !==
-        -1) ||
-    false;
-
-  const showUserListModal =
-    (userListType: EUserListType) =>
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      setUserListType(userListType);
-      userListModalRef.current?.show();
-    };
-
-  const onRetweet = () => {
-    // retweet tweet
-  };
-  const onReactTweet = () => {
-    // react to tweet
-  };
-  const onSaveTweet = () => {
-    // save tweet
-  };
 
   const userList = useMemo(() => {
     return userListData.map((user: IUser) => {
@@ -142,7 +96,7 @@ const TweetInteraction = ({ tweet }: Props) => {
             interactionType={EInteractionButton.Share}
           >
             <FiRefreshCw />
-            <span>{t('retweet')}</span>
+            <span>{retweeted ? t('retweeted') : t('retweet')}</span>
           </StyledInteractionButton>
           <StyledInteractionButton
             onClick={onReactTweet}
@@ -200,7 +154,7 @@ const StyledInteractionButtonGroup = styled.div`
   flex-wrap: wrap;
 `;
 
-const StyledInteractionButton = styled('button')<{
+const StyledInteractionButton = styled.button<{
   customStyle?: string;
   liked?: boolean;
   saved?: boolean;
@@ -215,27 +169,17 @@ const StyledInteractionButton = styled('button')<{
   align-items: center;
   font-weight: ${EFontWeight.FontWeight500};
 
-  ${(props) =>
-    props.liked &&
-    `
-        color: ${({ theme }) => theme.textColor8};
-    `}
-
-  ${(props) =>
-    props.saved &&
-    `
-        color: ${({ theme }) => theme.textColor2};
-    `}
-
-    ${(props) =>
-    props.retweeted &&
-    `
-        color: ${({ theme }) => theme.textColor5};
-    `}
-    
-    &:hover {
-    background: ${({ theme }) => theme.backgroundColor4};
-  }
+  color: ${(props) => {
+    if (props.liked) {
+      return props.theme.textColor8;
+    }
+    if (props.saved) {
+      return props.theme.textColor2;
+    }
+    if (props.retweeted) {
+      return props.theme.textColor5;
+    }
+  }};
 
   ${({ interactionType }) =>
     interactionType === EInteractionButton.Share &&
@@ -246,7 +190,6 @@ const StyledInteractionButton = styled('button')<{
         }
       }
     `}
-
   ${({ interactionType }) =>
     (interactionType === EInteractionButton.Like ||
       interactionType === EInteractionButton.Save ||
@@ -258,6 +201,11 @@ const StyledInteractionButton = styled('button')<{
         }
       }
     `}
+    
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.backgroundColor4};
+  }
 
   @media (max-width: 576px) {
     padding: 1rem;

@@ -12,6 +12,7 @@ const alias = (prefix) => ({
   '@components': `${prefix}/components/`,
   '@constants': `${prefix}/constants`,
   '@redux': `${prefix}/redux/`,
+  '@hoc': `${prefix}/hoc`,
 });
 
 module.exports = alias;

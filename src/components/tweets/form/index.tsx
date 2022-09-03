@@ -31,6 +31,7 @@ type Props = TCreateTweetFormProps | TEditTweetFormProps;
 
 const TweetForm = (props: Props) => {
   const { t } = useTranslation();
+
   const {
     body,
     onChangeFile,
@@ -45,6 +46,8 @@ const TweetForm = (props: Props) => {
     tweet: props.type === EFormType.Create ? null : props.data,
   });
 
+  console.log('body in component', body);
+
   const formMedias = useMemo(() => {
     return [...media, ...initialMedias];
   }, [initialMedias, media]);
@@ -54,20 +57,25 @@ const TweetForm = (props: Props) => {
       ? `update-tweet-media-${props.data._id}`
       : `new-tweet-media`;
 
-  const onClickButtonSubmit = useCallback(() => {
-    onSubmit();
+  const onClickButtonSubmit = async () => {
+    await onSubmit();
     if (props.type === EFormType.Update) {
       props.onCancel();
     }
-  }, []);
+  };
+
+  const title = useMemo(() => {
+    return (
+      (props.type === EFormType.Create && (
+        <StyledHeading>{t('whatOnYourMind')}</StyledHeading>
+      )) ||
+      null
+    );
+  }, [props.type]);
 
   return (
     <SectionWithHeadingContainer
-      title={
-        props.type === EFormType.Create && (
-          <StyledHeading>{t('whatOnYourMind')}</StyledHeading>
-        )
-      }
+      title={title}
       content={
         <StyledRoot type={props.type}>
           <StyledMain>

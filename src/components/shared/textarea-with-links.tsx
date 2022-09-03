@@ -22,6 +22,7 @@ const TextAreaWithLinks = ({ onChange: onChangeProps, value }: Props) => {
 
   const onChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
+    console.log('newValue', newValue);
     updateUrls(newValue);
     onChangeProps(newValue);
   };

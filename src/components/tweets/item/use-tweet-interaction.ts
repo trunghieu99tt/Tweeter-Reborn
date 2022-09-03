@@ -3,7 +3,6 @@ import { ITweet } from '@type/tweet.type';
 import { IUser } from '@type/user.type';
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryService } from 'services/query.service';
 import { useTweetService } from 'services/tweet.service';
 import useUserService from 'services/user.service';
 
@@ -13,20 +12,12 @@ enum EUserListType {
   Retweeted = 'retweeted',
 }
 
-enum EInteractionButton {
-  Like = 'like',
-  Save = 'save',
-  Comment = 'comment',
-  Share = 'share',
-}
-
 type Props = {
   tweet: ITweet;
 };
 
-const useTweetInteraction = ({ tweet }: Props) => {
+export const useTweetInteraction = ({ tweet }: Props) => {
   const { getCurrentUser } = useUserService();
-  const { optimisticUpdateInfinityList } = useQueryService();
   const { reactTweetMutation, retweetMutation, saveTweetMutation } =
     useTweetService();
   const currentUser = getCurrentUser();
@@ -105,18 +96,42 @@ const useTweetInteraction = ({ tweet }: Props) => {
   };
   const onReactTweet = () => {
     // react to tweet
+    const initialReacted = [...(tweet?.likes || [])];
+    if (!liked) {
+      tweet.likes = [...initialReacted, currentUser];
+    } else {
+      tweet.likes = initialReacted.filter((u) => u._id !== currentUser?._id);
+    }
+
+    reactTweetMutation.mutate(tweet._id, {
+      onError: (error) => {
+        tweet.likes = initialReacted;
+      },
+    });
   };
   const onSaveTweet = () => {
     // save tweet
+    const initialSaved = [...(tweet?.saved || [])];
+    if (!saved) {
+      tweet.saved = [...initialSaved, currentUser];
+    } else {
+      tweet.saved = initialSaved.filter((u) => u._id !== currentUser?._id);
+    }
+    saveTweetMutation.mutate(tweet._id, {
+      onError: (error) => {
+        tweet.saved = initialSaved;
+      },
+    });
   };
 
   return {
-    retweeted,
     liked,
     saved,
+    retweeted,
     userListData,
     tweetLikeCount,
     tweetSavedCount,
+    userListModalRef,
     tweetRetweetCount,
     totalTweetComments,
     modalUserListHeader,

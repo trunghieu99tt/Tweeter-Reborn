@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BsCardImage } from 'react-icons/bs';
 import styled from 'styled-components';
 
@@ -29,7 +29,7 @@ const FileInput = ({ htmlFor, onChange: onChangeProps, isMultiple }: Props) => {
   );
 };
 
-export default FileInput;
+export default memo(FileInput);
 
 const StyledFileLabel = styled.label`
   svg {

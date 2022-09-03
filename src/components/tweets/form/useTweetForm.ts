@@ -1,14 +1,17 @@
-import { EMedia } from '@constants';
+import { EMedia, ETweetQuery, EUpdateType } from '@constants';
 import { setGlobalLoading } from '@redux/app/app.slice';
 import { IMedia } from '@type/app.type';
 import { ICreateTweetDTO, ITweet } from '@type/tweet.type';
 import { extractMetadata, initMediaFromUrl } from '@utils/helper';
+import { TweetModel } from 'models/tweet.model';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import { useHashTagService } from 'services/hash-tag.service';
+import { useQueryService } from 'services/query.service';
 import { useTweetService } from 'services/tweet.service';
 import { useUploadService } from 'services/upload.service';
+import useUserService from 'services/user.service';
 import { AppDispatch } from 'store';
 import { v4 as uuid } from 'uuid';
 
@@ -20,6 +23,9 @@ export const useTweetForm = ({ tweet }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { createTweetMutation, updateTweetMutation } = useTweetService();
+  const { getCurrentUser } = useUserService();
+  const currentUser = getCurrentUser();
+  const { optimisticUpdateInfinityList } = useQueryService();
   const { uploadMedias } = useUploadService();
   const { updateHashTags } = useHashTagService();
 
@@ -30,7 +36,7 @@ export const useTweetForm = ({ tweet }: Props) => {
   );
   const [audience, setAudience] = useState<number>(tweet?.audience || 0);
 
-  const onChangeFile = (files: FileList) => {
+  const onChangeFile = useCallback((files: FileList) => {
     if (files?.length > 0) {
       const newMedias: IMedia[] = Array.from(files).map((file: File) => ({
         id: uuid(),
@@ -42,7 +48,7 @@ export const useTweetForm = ({ tweet }: Props) => {
       }));
       setMedia(newMedias);
     }
-  };
+  }, []);
 
   const onResetMedia = useCallback(() => {
     setMedia([]);
@@ -83,6 +89,8 @@ export const useTweetForm = ({ tweet }: Props) => {
   };
 
   const onSubmit = async () => {
+    console.log('body', body);
+
     if (body || media.length > 0) {
       dispatch(setGlobalLoading(true));
       const newMedia = await uploadAndMergeMedias();
@@ -97,6 +105,18 @@ export const useTweetForm = ({ tweet }: Props) => {
         media: newMedia.map((media) => media.url),
         tags: hashtags,
       };
+
+      optimisticUpdateInfinityList({
+        data: new TweetModel({
+          ...newTweet,
+          _id: uuid(),
+          author: getCurrentUser(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        } as ITweet).getData(),
+        queryKey: ETweetQuery.GetLatestTweets,
+        type: tweet ? EUpdateType.Update : EUpdateType.Create,
+      });
 
       try {
         if (tweet) {
