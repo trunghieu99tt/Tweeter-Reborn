@@ -1,13 +1,15 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { API_URL } from '@config/secret';
 import { ResponseCode } from 'constants/http-status.constant';
+import { ELocalStorageKey } from '@constants';
+import { EventBusName, onPushEventBus } from 'services/event-bus';
 
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
 };
 
-const REQ_TIMEOUT = 15000; // 15 seconds
+const REQ_TIMEOUT = 30 * 1000; // 20 seconds
 
 const client = axios.create({
   baseURL: API_URL || 'http://localhost:3000/api/',
@@ -16,10 +18,10 @@ const client = axios.create({
 });
 
 const requestInterceptor = (config: AxiosRequestConfig) => {
-  const token = localStorage.getItem('token');
+  const rawToken = localStorage.getItem(ELocalStorageKey.AccessToken);
 
-  if (token && config.headers) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+  if (rawToken && config.headers) {
+    config.headers['Authorization'] = `Bearer ${JSON.parse(rawToken)}`;
   }
 
   return config;
@@ -31,14 +33,16 @@ client.interceptors.request.use(requestInterceptor, (error) => {
 
 const errorResponseInterceptor = (error: any) => {
   const statusCode = error?.response?.status;
-  const originalRequest = error?.response?.config;
-  const { data } = error?.response;
 
   if (statusCode === ResponseCode.TOKEN_REMOVED) {
     // logout
   }
 
   if (statusCode === ResponseCode.UNAUTHORIZED) {
+    onPushEventBus({
+      type: EventBusName.Logout,
+    });
+
     // const refreshRes: any = await apiRefreshToken();
     // if (refreshRes) {
     //   originalRequest.headers[
@@ -55,7 +59,7 @@ const errorResponseInterceptor = (error: any) => {
 };
 
 client.interceptors.response.use((response) => {
-  return response?.data;
+  return response;
 }, errorResponseInterceptor);
 
 export default client;

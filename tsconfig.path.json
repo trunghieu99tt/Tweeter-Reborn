@@ -13,7 +13,8 @@
       "@context/*": ["context/*"],
       "@components/*": ["components/*"],
       "@constants": ["constants"],
-      "@redux/*": ["redux/*"]
+      "@redux/*": ["redux/*"],
+      "@hoc/*": ["hoc/*"]
     }
   }
 }

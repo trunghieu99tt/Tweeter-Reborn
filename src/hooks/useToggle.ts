@@ -1,31 +1,29 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 type useToggleReturnType = {
   visible: boolean;
-  onShow: () => void;
-  onHide: () => void;
-  onToggle: () => void;
+  show: () => void;
+  hide: () => void;
+  toggle: () => void;
 };
 
-const useToggle = (): useToggleReturnType => {
+export const useToggle = (): useToggleReturnType => {
   const [visible, setVisible] = useState<boolean>(false);
 
-  const onShow = () => setVisible(true);
+  const show = useCallback(() => setVisible(true), []);
 
-  const onHide = () => {
+  const hide = useCallback(() => {
     setVisible(false);
-  };
+  }, []);
 
-  const onToggle = () => {
+  const toggle = useCallback(() => {
     setVisible((value) => !value);
-  };
+  }, []);
 
   return {
     visible,
-    onShow,
-    onHide,
-    onToggle,
+    show,
+    hide,
+    toggle,
   };
 };
-
-export { useToggle };

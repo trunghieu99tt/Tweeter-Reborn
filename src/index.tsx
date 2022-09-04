@@ -1,8 +1,12 @@
+/// <reference types="@welldone-software/why-did-you-render" />
+import './wdyr';
+
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import AppProvider from '@context/app.context';
 
@@ -10,10 +14,15 @@ import { Provider } from 'react-redux';
 import App from './App';
 import { store } from './store';
 
+import 'react-image-lightbox/style.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 import './index.css';
 
 import './i18.config';
 import reportWebVitals from './reportWebVitals';
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,7 +32,9 @@ ReactDOM.render(
           <RecoilRoot>
             <HelmetProvider>
               <Provider store={store}>
-                <App />
+                <QueryClientProvider client={queryClient}>
+                  <App />
+                </QueryClientProvider>
               </Provider>
             </HelmetProvider>
           </RecoilRoot>

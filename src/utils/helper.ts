@@ -1,3 +1,9 @@
+import { EMedia } from '@constants';
+import { IMedia } from '@type/app.type';
+import { SyntheticEvent } from 'react';
+import { EventBusName, onPushEventBus } from 'services/event-bus';
+import { v4 as uuid } from 'uuid';
+
 const nFormatter = (num: number, digits = 2): string => {
   const lookup = [
     { value: 1, symbol: '' },
@@ -58,6 +64,84 @@ const calcDiffTimeString = (date: Date): string => {
   }
 
   return date.toLocaleDateString();
+};
+
+export const eliminateSerializeType = <T>(obj: T): Record<string, any> => {
+  return JSON.parse(JSON.stringify(obj));
+};
+
+// Parse the tweet to extract hashtags and the first url ( for the link's preview )
+export const extractMetadata = (
+  body: string,
+): {
+  hashtags: string[];
+  urls: string[];
+} => {
+  const hashtags = body?.match(/(#[\w]+)/g) || [];
+  const urls = body?.match(/https?:\/\/\S+/g) || [];
+
+  let tags: string[] = [];
+
+  // Remove duplicates and the hash
+  if (hashtags && hashtags?.length > 0) {
+    tags = Array.from(new Set(hashtags)).map((h) => h.toString().substr(1));
+  }
+  return {
+    hashtags: tags,
+    urls,
+  };
+};
+
+export const initMediaFromUrl = (url: string): IMedia => {
+  return {
+    id: uuid(),
+    url,
+    type: url?.includes(EMedia.Video) ? EMedia.Video : EMedia.Image,
+  };
+};
+
+export const initMediaFromFile = (file: File): IMedia => {
+  return {
+    id: uuid(),
+    file,
+    type: file?.type?.includes(EMedia.Video) ? EMedia.Video : EMedia.Image,
+    url: URL.createObjectURL(file),
+  };
+};
+
+export const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
+
+export const tryCatchFn = async <T>(
+  fn: Function,
+  shouldShowError?: boolean,
+  customMsg?: string,
+): Promise<T> => {
+  try {
+    const res = await fn();
+    return res;
+  } catch (error: any) {
+    console.error(`${fn.name} error: ${error}`);
+    if (shouldShowError) {
+      onPushEventBus({
+        type: EventBusName.Error,
+        payload: customMsg || error?.response?.data?.message,
+      });
+    }
+  }
+};
+
+/**
+ * Init a model with the _id field from string
+ */
+export const transformFieldToObjectWithId = <T>(
+  field: keyof T,
+  data: T,
+): void => {
+  if (typeof data[field] === 'string') {
+    data[field] = {
+      _id: data[field],
+    } as unknown as T[keyof T];
+  }
 };
 
 export {
