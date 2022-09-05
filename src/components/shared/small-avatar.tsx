@@ -1,7 +1,7 @@
 import DefaultUnknownAvatar from '@images/user.png';
 import { IUser } from '@type/user.type';
 import ImageWithPlaceholder from './image-with-place-holder';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
 interface Props {
   user: Pick<IUser, 'avatar' | 'gender' | 'name' | '_id'>;
@@ -14,7 +14,6 @@ const UserAvatarSmall = ({ user, customStyles }: Props): JSX.Element => {
       src={user?.avatar}
       defaultSrc={DefaultUnknownAvatar}
       alt={`${user?.name} avatar`}
-      key={user?.avatar}
       customStyles={`--size: 3.5rem;
                 width: var(--size);
                 height: var(--size);

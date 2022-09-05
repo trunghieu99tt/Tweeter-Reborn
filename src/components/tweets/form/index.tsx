@@ -40,13 +40,11 @@ const TweetForm = (props: Props) => {
     media,
     onResetMedia,
     onSubmit,
-    setAudience,
+    onChangeAudience,
     setBody,
   } = useTweetForm({
     tweet: props.type === EFormType.Create ? null : props.data,
   });
-
-  console.log('body in component', body);
 
   const formMedias = useMemo(() => {
     return [...media, ...initialMedias];
@@ -92,7 +90,10 @@ const TweetForm = (props: Props) => {
                 isMultiple
               />
               <Suspense fallback={<div>...Loading...</div>}>
-                <AudienceSelector value={audience} onChange={setAudience} />
+                <AudienceSelector
+                  value={audience}
+                  onChange={onChangeAudience}
+                />
               </Suspense>
             </StyledFlex>
 

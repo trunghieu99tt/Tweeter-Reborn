@@ -1,11 +1,12 @@
 /// <reference types="@welldone-software/why-did-you-render" />
-import './wdyr';
+// import './wdyr';
 
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import AppProvider from '@context/app.context';
@@ -24,7 +25,10 @@ import reportWebVitals from './reportWebVitals';
 
 const queryClient = new QueryClient();
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
       <BrowserRouter>
@@ -42,7 +46,6 @@ ReactDOM.render(
       </BrowserRouter>
     </Suspense>
   </React.StrictMode>,
-  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

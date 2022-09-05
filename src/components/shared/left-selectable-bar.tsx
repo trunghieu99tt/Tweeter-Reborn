@@ -1,7 +1,7 @@
 import { EBoxShadow } from 'constants/style.constant';
 import _ from 'lodash';
-import React, { memo } from 'react';
 import styled from 'styled-components';
+import React from 'react';
 
 export type TLeftSelectableSideBarItem<T> = {
   name: string;
@@ -49,7 +49,7 @@ const LeftSelectableBar = <T,>({
   );
 };
 
-export default memo(LeftSelectableBar) as typeof LeftSelectableBar;
+export default LeftSelectableBar;
 
 export const StyledRoot = styled.div`
   background: ${({ theme }) => theme.backgroundColor1};
@@ -57,7 +57,6 @@ export const StyledRoot = styled.div`
   border-radius: 8px;
   padding: 2rem;
   padding-left: 0;
-  width: 30rem;
 
   @media (max-width: 1024px) {
     width: 100%;

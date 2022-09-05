@@ -7,7 +7,8 @@ import { EUserQuery, LONG_STATE_TIME } from '@constants';
 import LayoutWithHeader from '@layout/layout-with-header';
 import { OneSideBarLayout } from '@layout/one-sidebar.layout';
 import { IUser } from '@type/user.type';
-import React, { useEffect, useMemo, useState } from 'react';
+import { queryStringToObject } from '@utils/helper';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router';
@@ -18,7 +19,7 @@ import ProfileHomePage from './profile-home';
 import ProfileLikedTweetPage from './profile-liked-tweet';
 import ProfileMediaPage from './profile-media';
 
-enum EProfileScreen {
+export enum EProfileScreen {
   Home = 'home',
   Liked = 'liked',
   Medias = 'medias',
@@ -27,24 +28,21 @@ enum EProfileScreen {
 const ProfilePage = () => {
   const { getUser } = useUserService();
   const location = useLocation();
-  const { userId } = useParams();
+  const params = useParams();
+  const userId = params.userId;
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const [screen, setScreen] = useState<EProfileScreen>(EProfileScreen.Home);
-
-  useEffect(() => {
-    console.log('location', location);
-  }, [location.pathname]);
+  const { screen } = queryStringToObject(location.search);
 
   const onChangeScreen = (nextScreen: EProfileScreen) => {
     if (screen !== nextScreen) {
-      // set pathname to url
-      location.pathname = `profile/${nextScreen}/${userId}`;
-      setScreen(nextScreen);
+      navigate({
+        pathname: location.pathname,
+        search: `?screen=${nextScreen}`,
+      });
     }
   };
-
-  const navigate = useNavigate();
 
   const { data: userData, isLoading } = useQuery<IUser>(
     [EUserQuery.GetUser, userId],

@@ -24,7 +24,7 @@ const Container = styled.div`
   align-items: flex-start;
 `;
 const SideBar = styled.aside`
-  width: 30%;
+  width: 25%;
 `;
 const MainContent = styled.div`
   flex: 1;

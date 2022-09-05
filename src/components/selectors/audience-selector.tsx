@@ -13,8 +13,6 @@ type Props = {
 };
 
 const AudienceSelector = ({ value, onChange }: Props) => {
-  console.log('AudienceSelector re-rendered');
-
   const currentLanguage = useSelector(
     (state: RootState) => state.appState.language,
   );

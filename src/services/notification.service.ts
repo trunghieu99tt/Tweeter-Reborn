@@ -10,7 +10,7 @@ const useNotificationService = () => {
   const readNotification = async (notificationIds: string[]): Promise<void> => {
     try {
       await client.patch(`${EEndpoints.Notification}/read`, {
-        notificationIds,
+        ids: notificationIds,
       });
     } catch (error) {
       console.error(`${readNotification.name} error`);
@@ -36,9 +36,7 @@ const useNotificationService = () => {
         const response = await client.post(EEndpoints.Notification, input);
 
         return response?.data;
-      } catch (error) {
-        console.error(`${createNotification.name} error`);
-      }
+      } catch (error) {}
     });
 
   const markAsRead = async (ids: string[]) => {

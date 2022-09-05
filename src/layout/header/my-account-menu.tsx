@@ -4,6 +4,7 @@ import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
 import { ELocalStorageKey } from '@constants';
 import { useLocalStorage } from '@hooks/useLocalStorage';
+import { EProfileScreen } from '@pages/profile';
 import { setGlobalLoading } from '@redux/app/app.slice';
 import { EFontSize, EFontWeight } from 'constants/style.constant';
 import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
@@ -72,7 +73,9 @@ const MyAccountMenu = () => {
         navigate(routes.notifications);
         break;
       case EMyAccountMenuOptions.Profile:
-        navigate(`${routes.profile}/${user?._id}`);
+        navigate(
+          `${routes.profile}/${user?._id}?screen=${EProfileScreen.Home}`,
+        );
         break;
     }
   };
