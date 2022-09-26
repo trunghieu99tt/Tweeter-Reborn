@@ -11,7 +11,7 @@ type Props = {
   queryKey: string;
 };
 
-const DEFAULT_TWEET_LIMIT = 3;
+const DEFAULT_TWEET_LIMIT = 5;
 
 const InfinityTweetList = ({ queryKey }: Props) => {
   let queryFunction = null;

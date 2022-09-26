@@ -8,6 +8,7 @@ import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyledFlex } from '@components/shared/shared-style';
 import Skeleton from 'react-loading-skeleton';
+import switchRenderIfAuthenticated from '@hoc/switchRenderIfAuthenticated';
 
 type Props = {
   tweetId: string;
@@ -51,7 +52,7 @@ const TweetComments = ({ tweetId }: Props) => {
   );
 };
 
-export default memo(TweetComments);
+export default switchRenderIfAuthenticated(memo(TweetComments), null);
 
 const TweetCommentSkeleton = () => {
   return (

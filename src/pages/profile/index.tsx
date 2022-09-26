@@ -77,17 +77,17 @@ const ProfilePage = () => {
     return [
       {
         value: EProfileScreen.Home,
-        name: t('profile'),
+        name: t('pages.profile.profile'),
         id: uuid(),
       },
       {
         value: EProfileScreen.Medias,
-        name: t('media'),
+        name: t('pages.profile.media'),
         id: uuid(),
       },
       {
         value: EProfileScreen.Liked,
-        name: t('like'),
+        name: t('pages.profile.liked-tweets'),
         id: uuid(),
       },
     ];

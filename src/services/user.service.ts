@@ -54,7 +54,7 @@ const useUserService = () => {
     };
 
   const getPopularUsers =
-    async (limit: number) =>
+    (limit: number) =>
     ({ pageParam }: QueryFunctionContext): Promise<IGetList<IUser>> =>
       getList<IUser>(`${EEndpoints.User}/popular`, pageParam, {
         limit,

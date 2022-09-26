@@ -28,8 +28,8 @@ const MyEmojiPicker = (props: Props): JSX.Element => {
         onEmojiClick={onClickEmoji}
         pickerStyle={{
           position: 'absolute',
-          bottom: '0',
-          transform: 'translateY(-15%)',
+          top: '0',
+          left: '100%',
           boxShadow: 'none',
         }}
       />

@@ -1,6 +1,7 @@
 import Loader1 from '@components/shared/loaders/loader-1';
 import Loading from '@components/shared/loading/loading';
 import Auth from '@pages/auth';
+import Explore from '@pages/explore';
 import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
 import NotificationPage from '@pages/notifications';
@@ -46,6 +47,7 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
+          <Route path={routes.explore} element={<Explore />} />
           <Route element={<NotFound />} />
         </React.Fragment>
       </Routes>

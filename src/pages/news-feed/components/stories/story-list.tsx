@@ -1,16 +1,17 @@
 import { EStoryQuery } from '@constants';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import {
   flattenInfinityList,
   generateInfinityQueryListConfig,
 } from '@utils/query';
 import _ from 'lodash';
-import React, { memo } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { memo } from 'react';
 import EventBus, { EventBusName } from 'services/event-bus';
 import { useStoryService } from 'services/story.service';
 import styled from 'styled-components';
 import CreateStoryLink from './create-story-link';
 import StoryItem from './story-item';
+import React from 'react';
 
 const MAX_SHOWN_STORY_COUNT = 5;
 

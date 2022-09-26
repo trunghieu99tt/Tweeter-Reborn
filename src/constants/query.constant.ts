@@ -43,6 +43,7 @@ export enum ETweetQuery {
   ReactTweet = 'ReactTweet',
   SaveTweet = 'SaveTweet',
   ReportTweet = 'ReportTweet',
+  GetTweetMedias = 'GetTweetMedias',
 }
 
 export enum ECommentQuery {

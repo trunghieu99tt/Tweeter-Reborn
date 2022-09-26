@@ -1,4 +1,4 @@
-import InfinityTweetList from '@components/infinityList/infinity-tweet-list';
+import InfinityTweetList from '@components/infinity-lists/infinity-tweet-list';
 import { ETweetQuery } from '@constants';
 import { useParams } from 'react-router';
 import React, { memo } from 'react';
