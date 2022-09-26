@@ -4,7 +4,7 @@ import { INotification, INotificationDTO } from '@type/notification.type';
 import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
-import { QueryFunctionContext, useMutation } from 'react-query';
+import { QueryFunctionContext, useMutation } from '@tanstack/react-query';
 
 const useNotificationService = () => {
   const readNotification = async (notificationIds: string[]): Promise<void> => {
@@ -18,7 +18,7 @@ const useNotificationService = () => {
   };
 
   const readNotificationMutation = useMutation(
-    ENotificationQuery.ReadNotification,
+    [ENotificationQuery.ReadNotification],
     readNotification,
   );
 

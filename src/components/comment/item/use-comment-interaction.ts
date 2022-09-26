@@ -25,8 +25,6 @@ export const useCommentItem = ({ data }: Props) => {
   };
 
   const toggleReact = async () => {
-    console.log('Go here');
-
     const initialLikes = [...data.likes];
     if (data.likes.includes(currentUser?._id)) {
       data.likes = data.likes.filter((id) => id !== currentUser?._id);

@@ -5,7 +5,7 @@ import {
 } from '@utils/query';
 import _ from 'lodash';
 import React, { memo } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import EventBus, { EventBusName } from 'services/event-bus';
 import { useStoryService } from 'services/story.service';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ const MAX_SHOWN_STORY_COUNT = 5;
 const StoryList = () => {
   const { getStoryList } = useStoryService();
   const { data } = useInfiniteQuery(
-    EStoryQuery.GetStories,
+    [EStoryQuery.GetStories],
     getStoryList({
       limit: MAX_SHOWN_STORY_COUNT * 10,
     }),

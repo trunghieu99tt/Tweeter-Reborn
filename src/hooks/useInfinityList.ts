@@ -4,7 +4,7 @@ import {
   generateInfinityQueryListConfig,
 } from '@utils/query';
 import { useMemo } from 'react';
-import { QueryFunctionContext, useInfiniteQuery } from 'react-query';
+import { QueryFunctionContext, useInfiniteQuery } from '@tanstack/react-query';
 
 type Props<T> = {
   queryKey: string | string[];
@@ -21,7 +21,7 @@ export const useInfinityList = <T>({
   queryConfig,
 }: Props<T>) => {
   const query = useInfiniteQuery(
-    queryKey,
+    typeof queryKey === 'string' ? [queryKey] : queryKey,
     queryFunction,
     generateInfinityQueryListConfig(queryConfig.staleTime, queryConfig.limit),
   );

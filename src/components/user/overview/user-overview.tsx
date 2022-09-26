@@ -22,6 +22,8 @@ const UserOverview = ({ loading, user }: Props) => {
   const { t } = useTranslation();
   const { getCurrentUser, updateUserMutation } = useUserService();
   const currentUser = getCurrentUser();
+  console.log('currentUser', currentUser);
+
   const { uploadMedia } = useUploadService();
 
   const isMe = currentUser?._id === user?._id;

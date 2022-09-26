@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
 import Button from '../button';
@@ -56,7 +56,7 @@ const UpdatableImage = ({
     setLoading(false);
   };
 
-  const onChange = (files: FileList) => {
+  const onChange = useCallback((files: FileList) => {
     const file = files?.[0];
     if (!file) {
       return;
@@ -65,7 +65,7 @@ const UpdatableImage = ({
       file,
       preview: URL.createObjectURL(file),
     });
-  };
+  }, []);
 
   const onCancel = () => {
     setNewSrc({

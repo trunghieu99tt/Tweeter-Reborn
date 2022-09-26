@@ -11,7 +11,7 @@ import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { routes } from 'routes';
 import EventBus, { EventBusName } from 'services/event-bus';
@@ -43,7 +43,7 @@ const NotificationContainer = ({ screen }: Props) => {
     fetchNextPage,
     isLoading: isFetchingGetNotifications,
   } = useInfiniteQuery(
-    ENotificationQuery.GetNotifications,
+    [ENotificationQuery.GetNotifications],
     getNotifications({
       limit: DEFAULT_LIST_LIMIT,
     }),

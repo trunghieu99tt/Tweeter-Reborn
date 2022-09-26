@@ -1,12 +1,13 @@
 import { EMedia } from '@constants';
 import { EThemes } from 'constants/style.constant';
+import { AnimatePresenceProps } from 'framer-motion';
 import { Component } from 'react';
 import { Socket } from 'socket.io-client';
 
 export type TScreenSize = 'DESKTOP' | 'TABLET' | 'MOBILE';
 export type TLoading = {
   visible: boolean;
-  component: Component | null;
+  component: any;
 };
 export enum ELanguage {
   En = 'en',
@@ -88,4 +89,9 @@ export enum EUploadFileType {
 export interface BaseControlledRef {
   show?: () => void;
   hide?: () => void;
+}
+
+export interface NewAnimatePresenceProps
+  extends Omit<AnimatePresenceProps, 'children'> {
+  children: React.ReactNode;
 }

@@ -9,7 +9,7 @@ import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
 import { CommentModel } from 'models/comment.model';
-import { QueryFunctionContext, useMutation } from 'react-query';
+import { QueryFunctionContext, useMutation } from '@tanstack/react-query';
 
 type TAddComment = TCreateTweetComment | TReplyComment;
 
@@ -34,11 +34,11 @@ export const useCommentService = () => {
     }, true);
 
   const createCommentMutation = useMutation(
-    ECommentQuery.CreateComment,
+    [ECommentQuery.CreateComment],
     createComment,
   );
   const reactCommentMutation = useMutation(
-    ECommentQuery.ReactComment,
+    [ECommentQuery.ReactComment],
     reactTweet,
   );
 

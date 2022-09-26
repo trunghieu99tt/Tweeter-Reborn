@@ -12,7 +12,7 @@ import { IEmojiData } from 'emoji-picker-react';
 import _ from 'lodash';
 import { CommentModel } from 'models/comment.model';
 import { ChangeEvent, useCallback, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useCommentService } from 'services/comment.service';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import { useUploadService } from 'services/upload.service';
@@ -36,12 +36,12 @@ export const useCommentForm = ({ tweet, comment }: Props) => {
     setContent(event.target.value);
   };
 
-  const onChangeFile = (files: FileList) => {
+  const onChangeFile = useCallback((files: FileList) => {
     const file = files?.[0];
     if (file) {
       setMedia(initMediaFromFile(file));
     }
-  };
+  }, []);
 
   const onCancelMedia = () => setMedia(null);
 

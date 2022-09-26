@@ -1,11 +1,10 @@
 import { EEndpoints, ETweetQuery } from '@constants';
+import { QueryFunctionContext, useMutation } from '@tanstack/react-query';
 import { ICreateTweetDTO, ITweet } from '@type/tweet.type';
 import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
-import { profile } from 'console';
 import { TweetModel } from 'models/tweet.model';
-import { QueryFunctionContext, useMutation } from 'react-query';
 import { EventBusName, onPushEventBus } from './event-bus';
 
 export const useTweetService = () => {
@@ -127,12 +126,21 @@ export const useTweetService = () => {
       return response?.data;
     }, true);
 
-  const createTweetMutation = useMutation(ETweetQuery.CreateTweet, createTweet);
-  const updateTweetMutation = useMutation(ETweetQuery.UpdateTweet, updateTweet);
-  const reactTweetMutation = useMutation(ETweetQuery.ReactTweet, reactTweet);
-  const retweetMutation = useMutation(ETweetQuery.Retweet, retweet);
-  const saveTweetMutation = useMutation(ETweetQuery.SaveTweet, saveTweet);
-  const reportTweetMutation = useMutation(ETweetQuery.ReportTweet, reportTweet);
+  const createTweetMutation = useMutation(
+    [ETweetQuery.CreateTweet],
+    createTweet,
+  );
+  const updateTweetMutation = useMutation(
+    [ETweetQuery.UpdateTweet],
+    updateTweet,
+  );
+  const reactTweetMutation = useMutation([ETweetQuery.ReactTweet], reactTweet);
+  const retweetMutation = useMutation([ETweetQuery.Retweet], retweet);
+  const saveTweetMutation = useMutation([ETweetQuery.SaveTweet], saveTweet);
+  const reportTweetMutation = useMutation(
+    [ETweetQuery.ReportTweet],
+    reportTweet,
+  );
 
   return {
     getLatestTweet,

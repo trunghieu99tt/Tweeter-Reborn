@@ -1,5 +1,5 @@
 import { useToggle } from '@hooks/useToggle';
-import { BaseControlledRef } from '@type/app.type';
+import { BaseControlledRef, NewAnimatePresenceProps } from '@type/app.type';
 import { EBorder, EFontSize, EFontWeight } from 'constants/style.constant';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, {
@@ -55,8 +55,10 @@ const Modal = (
     }
   }, [onCancel]);
 
+  const NewAnimatePresence: React.FC<NewAnimatePresenceProps> = AnimatePresence;
+
   return (
-    <AnimatePresence>
+    <NewAnimatePresence>
       {visible && (
         <StyledRoot zIndex={zIndex} {...config}>
           <StyledMask onClick={onDismiss} />
@@ -76,7 +78,7 @@ const Modal = (
           </StyledMainContent>
         </StyledRoot>
       )}
-    </AnimatePresence>
+    </NewAnimatePresence>
   );
 };
 

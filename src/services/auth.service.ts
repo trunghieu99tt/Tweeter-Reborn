@@ -2,7 +2,7 @@ import { EAuthQuery, EEndpoints, EUserQuery } from '@constants';
 import { ILogin, IUser } from '@type/user.type';
 import client from 'api/client';
 import { UserModel } from 'models/user.model';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useAuthService = () => {
   const queryClient = useQueryClient();
@@ -39,7 +39,7 @@ export const useAuthService = () => {
   };
 
   const refreshGetMe = async () => {
-    await queryClient.invalidateQueries(EUserQuery.GetMe);
+    await queryClient.invalidateQueries([EUserQuery.GetMe]);
   };
 
   const logout = async () => {
@@ -50,9 +50,9 @@ export const useAuthService = () => {
     }
   };
 
-  const loginMutation = useMutation(EAuthQuery.Login, login);
-  const registerMutation = useMutation(EAuthQuery.Register, register);
-  const logoutMutation = useMutation(EAuthQuery.Logout, logout);
+  const loginMutation = useMutation([EAuthQuery.Login], login);
+  const registerMutation = useMutation([EAuthQuery.Register], register);
+  const logoutMutation = useMutation([EAuthQuery.Logout], logout);
 
   return {
     logout,

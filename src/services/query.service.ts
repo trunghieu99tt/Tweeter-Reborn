@@ -1,7 +1,6 @@
 import { EUpdateType } from '@constants';
+import { useQueryClient } from '@tanstack/react-query';
 import { IInfinityListData, IInfinityListDataPage } from '@type/app.type';
-import _ from 'lodash';
-import { UseMutationResult, useQueryClient } from 'react-query';
 
 export const useQueryService = () => {
   const queryClient = useQueryClient();
@@ -19,9 +18,9 @@ export const useQueryService = () => {
     queryKey: string | string[];
     data: T;
   }): Promise<void> => {
-    await queryClient.cancelQueries(queryKey);
+    await queryClient.cancelQueries([queryKey]);
     const cachedData: IInfinityListData<T> | undefined =
-      queryClient.getQueryData(queryKey);
+      queryClient.getQueryData([queryKey]);
 
     let updatedPages: IInfinityListDataPage<T>[];
 
@@ -84,7 +83,7 @@ export const useQueryService = () => {
       ...cachedData,
       pages: updatedPages,
     });
-    queryClient.setQueryData(queryKey, {
+    queryClient.setQueryData([queryKey], {
       ...cachedData,
       pages: updatedPages,
     });

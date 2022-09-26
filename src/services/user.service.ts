@@ -5,7 +5,11 @@ import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
 import { UserModel } from 'models/user.model';
-import { QueryFunctionContext, useMutation, useQueryClient } from 'react-query';
+import {
+  QueryFunctionContext,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 const useUserService = () => {
   const queryClient = useQueryClient();
@@ -18,8 +22,14 @@ const useUserService = () => {
 
   const getMe = async (): Promise<IUser | undefined> => {
     const response = await client.get(`${EEndpoints.User}/me`);
-    const data = new UserModel(response?.data?.data).getData();
+    const data = new UserModel(response?.data?.data || {}).getData();
     return data;
+  };
+
+  const getCurrentUser = (): IUser => {
+    return new UserModel(
+      queryClient.getQueryData([EUserQuery.GetMe]),
+    ).getData();
   };
 
   const getUser = async ({ queryKey }: QueryFunctionContext) =>
@@ -41,10 +51,6 @@ const useUserService = () => {
         },
       );
     };
-
-  const getCurrentUser = (): IUser => {
-    return new UserModel(queryClient.getQueryData(EUserQuery.GetMe)).getData();
-  };
 
   const getPopularUsers = async (): Promise<IUser[]> => {
     try {

@@ -1,13 +1,13 @@
 /// <reference types="@welldone-software/why-did-you-render" />
 // import './wdyr';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { createRoot } from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 import AppProvider from '@context/app.context';
 
@@ -16,8 +16,8 @@ import App from './App';
 import { store } from './store';
 
 import 'react-image-lightbox/style.css';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './index.css';
 
 import './i18.config';
@@ -36,8 +36,9 @@ root.render(
           <RecoilRoot>
             <HelmetProvider>
               <Provider store={store}>
-                <QueryClientProvider client={queryClient}>
+                <QueryClientProvider client={queryClient} contextSharing={true}>
                   <App />
+                  <ReactQueryDevtools initialIsOpen={false} />
                 </QueryClientProvider>
               </Provider>
             </HelmetProvider>
