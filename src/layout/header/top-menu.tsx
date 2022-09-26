@@ -1,3 +1,4 @@
+import { EExploreScreen } from '@pages/explore';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
@@ -18,13 +19,7 @@ const TopMenu = () => {
       },
       {
         name: t('explore'),
-        path: `${routes.explore}/top`,
-        submenus: [
-          `${routes.explore}/latest`,
-          `${routes.explore}/top`,
-          `${routes.explore}/people`,
-          `${routes.explore}/media`,
-        ],
+        path: `${routes.explore}?screen=${EExploreScreen.LatestTweets}`,
         id: uuid(),
       },
       {
@@ -47,11 +42,7 @@ const TopMenu = () => {
           return (
             <Item
               key={`menu-item-${item.id}`}
-              active={
-                location.pathname === item.path ||
-                item?.submenus?.includes(location.pathname) ||
-                false
-              }
+              active={location.pathname === item.path}
             >
               <Link to={item.path}>{item.name}</Link>
             </Item>

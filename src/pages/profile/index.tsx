@@ -6,11 +6,11 @@ import UserOverview from '@components/user/overview/user-overview';
 import { EUserQuery, LONG_STATE_TIME } from '@constants';
 import LayoutWithHeader from '@layout/layout-with-header';
 import { OneSideBarLayout } from '@layout/one-sidebar.layout';
+import { useQuery } from '@tanstack/react-query';
 import { IUser } from '@type/user.type';
 import { queryStringToObject } from '@utils/helper';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import useUserService from 'services/user.service';
@@ -26,7 +26,7 @@ export enum EProfileScreen {
 }
 
 const ProfilePage = () => {
-  const { getUser, getCurrentUser } = useUserService();
+  const { getUser } = useUserService();
   const location = useLocation();
   const params = useParams();
   const userId = params.userId;
@@ -77,23 +77,21 @@ const ProfilePage = () => {
     return [
       {
         value: EProfileScreen.Home,
-        name: t('profile'),
+        name: t('pages.profile.profile'),
         id: uuid(),
       },
       {
         value: EProfileScreen.Medias,
-        name: t('media'),
+        name: t('pages.profile.media'),
         id: uuid(),
       },
       {
         value: EProfileScreen.Liked,
-        name: t('like'),
+        name: t('pages.profile.liked-tweets'),
         id: uuid(),
       },
     ];
   }, [t]);
-
-  console.log('userData', userData);
 
   return (
     <React.Fragment>

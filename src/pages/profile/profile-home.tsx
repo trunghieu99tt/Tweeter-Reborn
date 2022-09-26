@@ -1,4 +1,4 @@
-import InfinityTweetList from '@components/infinityList/infinity-tweet-list';
+import InfinityTweetList from '@components/infinity-lists/infinity-tweet-list';
 import TweetForm from '@components/tweets/form';
 import { EFormType, ETweetQuery } from '@constants';
 import React, { memo } from 'react';

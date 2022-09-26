@@ -8,7 +8,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import UserCard from '../user-card';
+import UserCard from '../card';
 
 type Props = {
   user: IUser;

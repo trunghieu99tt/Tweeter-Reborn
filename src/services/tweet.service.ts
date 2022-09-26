@@ -96,6 +96,22 @@ export const useTweetService = () => {
       });
     };
 
+  const getPopularTweets =
+    (limit: number) =>
+    ({ pageParam }: QueryFunctionContext) => {
+      return getList<ITweet>(`${EEndpoints.Tweet}/popular`, pageParam, {
+        limit,
+      });
+    };
+
+  const getMedias =
+    (limit: number) =>
+    ({ pageParam }: QueryFunctionContext) => {
+      return getList<ITweet>(`${EEndpoints.Tweet}/medias`, pageParam, {
+        limit,
+      });
+    };
+
   const reactTweet = async (tweetId: string) =>
     tryCatchFn<ITweet>(async () => {
       const response = await client.post(
@@ -143,9 +159,11 @@ export const useTweetService = () => {
   );
 
   return {
-    getLatestTweet,
+    getMedias,
     getUserTweets,
     getUserMedias,
+    getLatestTweet,
+    getPopularTweets,
     getUserLikedTweets,
 
     createTweetMutation,
