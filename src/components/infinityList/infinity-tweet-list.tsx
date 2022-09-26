@@ -49,12 +49,6 @@ const InfinityTweetList = ({ queryKey }: Props) => {
     },
   });
 
-  useEffect(() => {
-    return () => {
-      console.log('Unmount');
-    };
-  }, []);
-
   return (
     <React.Fragment>
       {isLoading && tweetData.length === 0 && <TweetSkeleton />}

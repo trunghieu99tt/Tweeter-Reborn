@@ -1,5 +1,9 @@
 import React, { ComponentType, CSSProperties, RefObject, useMemo } from 'react';
-import { QueryFunctionContext, QueryKey, useInfiniteQuery } from 'react-query';
+import {
+  QueryFunctionContext,
+  QueryKey,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
 import { useVirtual } from '@tanstack/react-virtual';
 import { IGetList } from '@type/app.type';
 import {
@@ -46,7 +50,7 @@ const InfinityList = <
     error,
     isFetching,
   } = useInfiniteQuery(
-    queryKey,
+    [queryKey],
     queryFunction(limit),
     generateInfinityQueryListConfig(null, limit),
   );

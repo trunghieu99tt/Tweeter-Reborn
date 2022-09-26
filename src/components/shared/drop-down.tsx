@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { NewAnimatePresenceProps } from '@type/app.type';
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { memo } from 'react';
 import styled from 'styled-components';
 
@@ -24,8 +25,10 @@ const motionConfig = {
 };
 
 const Dropdown = ({ isVisible, items, children }: Props) => {
+  const NewAnimatePresence: React.FC<NewAnimatePresenceProps> = AnimatePresence;
+
   return (
-    <AnimatePresence>
+    <NewAnimatePresence>
       {isVisible && (
         <motion.div {...motionConfig}>
           <StyledWrapper>
@@ -44,7 +47,7 @@ const Dropdown = ({ isVisible, items, children }: Props) => {
           </StyledWrapper>
         </motion.div>
       )}
-    </AnimatePresence>
+    </NewAnimatePresence>
   );
 };
 

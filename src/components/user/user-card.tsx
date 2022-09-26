@@ -1,5 +1,6 @@
 import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
+import { EProfileScreen } from '@pages/profile';
 import { IUser } from '@type/user.type';
 import { EBoxShadow, EFontSize } from 'constants/style.constant';
 import React, { memo } from 'react';
@@ -22,7 +23,9 @@ const UserCard = ({ user }: Props) => {
       <StyledFlex justify="space-between">
         <StyledFlex gap={1.8}>
           <UserAvatarSmall user={user} />
-          <Link to={`${routes.profile}/${user._id}`}>
+          <Link
+            to={`${routes.profile}/${user._id}?screen=${EProfileScreen.Home}`}
+          >
             <StyledUserName>{user.name}</StyledUserName>
             <StyledUserFollowers>
               {followersCount}{' '}

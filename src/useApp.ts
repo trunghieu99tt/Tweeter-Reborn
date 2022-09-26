@@ -2,7 +2,7 @@ import { ELocalStorageKey, EUserQuery, LONG_STATE_TIME } from '@constants';
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { IUser } from '@type/user.type';
 import { useEffect } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Subscription } from 'rxjs';
 import EventBus, { EventBusName } from 'services/event-bus';
 import useNotificationService from 'services/notification.service';
@@ -35,7 +35,7 @@ export const useApp = () => {
     );
   };
 
-  const getMeQuery = useQuery<IUser | undefined>(EUserQuery.GetMe, getMe, {
+  const getMeQuery = useQuery<IUser | undefined>([EUserQuery.GetMe], getMe, {
     staleTime: LONG_STATE_TIME,
     retry: 0,
     onError: () => {

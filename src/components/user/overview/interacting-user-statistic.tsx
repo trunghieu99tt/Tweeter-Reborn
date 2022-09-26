@@ -8,6 +8,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import UserCard from '../user-card';
 
 type Props = {
   user: IUser;
@@ -33,7 +34,12 @@ const InteractingUserStatistic = ({ user }: Props) => {
         break;
     }
 
-    return [userListData, modalUserListHeader, t];
+    return [
+      userListData.map((user: IUser) => (
+        <UserCard user={user} key={`user-card-${user._id}`} />
+      )),
+      modalUserListHeader,
+    ];
   }, [user, type]);
 
   const showUserListModal = useCallback(

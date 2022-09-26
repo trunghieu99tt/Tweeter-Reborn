@@ -3,6 +3,7 @@ import Modal from '@components/shared/modal';
 import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
 import { EFormType } from '@constants';
+import { EProfileScreen } from '@pages/profile';
 import { BaseControlledRef } from '@type/app.type';
 import { ITweet } from '@type/tweet.type';
 import { calcDiffTimeString } from '@utils/helper';
@@ -114,11 +115,15 @@ const TweetItemHeader = ({ tweet }: Props) => {
         )}
         <StyledFlex align="center" justify="space-between">
           <StyledAuthorWrapper>
-            <Link to={`/profile/${tweet?.author?._id}`}>
+            <Link
+              to={`/profile/${tweet?.author?._id}?screen=${EProfileScreen.Home}`}
+            >
               <UserAvatarSmall user={tweet?.author} />
             </Link>
             <div>
-              <Link to={`/profile/${tweet?.author?._id}`}>
+              <Link
+                to={`/profile/${tweet?.author?._id}?screen=${EProfileScreen.Home}`}
+              >
                 <StyledAuthorName>{tweet?.author?.name || ''}</StyledAuthorName>
               </Link>
               <StyledDateCreated>

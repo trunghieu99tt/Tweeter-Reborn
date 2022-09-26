@@ -140,6 +140,10 @@ export const useTweetForm = ({ tweet }: Props) => {
     }
   };
 
+  const onChangeAudience = useCallback((value: number) => {
+    setAudience(value);
+  }, []);
+
   return {
     body,
     audience,
@@ -148,8 +152,8 @@ export const useTweetForm = ({ tweet }: Props) => {
 
     setBody,
     onSubmit,
-    setAudience,
     onChangeFile,
     onResetMedia,
+    onChangeAudience,
   };
 };

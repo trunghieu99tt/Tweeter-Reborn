@@ -15,12 +15,6 @@ import { useApp } from 'useApp';
 import './App.css';
 
 const ProfilePage = React.lazy(() => import('@pages/profile'));
-const ProfileMediaPage = React.lazy(
-  () => import('@pages/profile/profile-media'),
-);
-const ProfileLikedTweetPage = React.lazy(
-  () => import('@pages/profile/profile-liked-tweet'),
-);
 
 const App: React.FC = () => {
   const { isLoadingUser } = useApp();
@@ -36,23 +30,6 @@ const App: React.FC = () => {
         <React.Fragment>
           <Route path={routes.auth} element={<Auth />} />
           <Route path={routes.home} element={<NewsFeed />} />
-          {/* <Route path={routes.profile} />
-          <Route
-            path={`${routes.profile}/medias/:userId`}
-            element={
-              <Suspense fallback={<Loader1 />}>
-                <ProfileMediaPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path={`${routes.profile}/liked/:userId`}
-            element={
-              <Suspense fallback={<Loader1 />}>
-                <ProfileLikedTweetPage />
-              </Suspense>
-            }
-          /> */}
           <Route
             path={`${routes.profile}/:userId`}
             element={

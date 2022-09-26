@@ -3,7 +3,7 @@ import { EHashTagQuery } from '@constants';
 import SectionWithHeadingContainer from '@layout/section-with-heading.layout';
 import { IHashtag } from '@type/hash-tag.type';
 import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useHashTagService } from 'services/hash-tag.service';
 import TagItem from './tag-item';
 import Skeleton from 'react-loading-skeleton';
@@ -12,7 +12,7 @@ const PopularTags = () => {
   const { t } = useTranslation();
   const { getMostPopularHashTags } = useHashTagService();
   const { data } = useQuery(
-    EHashTagQuery.GetPopularTags,
+    [EHashTagQuery.GetPopularTags],
     getMostPopularHashTags,
     {
       staleTime: 1000 * 60 * 5, // 5 mins

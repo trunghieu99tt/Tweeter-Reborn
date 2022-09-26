@@ -1,4 +1,3 @@
-import { useThrottle } from '@hooks/useThrottle';
 import { INotification } from '@type/notification.type';
 import {
   EBorderRadius,

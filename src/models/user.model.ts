@@ -23,7 +23,7 @@ enum EUserField {
   Following = 'following',
 }
 export class UserModel {
-  private data: IUser = defaultUser;
+  private data: IUser = { ...defaultUser };
 
   constructor(user: IUser | undefined | null) {
     Object.keys(defaultUser).forEach((key) => {

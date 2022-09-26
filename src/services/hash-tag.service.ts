@@ -1,7 +1,7 @@
 import { EEndpoints, EHashTagQuery } from '@constants';
 import { IHashtag, IUpdateHashtagDTO } from '@type/hash-tag.type';
 import client from 'api/client';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useHashTagService = () => {
   const queryClient = useQueryClient();
@@ -26,14 +26,11 @@ export const useHashTagService = () => {
   };
 
   const updateHashtagMutation = useMutation(
-    EHashTagQuery.UpdateHashTag,
+    [EHashTagQuery.UpdateHashTag],
     updateHashtag,
     {
-      onMutate: (data) => {
-        console.log('data', data);
-      },
       onSuccess: () => {
-        queryClient.invalidateQueries(EHashTagQuery.GetPopularTags);
+        queryClient.invalidateQueries([EHashTagQuery.GetPopularTags]);
       },
     },
   );

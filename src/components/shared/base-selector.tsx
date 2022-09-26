@@ -26,9 +26,6 @@ const BaseSelector = <T,>({
   options,
   renderValue,
 }: Props<T>) => {
-  const currentLanguage = useSelector(
-    (state: RootState) => state.appState.language,
-  );
   const [visibleDropdown, setVisibleDropdown] = useState<boolean>(false);
   const dropdownRef = useRef() as React.RefObject<HTMLDivElement>;
 
@@ -48,7 +45,7 @@ const BaseSelector = <T,>({
         </SelectedItemSelectionItem>
       );
     });
-  }, [options, currentLanguage]);
+  }, [options]);
 
   const SelectedItem = options.find((option) => option.value === value);
 

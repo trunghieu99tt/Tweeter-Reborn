@@ -2,7 +2,7 @@ import { EEndpoints } from '@constants';
 import { IPaginationParams } from '@type/app.type';
 import { IStory, IStoryGroup } from '@type/story.type';
 import { getList } from '@utils/query';
-import { QueryFunctionContext } from 'react-query';
+import { QueryFunctionContext } from '@tanstack/react-query';
 
 export const useStoryService = () => {
   const getStoryList = (input: Partial<IPaginationParams>) => {

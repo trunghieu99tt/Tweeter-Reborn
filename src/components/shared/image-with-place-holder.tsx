@@ -16,41 +16,40 @@ const ImageWithPlaceholder = ({
   customStyles,
   src: propsSrc,
 }: Props): JSX.Element => {
-  const [src, setSrc] = useState<any>(propsSrc);
+  const [src, setSrc] = useState<string>(propsSrc);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const image = document.createElement('img');
-    image.src = src;
-    image.onerror = () => {
-      setLoading(false);
-      setSrc(defaultSrc);
-    };
-    image.onload = () => {
-      setLoading(false);
-    };
-
-    return () => {
-      image.src = '';
-      setSrc('');
-    };
-  }, [defaultSrc]);
-
-  if (loading) {
-    return <ClipLoader />;
-  }
-
-  return <Image src={src} alt={alt} customStyles={customStyles}></Image>;
+  return (
+    <React.Fragment>
+      {loading && <ClipLoader />}
+      <StyledImage
+        src={src}
+        alt={alt}
+        hidden={loading}
+        customStyles={customStyles}
+        onLoad={() => {
+          setLoading(false);
+        }}
+        onError={() => {
+          setLoading(false);
+          setSrc(defaultSrc);
+        }}
+      />
+    </React.Fragment>
+  );
 };
 
 export default ImageWithPlaceholder;
 
-const Image = styled('img')<{
+const StyledImage = styled('img')<{
   customStyles?: string;
+  hidden?: boolean;
 }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
 
-  ${(props) => props.customStyles}
+  ${({ hidden }) => hidden && `display: none`}
+
+  ${(props) => props?.customStyles}
 `;

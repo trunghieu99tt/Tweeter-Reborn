@@ -4,13 +4,13 @@ import { INotification, INotificationDTO } from '@type/notification.type';
 import { tryCatchFn } from '@utils/helper';
 import { getList } from '@utils/query';
 import client from 'api/client';
-import { QueryFunctionContext, useMutation } from 'react-query';
+import { QueryFunctionContext, useMutation } from '@tanstack/react-query';
 
 const useNotificationService = () => {
   const readNotification = async (notificationIds: string[]): Promise<void> => {
     try {
       await client.patch(`${EEndpoints.Notification}/read`, {
-        notificationIds,
+        ids: notificationIds,
       });
     } catch (error) {
       console.error(`${readNotification.name} error`);
@@ -18,7 +18,7 @@ const useNotificationService = () => {
   };
 
   const readNotificationMutation = useMutation(
-    ENotificationQuery.ReadNotification,
+    [ENotificationQuery.ReadNotification],
     readNotification,
   );
 
@@ -36,9 +36,7 @@ const useNotificationService = () => {
         const response = await client.post(EEndpoints.Notification, input);
 
         return response?.data;
-      } catch (error) {
-        console.error(`${createNotification.name} error`);
-      }
+      } catch (error) {}
     });
 
   const markAsRead = async (ids: string[]) => {

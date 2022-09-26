@@ -3,6 +3,7 @@ import { IMedia } from '@type/app.type';
 import { SyntheticEvent } from 'react';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import { v4 as uuid } from 'uuid';
+import queryString from 'query-string';
 
 const nFormatter = (num: number, digits = 2): string => {
   const lookup = [
@@ -143,6 +144,12 @@ export const transformFieldToObjectWithId = <T>(
     } as unknown as T[keyof T];
   }
 };
+
+export const queryStringToObject = (qs: string, options = {}) =>
+  queryString.parse(qs, {
+    arrayFormat: 'bracket',
+    ...options,
+  });
 
 export {
   urlify,
