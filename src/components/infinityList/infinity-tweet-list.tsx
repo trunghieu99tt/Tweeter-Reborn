@@ -3,7 +3,7 @@ import TweetSkeleton from '@components/tweets/item/tweet-item.skeleton';
 import { ETweetQuery } from '@constants';
 import { useInfinityList } from '@hooks/useInfinityList';
 import { ITweet } from '@type/tweet.type';
-import React, { useEffect } from 'react';
+import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useTweetService } from 'services/tweet.service';
 
@@ -16,13 +16,20 @@ const DEFAULT_TWEET_LIMIT = 3;
 const InfinityTweetList = ({ queryKey }: Props) => {
   let queryFunction = null;
 
-  const { getLatestTweet, getUserTweets, getUserLikedTweets } =
-    useTweetService();
+  const {
+    getLatestTweet,
+    getUserTweets,
+    getUserLikedTweets,
+    getPopularTweets,
+  } = useTweetService();
 
   if (!queryKey.includes(',')) {
     switch (queryKey) {
       case ETweetQuery.GetLatestTweets:
         queryFunction = getLatestTweet(DEFAULT_TWEET_LIMIT);
+        break;
+      case ETweetQuery.GetPopularTweets:
+        queryFunction = getPopularTweets(DEFAULT_TWEET_LIMIT);
         break;
     }
   } else {

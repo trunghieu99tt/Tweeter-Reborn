@@ -1,6 +1,6 @@
 import CreateCommentForm from '@components/comment/form/create-comment-form';
 import { shake, spin } from '@components/shared/shared-style';
-import UserCard from '@components/user/user-card';
+import UserCard from '@components/user/card';
 import { ITweet } from '@type/tweet.type';
 import { IUser } from '@type/user.type';
 import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';

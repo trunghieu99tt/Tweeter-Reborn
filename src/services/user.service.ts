@@ -10,6 +10,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
+import { IGetList } from '@type/app.type';
 
 const useUserService = () => {
   const queryClient = useQueryClient();
@@ -52,16 +53,12 @@ const useUserService = () => {
       );
     };
 
-  const getPopularUsers = async (): Promise<IUser[]> => {
-    try {
-      const response = await client.get(`${EEndpoints.User}/popular`);
-      return response.data.data.map((user: IUser) =>
-        new UserModel(user).getData(),
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const getPopularUsers =
+    async (limit: number) =>
+    ({ pageParam }: QueryFunctionContext): Promise<IGetList<IUser>> =>
+      getList<IUser>(`${EEndpoints.User}/popular`, pageParam, {
+        limit,
+      });
 
   const updateUser = async ({
     userId,
