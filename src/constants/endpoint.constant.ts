@@ -7,4 +7,5 @@ export enum EEndpoints {
   Tweet = 'tweet',
   Upload = 'upload',
   Comment = 'comment',
+  Search = 'search',
 }

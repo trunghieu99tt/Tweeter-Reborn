@@ -112,6 +112,14 @@ export const useTweetService = () => {
       });
     };
 
+  const getSavedTweets =
+    (limit: number) =>
+    ({ pageParam }: QueryFunctionContext) => {
+      return getList<ITweet>(`${EEndpoints.Tweet}/user/saved`, pageParam, {
+        limit,
+      });
+    };
+
   const reactTweet = async (tweetId: string) =>
     tryCatchFn<ITweet>(async () => {
       const response = await client.post(
@@ -163,6 +171,7 @@ export const useTweetService = () => {
     getUserTweets,
     getUserMedias,
     getLatestTweet,
+    getSavedTweets,
     getPopularTweets,
     getUserLikedTweets,
 

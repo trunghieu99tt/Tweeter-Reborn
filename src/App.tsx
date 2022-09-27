@@ -1,10 +1,12 @@
 import Loader1 from '@components/shared/loaders/loader-1';
 import Loading from '@components/shared/loading/loading';
 import Auth from '@pages/auth';
+import Bookmark from '@pages/bookmarks';
 import Explore from '@pages/explore';
 import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
 import NotificationPage from '@pages/notifications';
+import SearchPage from '@pages/search';
 import { useMyTheme } from '@talons/useMyTheme';
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router';
@@ -48,6 +50,15 @@ const App: React.FC = () => {
             }
           />
           <Route path={routes.explore} element={<Explore />} />
+          <Route
+            path={routes.bookmark}
+            element={
+              <PrivateRoute>
+                <Bookmark />
+              </PrivateRoute>
+            }
+          />
+          <Route path={routes.search} element={<SearchPage />} />
           <Route element={<NotFound />} />
         </React.Fragment>
       </Routes>
