@@ -6,6 +6,7 @@ import Explore from '@pages/explore';
 import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
 import NotificationPage from '@pages/notifications';
+import SearchPage from '@pages/search';
 import { useMyTheme } from '@talons/useMyTheme';
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router';
@@ -57,6 +58,7 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
+          <Route path={routes.search} element={<SearchPage />} />
           <Route element={<NotFound />} />
         </React.Fragment>
       </Routes>
