@@ -3,12 +3,15 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from 'routes';
+import useUserService from 'services/user.service';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
 const TopMenu = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const { getCurrentUser } = useUserService();
+  const currentUser = getCurrentUser();
 
   const menu = useMemo(() => {
     return [
@@ -22,18 +25,20 @@ const TopMenu = () => {
         path: `${routes.explore}?screen=${EExploreScreen.LatestTweets}`,
         id: uuid(),
       },
-      {
-        name: t('bookmark'),
-        path: `${routes.bookmark}`,
-        id: uuid(),
-      },
+      ...(currentUser?._id && [
+        {
+          name: t('bookmark'),
+          path: `${routes.bookmark}`,
+          id: uuid(),
+        },
+      ]),
       {
         name: t('search'),
         path: `${routes.search}`,
         id: uuid(),
       },
     ];
-  }, [t]);
+  }, [t, currentUser]);
 
   return (
     <StyledRoot isShown={true}>

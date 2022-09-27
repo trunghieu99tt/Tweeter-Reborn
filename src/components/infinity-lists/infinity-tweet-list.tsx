@@ -21,6 +21,7 @@ const InfinityTweetList = ({ queryKey }: Props) => {
     getUserTweets,
     getUserLikedTweets,
     getPopularTweets,
+    getSavedTweets,
   } = useTweetService();
 
   if (!queryKey.includes(',')) {
@@ -30,6 +31,9 @@ const InfinityTweetList = ({ queryKey }: Props) => {
         break;
       case ETweetQuery.GetPopularTweets:
         queryFunction = getPopularTweets(DEFAULT_TWEET_LIMIT);
+        break;
+      case ETweetQuery.GetBookmarkTweets:
+        queryFunction = getSavedTweets(DEFAULT_TWEET_LIMIT);
         break;
     }
   } else {

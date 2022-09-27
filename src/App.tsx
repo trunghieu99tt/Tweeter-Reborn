@@ -1,6 +1,7 @@
 import Loader1 from '@components/shared/loaders/loader-1';
 import Loading from '@components/shared/loading/loading';
 import Auth from '@pages/auth';
+import Bookmark from '@pages/bookmarks';
 import Explore from '@pages/explore';
 import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
@@ -48,6 +49,14 @@ const App: React.FC = () => {
             }
           />
           <Route path={routes.explore} element={<Explore />} />
+          <Route
+            path={routes.bookmark}
+            element={
+              <PrivateRoute>
+                <Bookmark />
+              </PrivateRoute>
+            }
+          />
           <Route element={<NotFound />} />
         </React.Fragment>
       </Routes>
