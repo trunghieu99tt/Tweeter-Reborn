@@ -7,5 +7,6 @@ export const routes = {
   bookmark: '/bookmark',
   search: '/search',
   profile: '/profile',
-  hashTags: '/hashtags',
+  hashTags: '/hashtag',
+  tweet: '/tweet',
 };

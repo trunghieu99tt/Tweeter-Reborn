@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useHashTagService } from 'services/hash-tag.service';
 import TagItem from './tag-item';
 import Skeleton from 'react-loading-skeleton';
+import { SHORT_EXP_TIME } from 'constants/timer.constant';
 
 const PopularTags = () => {
   const { t } = useTranslation();
@@ -15,7 +16,7 @@ const PopularTags = () => {
     [EHashTagQuery.GetPopularTags],
     getMostPopularHashTags,
     {
-      staleTime: 1000 * 60 * 5, // 5 mins
+      staleTime: SHORT_EXP_TIME,
     },
   );
 

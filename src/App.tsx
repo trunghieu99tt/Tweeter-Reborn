@@ -3,10 +3,12 @@ import Loading from '@components/shared/loading/loading';
 import Auth from '@pages/auth';
 import Bookmark from '@pages/bookmarks';
 import Explore from '@pages/explore';
+import HashtagTweets from '@pages/hash-tag-tweets';
 import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
 import NotificationPage from '@pages/notifications';
 import SearchPage from '@pages/search';
+import TweetDetailPage from '@pages/tweet-detail';
 import { useMyTheme } from '@talons/useMyTheme';
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router';
@@ -59,6 +61,22 @@ const App: React.FC = () => {
             }
           />
           <Route path={routes.search} element={<SearchPage />} />
+          <Route
+            path={`${routes.tweet}/:tweetId`}
+            element={
+              <Suspense fallback={<Loader1 />}>
+                <TweetDetailPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path={`${routes.hashTags}/:hashTag`}
+            element={
+              <Suspense fallback={<Loader1 />}>
+                <HashtagTweets />
+              </Suspense>
+            }
+          />
           <Route element={<NotFound />} />
         </React.Fragment>
       </Routes>

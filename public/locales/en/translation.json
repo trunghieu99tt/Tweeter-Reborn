@@ -13,6 +13,9 @@
       "latest-medias": "Latest Medias",
       "popular-tweets": "Popular Tweets"
     },
-    "bookmark": "Bookmark"
+    "bookmark": "Bookmark",
+    "tweet": {
+      "not-found": "Tweet not found"
+    }
   }
 }

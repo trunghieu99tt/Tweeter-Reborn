@@ -20,7 +20,7 @@ const UserAvatarSmall = ({ user, customStyles }: Props): JSX.Element => {
                 border-radius: 0.5rem;
                 ${customStyles}
             `}
-    ></ImageWithPlaceholder>
+    />
   );
 };
 

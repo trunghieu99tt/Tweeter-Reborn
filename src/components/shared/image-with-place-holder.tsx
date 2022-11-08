@@ -1,5 +1,5 @@
 import DefaultUnknownAvatar from '@images/user.png';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import styled from 'styled-components';
 
@@ -19,6 +19,20 @@ const ImageWithPlaceholder = ({
   const [src, setSrc] = useState<string>(propsSrc);
   const [loading, setLoading] = useState<boolean>(true);
 
+  useEffect(() => {
+    if (loading) {
+      const timeout = setTimeout(() => {
+        if (loading) {
+          setSrc(defaultSrc);
+        }
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [loading]);
+
   return (
     <React.Fragment>
       {loading && <ClipLoader />}
@@ -31,6 +45,7 @@ const ImageWithPlaceholder = ({
           setLoading(false);
         }}
         onError={() => {
+          console.log('error');
           setLoading(false);
           setSrc(defaultSrc);
         }}

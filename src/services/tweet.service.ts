@@ -150,6 +150,26 @@ export const useTweetService = () => {
       return response?.data;
     }, true);
 
+  const getTweet = async ({ queryKey }: QueryFunctionContext) =>
+    tryCatchFn<ITweet>(async () => {
+      const [_, id] = queryKey;
+      const response = await client.get(`${EEndpoints.Tweet}/${id}`);
+      return new TweetModel(response?.data?.data).getData();
+    });
+
+  const getTweetsByHashtag =
+    (limit: number) =>
+    ({ pageParam, queryKey }: QueryFunctionContext) => {
+      const [_, hashtag] = queryKey;
+      return getList<ITweet>(
+        `${EEndpoints.Tweet}/hashtag/${hashtag}`,
+        pageParam,
+        {
+          limit,
+        },
+      );
+    };
+
   const createTweetMutation = useMutation(
     [ETweetQuery.CreateTweet],
     createTweet,
@@ -167,12 +187,14 @@ export const useTweetService = () => {
   );
 
   return {
+    getTweet,
     getMedias,
     getUserTweets,
     getUserMedias,
     getLatestTweet,
     getSavedTweets,
     getPopularTweets,
+    getTweetsByHashtag,
     getUserLikedTweets,
 
     createTweetMutation,

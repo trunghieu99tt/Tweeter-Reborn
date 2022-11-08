@@ -80,7 +80,7 @@ const TweetItemHeader = ({ tweet }: Props) => {
     editTweetModalRef.current?.hide();
   }, []);
 
-  const onSelectTweetActionItem = async (value: EFormType) => {
+  const onSelectTweetActionItem = useCallback(async (value: EFormType) => {
     switch (value) {
       case EFormType.Update:
         onOpenEditModal();
@@ -90,8 +90,9 @@ const TweetItemHeader = ({ tweet }: Props) => {
       case EFormType.Report:
         break;
     }
-  };
+  }, []);
 
+  const profileUrl = `/profile/${tweet?.author?._id}?screen=${EProfileScreen.Home}`;
   return (
     <React.Fragment>
       {isAuthor && (
@@ -115,19 +116,16 @@ const TweetItemHeader = ({ tweet }: Props) => {
         )}
         <StyledFlex align="center" justify="space-between">
           <StyledAuthorWrapper>
-            <Link
-              to={`/profile/${tweet?.author?._id}?screen=${EProfileScreen.Home}`}
-            >
+            <Link to={profileUrl}>
               <UserAvatarSmall user={tweet?.author} />
             </Link>
             <div>
-              <Link
-                to={`/profile/${tweet?.author?._id}?screen=${EProfileScreen.Home}`}
-              >
+              <Link to={profileUrl}>
                 <StyledAuthorName>{tweet?.author?.name || ''}</StyledAuthorName>
               </Link>
               <StyledDateCreated>
-                {calcDiffTimeString(tweet?.createdAt)}
+                {(tweet?.createdAt && calcDiffTimeString(tweet?.createdAt)) ||
+                  ''}
               </StyledDateCreated>
             </div>
           </StyledAuthorWrapper>

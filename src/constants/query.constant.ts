@@ -29,6 +29,7 @@ export enum EHashTagQuery {
 }
 
 export enum ETweetQuery {
+  GetTweet = 'GetTweet',
   CreateTweet = 'CreateTweet',
   UpdateTweet = 'UpdateTweet',
   GetLatestTweets = 'GetLatestTweets',
@@ -45,6 +46,7 @@ export enum ETweetQuery {
   ReportTweet = 'ReportTweet',
   GetTweetMedias = 'GetTweetMedias',
   GetBookmarkTweets = 'GetBookmarkTweets',
+  GetTweetsByHashtag = 'GetTweetsByHashtag',
 }
 
 export enum ECommentQuery {

@@ -1,0 +1,1 @@
+export const MAX_LENGTH_TWEET_META_TITLE = 50;

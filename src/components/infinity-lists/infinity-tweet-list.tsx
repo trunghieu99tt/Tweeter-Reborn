@@ -22,6 +22,7 @@ const InfinityTweetList = ({ queryKey }: Props) => {
     getUserLikedTweets,
     getPopularTweets,
     getSavedTweets,
+    getTweetsByHashtag,
   } = useTweetService();
 
   if (!queryKey.includes(',')) {
@@ -44,6 +45,10 @@ const InfinityTweetList = ({ queryKey }: Props) => {
         break;
       case ETweetQuery.GetLikedTweetByUser:
         queryFunction = getUserLikedTweets(DEFAULT_TWEET_LIMIT);
+        break;
+      case ETweetQuery.GetTweetByHashTag:
+        queryFunction = getTweetsByHashtag(DEFAULT_TWEET_LIMIT);
+        break;
     }
   }
 
