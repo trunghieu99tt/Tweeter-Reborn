@@ -10,7 +10,9 @@ type useToggleReturnType = {
 export const useToggle = (): useToggleReturnType => {
   const [visible, setVisible] = useState<boolean>(false);
 
-  const show = useCallback(() => setVisible(true), []);
+  const show = useCallback(() => {
+    setVisible(true);
+  }, []);
 
   const hide = useCallback(() => {
     setVisible(false);

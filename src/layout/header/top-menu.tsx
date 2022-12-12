@@ -2,7 +2,7 @@ import { EExploreScreen } from '@pages/explore';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
@@ -22,19 +22,19 @@ const TopMenu = () => {
       },
       {
         name: t('explore'),
-        path: `${routes.explore}?screen=${EExploreScreen.LatestTweets}`,
+        path: `${ROUTES.explore}?screen=${EExploreScreen.LatestTweets}`,
         id: uuid(),
       },
       ...(currentUser?._id && [
         {
           name: t('bookmark'),
-          path: `${routes.bookmark}`,
+          path: `${ROUTES.bookmark}`,
           id: uuid(),
         },
       ]),
       {
         name: t('search'),
-        path: `${routes.search}`,
+        path: `${ROUTES.search}`,
         id: uuid(),
       },
     ];

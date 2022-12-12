@@ -14,7 +14,7 @@ import { GrNotification } from 'react-icons/gr';
 import { RiAccountCircleFill, RiLogoutBoxRLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import { useAuthService } from 'services/auth.service';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import useUserService from 'services/user.service';
@@ -48,7 +48,7 @@ const MyAccountMenu = () => {
     try {
       await logoutMutation.mutateAsync();
       setAccessToken('');
-      navigate(routes.auth);
+      navigate(ROUTES.auth);
       await refreshGetMe();
     } catch (error) {
       onPushEventBus({
@@ -70,11 +70,11 @@ const MyAccountMenu = () => {
         await onLogout();
         break;
       case EMyAccountMenuOptions.Notifications:
-        navigate(routes.notifications);
+        navigate(ROUTES.notifications);
         break;
       case EMyAccountMenuOptions.Profile:
         navigate(
-          `${routes.profile}/${user?._id}?screen=${EProfileScreen.Home}`,
+          `${ROUTES.profile}/${user?._id}?screen=${EProfileScreen.Home}`,
         );
         break;
     }
@@ -127,7 +127,7 @@ const MyAccountMenu = () => {
 
 const LoginButton = () => {
   return (
-    <Link to={routes.auth}>
+    <Link to={ROUTES.auth}>
       <Button>Login</Button>
     </Link>
   );

@@ -6,8 +6,10 @@ import {
   EFontSize,
   EFontWeight,
 } from 'constants/style.constant';
-import _ from 'lodash';
-import React, { memo } from 'react';
+import _get from 'lodash/get';
+import _isEqual from 'lodash/isEqual';
+import _pick from 'lodash/pick';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import useNotificationService from 'services/notification.service';
@@ -42,13 +44,12 @@ const NotificationItem = ({ data }: Props) => {
     >
       <StyledSenderAvatarWrapper>
         <UserAvatarSmall
-          user={_.pick(data?.sender, ['avatar', 'name', 'gender', '_id'])}
+          user={_pick(data?.sender, ['avatar', 'name', 'gender', '_id'])}
         />
       </StyledSenderAvatarWrapper>
       <StyledMainContent>
         <StyledContent>
-          <strong>{_.get(data, 'sender.name', '')}</strong>{' '}
-          {t(data?.text || '')}
+          <strong>{_get(data, 'sender.name', '')}</strong> {t(data?.text || '')}
         </StyledContent>
         <StyledTime>
           {calcDiffTimeString(data?.createdAt || new Date())}
@@ -58,11 +59,8 @@ const NotificationItem = ({ data }: Props) => {
   );
 };
 
-export default memo(NotificationItem, (prevProps, nextProps) => {
-  console.log('notification item re-rendered', prevProps.data._id);
-  console.log('notification item re-rendered', nextProps.data._id);
-
-  return _.isEqual(prevProps.data, nextProps.data);
+export default React.memo(NotificationItem, (prevProps, nextProps) => {
+  return _isEqual(prevProps.data, nextProps.data);
 });
 
 const StyledRoot = styled.article<{

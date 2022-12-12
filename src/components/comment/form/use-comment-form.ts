@@ -9,7 +9,7 @@ import {
 import { ITweet } from '@type/tweet.type';
 import { initMediaFromFile } from '@utils/helper';
 import { IEmojiData } from 'emoji-picker-react';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 import { CommentModel } from 'models/comment.model';
 import { ChangeEvent, useCallback, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -102,10 +102,10 @@ export const useCommentForm = ({ tweet, comment }: Props) => {
               text: !!comment ? 'repliedYourComment' : 'commentedYourTweet',
               receivers: [
                 !!comment
-                  ? _.pick(updatedComment, ['author', '_id'])
-                  : _.pick(updatedComment, ['tweet', 'author', '_id']),
+                  ? pick(updatedComment, ['author', '_id'])
+                  : pick(updatedComment, ['tweet', 'author', '_id']),
               ],
-              url: `/tweet/${_.pick(updatedComment, ['tweet', '_id'])}`,
+              url: `/tweet/${pick(updatedComment, ['tweet', '_id'])}`,
               type: 'comment',
             },
           });

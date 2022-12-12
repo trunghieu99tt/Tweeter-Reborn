@@ -1,5 +1,6 @@
 import { useToggle } from '@hooks/useToggle';
 import { BaseControlledRef, NewAnimatePresenceProps } from '@type/app.type';
+import { safeCallFn } from '@utils/helper';
 import { EBorder, EFontSize, EFontWeight } from 'constants/style.constant';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, {
@@ -11,7 +12,7 @@ import React, {
 import styled from 'styled-components';
 import Button from './button';
 
-interface Props {
+export interface IModalProps {
   body?: React.ReactNode;
   okText?: React.ReactNode;
   header?: React.ReactNode;
@@ -41,7 +42,7 @@ const Modal = (
     onCancel,
 
     customHeaderStyles,
-  }: Props,
+  }: IModalProps,
   ref: Ref<BaseControlledRef>,
 ): JSX.Element => {
   const { hide, show, visible } = useToggle();
@@ -50,9 +51,7 @@ const Modal = (
 
   const onDismiss = useCallback(() => {
     hide();
-    if (onCancel && typeof onCancel === 'function') {
-      onCancel();
-    }
+    safeCallFn(onCancel);
   }, [onCancel]);
 
   const NewAnimatePresence: React.FC<NewAnimatePresenceProps> = AnimatePresence;

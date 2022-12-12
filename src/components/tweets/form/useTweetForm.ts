@@ -1,8 +1,10 @@
 import { EMedia, ETweetQuery, EUpdateType } from '@constants';
 import { setGlobalLoading } from '@redux/app/app.slice';
+import { useQueryClient } from '@tanstack/react-query';
 import { IMedia } from '@type/app.type';
 import { ICreateTweetDTO, ITweet } from '@type/tweet.type';
 import { extractMetadata, initMediaFromUrl } from '@utils/helper';
+import _get from 'lodash/get';
 import { TweetModel } from 'models/tweet.model';
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -20,11 +22,11 @@ type Props = {
 };
 
 export const useTweetForm = ({ tweet }: Props) => {
+  const queryClient = useQueryClient();
   const dispatch = useDispatch<AppDispatch>();
 
   const { createTweetMutation, updateTweetMutation } = useTweetService();
   const { getCurrentUser } = useUserService();
-  const currentUser = getCurrentUser();
   const { optimisticUpdateInfinityList } = useQueryService();
   const { uploadMedias } = useUploadService();
   const { updateHashTags } = useHashTagService();
@@ -71,13 +73,14 @@ export const useTweetForm = ({ tweet }: Props) => {
     const { hashtags: newHashtags } = extractMetadata(body || '');
     updateHashTags(initialHashtags, newHashtags);
     resetAll();
+    queryClient.invalidateQueries([ETweetQuery.GetLatestTweets]);
   };
 
   const uploadAndMergeMedias = async (): Promise<IMedia[]> => {
     let newMedia = [...initialMedias];
     if (media?.length > 0) {
       const mediaResponse = await uploadMedias(
-        media?.map((media) => media.file as File) || [],
+        media?.map((media) => media.file) || [],
       );
       if (mediaResponse?.filter(Boolean).length === 0) {
         return;
@@ -88,9 +91,15 @@ export const useTweetForm = ({ tweet }: Props) => {
     return newMedia;
   };
 
-  const onSubmit = async () => {
-    console.log('body', body);
+  const onSubmitFailed = (error: any) => {
+    resetAll();
+    onPushEventBus({
+      type: EventBusName.Error,
+      payload: _get(error, 'response.data.message', 'Something went wrong!'),
+    });
+  };
 
+  const onSubmit = async () => {
     if (body || media.length > 0) {
       dispatch(setGlobalLoading(true));
       const newMedia = await uploadAndMergeMedias();
@@ -109,7 +118,7 @@ export const useTweetForm = ({ tweet }: Props) => {
       optimisticUpdateInfinityList({
         data: new TweetModel({
           ...newTweet,
-          _id: uuid(),
+          _id: tweet?._id || uuid(),
           author: getCurrentUser(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -118,25 +127,27 @@ export const useTweetForm = ({ tweet }: Props) => {
         type: tweet ? EUpdateType.Update : EUpdateType.Create,
       });
 
-      try {
-        if (tweet) {
-          await updateTweetMutation.mutateAsync({
+      const options = {
+        onSuccess: onSubmitSuccess,
+        onError: onSubmitFailed,
+        onSettled: () => {
+          dispatch(setGlobalLoading(false));
+        },
+      };
+
+      if (tweet) {
+        updateTweetMutation.mutate(
+          {
             tweetId: tweet._id,
             updatedTweet: newTweet,
-          });
-        } else {
-          await createTweetMutation.mutateAsync(newTweet);
-        }
-        onSubmitSuccess();
-      } catch (error: any) {
-        resetAll();
-        onPushEventBus({
-          type: EventBusName.Error,
-          payload: error?.response?.data?.message,
+          },
+          { ...options },
+        );
+      } else {
+        createTweetMutation.mutate(newTweet, {
+          ...options,
         });
       }
-
-      dispatch(setGlobalLoading(false));
     }
   };
 

@@ -6,7 +6,7 @@ import { EBoxShadow, EFontSize } from 'constants/style.constant';
 import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import styled from 'styled-components';
 
 interface Props {
@@ -24,7 +24,7 @@ const UserCard = ({ user }: Props) => {
         <StyledFlex gap={1.8}>
           <UserAvatarSmall user={user} />
           <Link
-            to={`${routes.profile}/${user._id}?screen=${EProfileScreen.Home}`}
+            to={`${ROUTES.profile}/${user._id}?screen=${EProfileScreen.Home}`}
           >
             <StyledUserName>{user.name}</StyledUserName>
             <StyledUserFollowers>

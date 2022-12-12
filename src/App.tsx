@@ -1,14 +1,6 @@
 import Loader1 from '@components/shared/loaders/loader-1';
 import Loading from '@components/shared/loading/loading';
-import Auth from '@pages/auth';
-import Bookmark from '@pages/bookmarks';
-import Explore from '@pages/explore';
-import HashtagTweets from '@pages/hash-tag-tweets';
-import NewsFeed from '@pages/news-feed';
 import NotFound from '@pages/not-found';
-import NotificationPage from '@pages/notifications';
-import SearchPage from '@pages/search';
-import TweetDetailPage from '@pages/tweet-detail';
 import { useMyTheme } from '@talons/useMyTheme';
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router';
@@ -16,10 +8,9 @@ import { routes } from 'routes';
 import PrivateRoute from 'routes/PrivateRoute';
 import { ThemeProvider } from 'styled-components';
 import { useApp } from 'useApp';
-
 import './App.css';
 
-const ProfilePage = React.lazy(() => import('@pages/profile'));
+const Modal = React.lazy(() => import('@components/shared/modal'));
 
 const App: React.FC = () => {
   const { isLoadingUser } = useApp();
@@ -33,50 +24,25 @@ const App: React.FC = () => {
     content = (
       <Routes>
         <React.Fragment>
-          <Route path={routes.auth} element={<Auth />} />
-          <Route path={routes.home} element={<NewsFeed />} />
-          <Route
-            path={`${routes.profile}/:userId`}
-            element={
+          {routes.map(({ Element, path, isLazy, isPrivate }) => {
+            const Component = isLazy ? (
               <Suspense fallback={<Loader1 />}>
-                <ProfilePage />
+                <Element />
               </Suspense>
-            }
-          />
-          <Route
-            path={routes.notifications}
-            element={
-              <PrivateRoute>
-                <NotificationPage />
-              </PrivateRoute>
-            }
-          />
-          <Route path={routes.explore} element={<Explore />} />
-          <Route
-            path={routes.bookmark}
-            element={
-              <PrivateRoute>
-                <Bookmark />
-              </PrivateRoute>
-            }
-          />
-          <Route path={routes.search} element={<SearchPage />} />
-          <Route
-            path={`${routes.tweet}/:tweetId`}
-            element={
-              <Suspense fallback={<Loader1 />}>
-                <TweetDetailPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path={`${routes.hashTags}/:hashTag`}
-            element={
-              <Suspense fallback={<Loader1 />}>
-                <HashtagTweets />
-              </Suspense>
-            }
-          />
+            ) : (
+              <Element />
+            );
+            const wrapper = (Component: JSX.Element) => {
+              if (isPrivate) {
+                return <PrivateRoute>{Component}</PrivateRoute>;
+              }
+              return Component;
+            };
+
+            return (
+              <Route key={path} path={path} element={wrapper(Component)} />
+            );
+          })}
           <Route element={<NotFound />} />
         </React.Fragment>
       </Routes>
@@ -87,6 +53,9 @@ const App: React.FC = () => {
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <Loading />
+        <Suspense fallback={<Loader1 />}>
+          <Modal />
+        </Suspense>
         {content}
       </ThemeProvider>
     </React.Fragment>

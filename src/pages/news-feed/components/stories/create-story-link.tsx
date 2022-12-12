@@ -5,7 +5,7 @@ import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiBookAdd } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
 
@@ -15,7 +15,7 @@ const CreateNewStoryLink = () => {
   const user = getCurrentUser();
 
   return (
-    <Link to={`${routes.stories}/create`}>
+    <Link to={`${ROUTES.stories}/create`}>
       <StyledImageWrapper>
         <ImageWithPlaceholder src={user?.avatar || ''} alt={user?.name} />
       </StyledImageWrapper>

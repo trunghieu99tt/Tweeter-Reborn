@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import EventBus, { EventBusName } from 'services/event-bus';
 import useNotificationService from 'services/notification.service';
 import useUserService from 'services/user.service';
@@ -121,7 +121,7 @@ const NotificationContainer = ({ screen }: Props) => {
 
           {screen === ENotificationScreen.NewFeed &&
             shouldHaveViewAllButton && (
-              <StyledGoToNotificationListPage to={routes.notifications}>
+              <StyledGoToNotificationListPage to={ROUTES.notifications}>
                 {t('viewAllNotification')}
               </StyledGoToNotificationListPage>
             )}

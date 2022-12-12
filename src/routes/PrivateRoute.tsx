@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Navigate } from 'react-router-dom';
 
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import useUserService from 'services/user.service';
 
 type Props = {
@@ -21,7 +21,7 @@ const PrivateRoute = ({ children }: Props) => {
   const { getCurrentUser } = useUserService();
   const user = getCurrentUser();
 
-  if (!user) return <Navigate to={routes.auth} />;
+  if (!user) return <Navigate to={ROUTES.auth} />;
 
   return children;
 };

@@ -10,6 +10,10 @@ const appInitialState: TAppState = {
     component: null,
   },
   socket: null,
+  modal: {
+    visible: false,
+    props: null,
+  },
 };
 
 export const appSlice = createSlice({

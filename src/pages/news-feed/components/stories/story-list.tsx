@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import CreateStoryLink from './create-story-link';
 import StoryItem from './story-item';
 import React from 'react';
+import switchRenderIfAuthenticated from '@hoc/switchRenderIfAuthenticated';
 
 const MAX_SHOWN_STORY_COUNT = 5;
 
@@ -64,7 +65,7 @@ const StoryList = () => {
   );
 };
 
-export default memo(StoryList);
+export default switchRenderIfAuthenticated(memo(StoryList), null);
 
 const StyledRoot = styled.div`
   display: flex;

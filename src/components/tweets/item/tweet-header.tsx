@@ -2,8 +2,9 @@ import BaseSelector from '@components/shared/base-selector';
 import Modal from '@components/shared/modal';
 import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
-import { EFormType } from '@constants';
+import { EFormType, ETweetQuery, EUpdateType } from '@constants';
 import { EProfileScreen } from '@pages/profile';
+import { useQueryClient } from '@tanstack/react-query';
 import { BaseControlledRef } from '@type/app.type';
 import { ITweet } from '@type/tweet.type';
 import { calcDiffTimeString } from '@utils/helper';
@@ -18,7 +19,9 @@ import {
 import { BiDotsVertical } from 'react-icons/bi';
 import { MdReportProblem } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
+import { useQueryService } from 'services/query.service';
+import { useTweetService } from 'services/tweet.service';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
@@ -29,10 +32,16 @@ type Props = {
 };
 
 const TweetItemHeader = ({ tweet }: Props) => {
+  const queryClient = useQueryClient();
+
   const { t } = useTranslation();
   const { getCurrentUser } = useUserService();
+  const { deleteTweetMutation } = useTweetService();
+  const { optimisticUpdateInfinityList } = useQueryService();
   const currentUser = getCurrentUser();
+
   const editTweetModalRef = useRef<BaseControlledRef>(null);
+  const deleteTweetModalRef = useRef<BaseControlledRef>(null);
 
   const isAuthor = currentUser?._id === tweet?.author?._id;
 
@@ -72,20 +81,37 @@ const TweetItemHeader = ({ tweet }: Props) => {
     );
   }, [t]);
 
-  const onCloseEditModal = useCallback(() => {
-    editTweetModalRef.current?.show();
+  const onOpenModal = useCallback((ref: React.RefObject<BaseControlledRef>) => {
+    ref.current?.show();
   }, []);
 
-  const onOpenEditModal = useCallback(() => {
-    editTweetModalRef.current?.hide();
-  }, []);
+  const onCloseModal = useCallback(
+    (ref: React.RefObject<BaseControlledRef>) => () => {
+      ref.current?.hide();
+    },
+    [],
+  );
+
+  const onDeleteTweet = () => {
+    optimisticUpdateInfinityList({
+      data: tweet,
+      queryKey: ETweetQuery.GetLatestTweets,
+      type: EUpdateType.Delete,
+    });
+    deleteTweetMutation.mutate(tweet?._id, {
+      onSettled: () => {
+        queryClient.invalidateQueries([ETweetQuery.GetLatestTweets]);
+      },
+    });
+  };
 
   const onSelectTweetActionItem = useCallback(async (value: EFormType) => {
     switch (value) {
       case EFormType.Update:
-        onOpenEditModal();
+        onOpenModal(editTweetModalRef);
         break;
       case EFormType.Delete:
+        onOpenModal(deleteTweetModalRef);
         break;
       case EFormType.Report:
         break;
@@ -93,24 +119,34 @@ const TweetItemHeader = ({ tweet }: Props) => {
   }, []);
 
   const profileUrl = `/profile/${tweet?.author?._id}?screen=${EProfileScreen.Home}`;
+
   return (
     <React.Fragment>
       {isAuthor && (
-        <Modal
-          ref={editTweetModalRef}
-          header={<h3>{t('tweet.edit')}</h3>}
-          body={
-            <TweetForm
-              type={EFormType.Update}
-              data={tweet}
-              onCancel={onCloseEditModal}
-            />
-          }
-        />
+        <React.Fragment>
+          <Modal
+            ref={editTweetModalRef}
+            header={<h3>{t('tweet.edit')}</h3>}
+            body={
+              <TweetForm
+                type={EFormType.Update}
+                data={tweet}
+                onCancel={onCloseModal(editTweetModalRef)}
+              />
+            }
+          />
+          <Modal
+            ref={deleteTweetModalRef}
+            header={<h3>{t('tweet.delete')}</h3>}
+            body={<div>{t('tweet.delete_confirm')}</div>}
+            onOk={onDeleteTweet}
+            onCancel={onCloseModal(deleteTweetModalRef)}
+          />
+        </React.Fragment>
       )}
       <StyledHeader>
         {tweet?.isRetweet && tweet?.retweetedBy && (
-          <StyledRetweetedBy to={`${routes.profile}/${tweet?.retweetedBy._id}`}>
+          <StyledRetweetedBy to={`${ROUTES.profile}/${tweet?.retweetedBy._id}`}>
             <AiOutlineRetweet /> {`${tweet?.retweetedBy.name} retweeted`}
           </StyledRetweetedBy>
         )}

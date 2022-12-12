@@ -12,7 +12,7 @@ import nl2br from 'react-nl2br';
 import { Carousel } from 'react-responsive-carousel';
 import { Link } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import styled from 'styled-components';
 
 type Props = {
@@ -46,7 +46,7 @@ const TweetContent = ({ tweet }: Props) => {
       <Link
         className="font-bold hover:text-gray-500 transition-colors duration-300"
         key={match + i}
-        to={`${routes.hashTags}/${match}`}
+        to={`${ROUTES.hashTags}/${match}`}
         onClick={stopPropagation}
       >
         #{match}

@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { BiLock, BiMailSend, BiUserCircle, BiUserPin } from 'react-icons/bi';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import { useAuthService } from 'services/auth.service';
 import { AppDispatch } from 'store';
 import styled from 'styled-components';
@@ -75,10 +75,7 @@ const Auth = () => {
   const { loginMutation, registerMutation, refreshGetMe } = useAuthService();
   const formRef = React.useRef<HTMLFormElement>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const [storedAccessToken, setAccessToken] = useLocalStorage(
-    ELocalStorageKey.AccessToken,
-    '',
-  );
+  const [, setAccessToken] = useLocalStorage(ELocalStorageKey.AccessToken, '');
 
   const onChangeScreen =
     (newScreen: EAuthScreen) =>
@@ -127,7 +124,7 @@ const Auth = () => {
         });
       }
       await refreshGetMe();
-      navigate(routes.home);
+      navigate(ROUTES.home);
     } catch (error) {
       console.log(error);
     }

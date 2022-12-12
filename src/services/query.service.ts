@@ -70,7 +70,7 @@ export const useQueryService = () => {
               return {
                 ...page,
                 data: page?.data?.filter((item: any) => {
-                  return item?._id !== data;
+                  return item?._id !== data?._id;
                 }),
               };
             },
@@ -87,7 +87,6 @@ export const useQueryService = () => {
       ...cachedData,
       pages: updatedPages,
     });
-    queryClient.invalidateQueries([queryKey]);
   };
 
   return {

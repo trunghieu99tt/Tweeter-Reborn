@@ -47,6 +47,7 @@ export enum ETweetQuery {
   GetTweetMedias = 'GetTweetMedias',
   GetBookmarkTweets = 'GetBookmarkTweets',
   GetTweetsByHashtag = 'GetTweetsByHashtag',
+  DeleteTweet = 'DeleteTweet',
 }
 
 export enum ECommentQuery {

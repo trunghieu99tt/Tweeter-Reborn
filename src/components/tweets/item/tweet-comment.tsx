@@ -1,20 +1,40 @@
 import CommentItem from '@components/comment/item';
+import { StyledFlex } from '@components/shared/shared-style';
 import { ECommentQuery } from '@constants';
+import switchRenderIfAuthenticated from '@hoc/switchRenderIfAuthenticated';
 import { useInfinityList } from '@hooks/useInfinityList';
 import { IComment } from '@type/comment.type';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import Skeleton from 'react-loading-skeleton';
 import { useCommentService } from 'services/comment.service';
 import styled from 'styled-components';
-import React, { memo, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyledFlex } from '@components/shared/shared-style';
-import Skeleton from 'react-loading-skeleton';
-import switchRenderIfAuthenticated from '@hoc/switchRenderIfAuthenticated';
 
 type Props = {
   tweetId: string;
 };
 
 const DEFAULT_COMMENT_LIST_SIZE = 5;
+
+const TweetCommentSkeleton = () => {
+  return (
+    <StyledFlex
+      gap={1}
+      style={{
+        marginBottom: '1rem',
+      }}
+    >
+      <Skeleton width="5rem" height="3rem" />
+      <Skeleton width="35rem" height="5rem" />
+    </StyledFlex>
+  );
+};
+
+const tweetCommentSkeletons = [...Array(DEFAULT_COMMENT_LIST_SIZE)].map(
+  (_, index) => (
+    <TweetCommentSkeleton key={`tweet-comment-skeleton-${index}`} />
+  ),
+);
 
 const TweetComments = ({ tweetId }: Props) => {
   const { t } = useTranslation();
@@ -33,15 +53,9 @@ const TweetComments = ({ tweetId }: Props) => {
     },
   });
 
-  const skeletons = useMemo(() => {
-    return [...Array(DEFAULT_COMMENT_LIST_SIZE)].map((_, index) => (
-      <TweetCommentSkeleton key={`tweet-comment-skeleton-${index}`} />
-    ));
-  }, []);
-
   return (
     <StyledRoot>
-      {isLoading && skeletons}
+      {isLoading && tweetCommentSkeletons}
       {comments?.map((comment: IComment) => {
         return <CommentItem data={comment} key={`comment-${comment._id}`} />;
       })}
@@ -52,21 +66,7 @@ const TweetComments = ({ tweetId }: Props) => {
   );
 };
 
-export default switchRenderIfAuthenticated(memo(TweetComments), null);
-
-const TweetCommentSkeleton = () => {
-  return (
-    <StyledFlex
-      gap={1}
-      style={{
-        marginBottom: '1rem',
-      }}
-    >
-      <Skeleton width="5rem" height="3rem" />
-      <Skeleton width="35rem" height="5rem" />
-    </StyledFlex>
-  );
-};
+export default switchRenderIfAuthenticated(React.memo(TweetComments), null);
 
 const StyledRoot = styled.div`
   margin-top: 1rem;

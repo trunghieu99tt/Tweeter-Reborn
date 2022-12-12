@@ -2,7 +2,7 @@ import { IHashtag } from '@type/hash-tag.type';
 import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { ROUTES } from 'routes';
 import styled from 'styled-components';
 import React, { memo } from 'react';
 
@@ -14,7 +14,7 @@ const HashtagSearchResult = ({ data }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <StyledRoot to={`${routes.hashTags}/${data.name}`}>
+    <StyledRoot to={`${ROUTES.hashTags}/${data.name}`}>
       <StyledName>#{data.name}</StyledName>
       <StyledCounter>
         {t('numberOfTweet')}: <span>{data.count}</span>

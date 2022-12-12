@@ -142,6 +142,12 @@ export const useTweetService = () => {
       return response?.data;
     }, true);
 
+  const deleteTweet = async (tweetId: string) =>
+    tryCatchFn(async () => {
+      const response = await client.delete(`${EEndpoints.Tweet}/${tweetId}`);
+      return response?.data;
+    }, true);
+
   const reportTweet = async (tweetId: string) =>
     tryCatchFn(async () => {
       const response = await client.patch(
@@ -185,6 +191,10 @@ export const useTweetService = () => {
     [ETweetQuery.ReportTweet],
     reportTweet,
   );
+  const deleteTweetMutation = useMutation(
+    [ETweetQuery.DeleteTweet],
+    deleteTweet,
+  );
 
   return {
     getTweet,
@@ -203,5 +213,6 @@ export const useTweetService = () => {
     retweetMutation,
     saveTweetMutation,
     reportTweetMutation,
+    deleteTweetMutation,
   };
 };

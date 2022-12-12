@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppContext } from '@context/app.context';
 import { SocketConnector } from './socket';
+import { APP_DISPATCH_ACTIONS } from '@constants';
 
 export const useSocket = (): void => {
   const { dispatch } = useAppContext();
@@ -11,7 +12,10 @@ export const useSocket = (): void => {
 
     socketInstance.on('connect', () => {
       console.log('Connected');
-      dispatch({ type: 'SET_SOCKET', payload: socketInstance });
+      dispatch({
+        type: APP_DISPATCH_ACTIONS.SET_SOCKET,
+        payload: socketInstance,
+      });
     });
   };
 

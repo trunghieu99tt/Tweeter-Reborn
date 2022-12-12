@@ -1,8 +1,10 @@
+import { IModalProps } from '@components/shared/modal';
 import { EMedia } from '@constants';
 import { EThemes } from 'constants/style.constant';
 import { AnimatePresenceProps } from 'framer-motion';
-import { Component } from 'react';
+import React from 'react';
 import { Socket } from 'socket.io-client';
+import { APP_DISPATCH_ACTIONS } from '@constants';
 
 export type TScreenSize = 'DESKTOP' | 'TABLET' | 'MOBILE';
 export type TLoading = {
@@ -14,14 +16,23 @@ export enum ELanguage {
   Vi = 'vi',
 }
 
+type TModalAppState = {
+  visible: boolean;
+  props?: IModalProps;
+};
+
 export type TAppAction =
   | {
-      type: 'SET_SOCKET';
+      type: APP_DISPATCH_ACTIONS.SET_SOCKET;
       payload: Socket | null;
     }
   | {
-      type: 'SET_LOADING';
+      type: APP_DISPATCH_ACTIONS.SET_LOADING;
       payload: TLoading;
+    }
+  | {
+      type: APP_DISPATCH_ACTIONS.SET_MODAL;
+      payload: TModalAppState;
     };
 
 export type TAppState = {
@@ -29,6 +40,7 @@ export type TAppState = {
   loading: TLoading;
   theme: EThemes;
   language: ELanguage;
+  modal: TModalAppState;
 };
 
 export type TAppDispatch = (action: TAppAction) => void;

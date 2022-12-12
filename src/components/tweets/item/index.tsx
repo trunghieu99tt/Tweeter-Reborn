@@ -1,12 +1,13 @@
 import { ITweet } from '@type/tweet.type';
+import { isUUID } from '@utils/helper';
 import { EBoxShadow } from 'constants/style.constant';
-import React, { CSSProperties, memo } from 'react';
+import React, { CSSProperties } from 'react';
 import styled from 'styled-components';
-import TweetItemHeader from './tweet-author';
+import TweetItemHeader from './tweet-header';
+import TweetComments from './tweet-comment';
 import TweetContent from './tweet-content';
 import TweetInteraction from './tweet-interaction';
 import TweetSkeleton from './tweet-item.skeleton';
-import TweetComments from './tweet-comment';
 
 type Props = {
   data: ITweet;
@@ -16,18 +17,20 @@ type Props = {
 const TweetItem = ({ data, isLoading }: Props) => {
   return (
     <StyledRoot>
-      {isLoading ? <TweetSkeleton /> : null}
+      {isLoading && <TweetSkeleton />}
       <TweetItemHeader tweet={data} />
       <div>
         <TweetContent tweet={data} />
         <TweetInteraction tweet={data} />
-        <TweetComments tweetId={data?._id} />
+        {data?._id && !isUUID(data._id) && (
+          <TweetComments tweetId={data?._id} />
+        )}
       </div>
     </StyledRoot>
   );
 };
 
-export default memo(TweetItem);
+export default React.memo(TweetItem);
 
 const StyledRoot = styled.article<{
   customStyles?: CSSProperties;

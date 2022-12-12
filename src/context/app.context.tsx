@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { APP_DISPATCH_ACTIONS } from '@constants';
 import { EThemes } from 'constants/style.constant';
 import React, { useContext, useMemo, useReducer } from 'react';
 import {
@@ -17,6 +17,9 @@ const initialState: TAppState = {
   },
   theme: EThemes.LIGHT,
   language: ELanguage.En,
+  modal: {
+    visible: false,
+  },
 };
 
 const AppContext = React.createContext<{
@@ -26,17 +29,25 @@ const AppContext = React.createContext<{
 
 const appReducer = (state: TAppState = initialState, action: TAppAction) => {
   switch (action.type) {
-    case 'SET_SOCKET':
+    case APP_DISPATCH_ACTIONS.SET_SOCKET:
       return {
         ...state,
         socket: action.payload,
       };
-    case 'SET_LOADING':
+    case APP_DISPATCH_ACTIONS.SET_LOADING:
       return {
         ...state,
         loading: {
           visible: action.payload.visible,
           component: action.payload.component,
+        },
+      };
+    case APP_DISPATCH_ACTIONS.SET_MODAL:
+      return {
+        ...state,
+        modal: {
+          visible: action.payload.visible,
+          props: action.payload.props,
         },
       };
     default:
