@@ -1,9 +1,10 @@
-import { EMedia } from '@constants';
+import { EMedia, TYPE_MAPPER } from '@constants';
 import { IMedia } from '@type/app.type';
 import { SyntheticEvent } from 'react';
 import { EventBusName, onPushEventBus } from 'services/event-bus';
 import { v4 as uuid } from 'uuid';
 import queryString from 'query-string';
+import _get from 'lodash/get';
 
 const nFormatter = (num: number, digits = 2): string => {
   const lookup = [
@@ -78,18 +79,14 @@ export const extractMetadata = (
   hashtags: string[];
   urls: string[];
 } => {
-  const hashtags = body?.match(/(#[\w]+)/g) || [];
-  const urls = body?.match(/https?:\/\/\S+/g) || [];
+  const hashtags = body?.match(/(#[\w]+)/g);
 
-  let tags: string[] = [];
-
-  // Remove duplicates and the hash
-  if (hashtags && hashtags?.length > 0) {
-    tags = Array.from(new Set(hashtags)).map((h) => h.toString().substr(1));
-  }
   return {
-    hashtags: tags,
-    urls,
+    hashtags:
+      hashtags?.length > 0
+        ? Array.from(new Set(hashtags)).map((h) => h.toString().substring(1))
+        : [],
+    urls: body?.match(/https?:\/\/\S+/g) || [],
   };
 };
 
@@ -118,16 +115,16 @@ export const tryCatchFn = async <T>(
   customMsg?: string,
 ): Promise<T> => {
   try {
-    const res = await fn();
-    return res;
+    return await fn();
   } catch (error: any) {
     console.error(`${fn.name} error: ${error}`);
-    if (shouldShowError) {
+    shouldShowError &&
       onPushEventBus({
         type: EventBusName.Error,
         payload: customMsg || error?.response?.data?.message,
       });
-    }
+
+    return null;
   }
 };
 
@@ -159,6 +156,15 @@ export const isUUID = (str: string): boolean => {
   const uuidRegex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   return uuidRegex.test(str);
+};
+
+export const getFileTypeEnum = (file: File) => {
+  const type = _get(file, 'type', '').split('/')?.[0];
+  for (const [key, value] of Object.entries(TYPE_MAPPER)) {
+    if (value.includes(type)) return key;
+  }
+
+  return '';
 };
 
 export {

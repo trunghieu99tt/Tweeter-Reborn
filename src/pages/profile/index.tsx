@@ -102,7 +102,7 @@ const ProfilePage = () => {
           sideBar={
             <LeftSelectableBar<EProfileScreen>
               data={options}
-              selectedValue={screen}
+              defaultValue={screen}
               onChange={onChangeScreen}
             />
           }

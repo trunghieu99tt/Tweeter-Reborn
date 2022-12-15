@@ -1,5 +1,6 @@
+import genericMemo from '@hoc/genericMemo';
 import { EBoxShadow } from 'constants/style.constant';
-import _ from 'lodash';
+import _isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
 import React from 'react';
 
@@ -13,16 +14,19 @@ export type TLeftSelectableSideBarItem<T> = {
 type Props<T> = {
   onChange: (value: T) => void;
   data: TLeftSelectableSideBarItem<T>[];
-  selectedValue: T;
+  defaultValue: T;
 };
 
 const LeftSelectableBar = <T,>({
   data,
-  selectedValue,
+  defaultValue,
   onChange: propsOnChange,
 }: Props<T>) => {
+  const [selected, setSelected] = React.useState<T>(defaultValue);
+
   const onClick = (value: T) => {
     propsOnChange(value);
+    setSelected(value);
   };
 
   return (
@@ -30,7 +34,7 @@ const LeftSelectableBar = <T,>({
       <StyledList>
         {data.map(
           ({ id, name, icon, value }: TLeftSelectableSideBarItem<T>) => {
-            const isActive = _.isEqual(value, selectedValue);
+            const isActive = _isEqual(value, selected);
 
             return (
               <StyledListItem
@@ -49,7 +53,7 @@ const LeftSelectableBar = <T,>({
   );
 };
 
-export default LeftSelectableBar;
+export default genericMemo(LeftSelectableBar);
 
 export const StyledRoot = styled.div`
   background: ${({ theme }) => theme.backgroundColor1};

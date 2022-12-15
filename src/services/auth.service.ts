@@ -3,6 +3,7 @@ import { ILogin, IUser } from '@type/user.type';
 import client from 'api/client';
 import { UserModel } from 'models/user.model';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { tryCatchFn } from '@utils/helper';
 
 export const useAuthService = () => {
   const queryClient = useQueryClient();
@@ -12,8 +13,8 @@ export const useAuthService = () => {
   ): Promise<{
     accessToken: string;
     user: IUser;
-  }> => {
-    try {
+  }> =>
+    tryCatchFn(async () => {
       const response = await client.post(`${EEndpoints.Auth}/signin`, input);
       const { accessToken, user } = response?.data;
       const userModel = new UserModel(user);
@@ -22,21 +23,13 @@ export const useAuthService = () => {
         accessToken,
         user: userModel.getData(),
       };
-    } catch (error) {
-      console.error(`${login.name} error`);
-    }
+    });
 
-    return null;
-  };
-
-  const register = async (input: any) => {
-    try {
+  const register = async (input: any) =>
+    tryCatchFn(async () => {
       const response = await client.post(`${EEndpoints.Auth}/signup`, input);
       return response?.data?.accessToken || '';
-    } catch (error) {
-      console.error(`${register.name} error`);
-    }
-  };
+    });
 
   const refreshGetMe = async () => {
     await queryClient.invalidateQueries([EUserQuery.GetMe]);

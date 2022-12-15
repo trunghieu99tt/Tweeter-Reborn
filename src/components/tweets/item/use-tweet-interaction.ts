@@ -2,10 +2,12 @@ import { BaseControlledRef } from '@type/app.type';
 import { ITweet } from '@type/tweet.type';
 import { IUser } from '@type/user.type';
 import { EUserListType } from 'constants/user.constant';
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTweetService } from 'services/tweet.service';
 import useUserService from 'services/user.service';
+import { get as _get, uniqBy as _uniqBy } from 'lodash';
+import { UseMutationResult } from '@tanstack/react-query';
 
 type Props = {
   tweet: ITweet;
@@ -23,44 +25,36 @@ export const useTweetInteraction = ({ tweet }: Props) => {
 
   let userListData: IUser[] = [];
   let modalUserListHeader = '';
+  const usersSavedTweet = _uniqBy(_get(tweet, 'saved', []), '_id');
+  const usersLikedTweet = _uniqBy(_get(tweet, 'likes', []), '_id');
+  const usersRetweetedTweet = _uniqBy(_get(tweet, 'retweeted', []), '_id');
+  const currentUserId = _get(currentUser, '_id', '');
+  const retweeted = usersRetweetedTweet.some(
+    (user) => user._id === currentUserId,
+  );
+  const liked = usersLikedTweet.some((user) => user._id === currentUserId);
+  const saved = usersSavedTweet.some((user) => user._id === currentUserId);
 
   switch (userListType) {
     case EUserListType.Liked:
-      userListData = tweet?.likes || [];
+      userListData = usersLikedTweet;
       modalUserListHeader = t('userLikedTweet');
       break;
     case EUserListType.Saved:
-      userListData = tweet?.saved || [];
+      userListData = usersSavedTweet;
       modalUserListHeader = t('userSavedTweet');
       break;
     case EUserListType.Retweeted:
-      userListData = tweet?.retweeted || [];
+      userListData = usersRetweetedTweet;
       modalUserListHeader = t('userRetweetedTweet');
       break;
   }
 
-  const tweetLikeCount = tweet?.likes?.length || 0;
-  const tweetSavedCount = tweet?.saved?.length || 0;
-  const tweetRetweetCount = tweet?.retweeted?.length || 0;
+  const tweetLikeCount = usersLikedTweet.length;
+  const tweetSavedCount = usersSavedTweet.length;
+  const tweetRetweetCount = usersRetweetedTweet.length;
+
   const totalTweetComments = 0;
-  const retweeted =
-    (currentUser?._id &&
-      tweet?.retweeted?.findIndex((u: IUser) => u._id === currentUser?._id) !==
-        -1) ||
-    false;
-
-  const liked =
-    (currentUser?._id &&
-      tweet?.likes.findIndex((u: IUser) => u?._id === currentUser?._id) !==
-        -1) ||
-    false;
-
-  // current user saved this tweet or not
-  const saved =
-    (currentUser?._id &&
-      tweet?.saved?.findIndex((u: IUser) => u?._id === currentUser?._id) !==
-        -1) ||
-    false;
 
   const showUserListModal = useCallback(
     (userListType: EUserListType) =>
@@ -72,50 +66,53 @@ export const useTweetInteraction = ({ tweet }: Props) => {
     [],
   );
 
+  const onUpdateTweetInteraction = ({
+    currentStatus,
+    tweetId,
+    type,
+    mutation,
+  }: {
+    tweetId: string;
+    type: 'likes' | 'retweeted' | 'saved';
+    currentStatus: boolean;
+    mutation: UseMutationResult<ITweet, unknown, string, unknown>;
+  }) => {
+    const initialList = _get(tweet, type, []);
+    tweet[type] = currentStatus
+      ? initialList.filter((u: IUser) => u._id !== currentUser?._id)
+      : [...initialList, currentUser];
+
+    mutation.mutate(tweetId, {
+      onError: () => {
+        tweet[type] = initialList;
+      },
+    });
+  };
+
   const onRetweet = () => {
-    // retweet tweet
-    const initialRetweeted = [...(tweet?.retweeted || [])];
-    if (!retweeted) {
-      tweet.retweeted = [...initialRetweeted, currentUser];
-    } else {
-      tweet.retweeted = initialRetweeted.filter(
-        (u) => u._id !== currentUser?._id,
-      );
-    }
-
-    retweetMutation.mutate(tweet._id, {
-      onError: (error) => {
-        tweet.retweeted = initialRetweeted;
-      },
+    onUpdateTweetInteraction({
+      currentStatus: !!retweeted,
+      tweetId: tweet._id,
+      type: 'retweeted',
+      mutation: retweetMutation,
     });
   };
+
   const onReactTweet = () => {
-    // react to tweet
-    const initialReacted = [...(tweet?.likes || [])];
-    if (!liked) {
-      tweet.likes = [...initialReacted, currentUser];
-    } else {
-      tweet.likes = initialReacted.filter((u) => u._id !== currentUser?._id);
-    }
-
-    reactTweetMutation.mutate(tweet._id, {
-      onError: (error) => {
-        tweet.likes = initialReacted;
-      },
+    onUpdateTweetInteraction({
+      currentStatus: !!liked,
+      tweetId: tweet._id,
+      type: 'likes',
+      mutation: reactTweetMutation,
     });
   };
+
   const onSaveTweet = () => {
-    // save tweet
-    const initialSaved = [...(tweet?.saved || [])];
-    if (!saved) {
-      tweet.saved = [...initialSaved, currentUser];
-    } else {
-      tweet.saved = initialSaved.filter((u) => u._id !== currentUser?._id);
-    }
-    saveTweetMutation.mutate(tweet._id, {
-      onError: (error) => {
-        tweet.saved = initialSaved;
-      },
+    onUpdateTweetInteraction({
+      currentStatus: !!saved,
+      tweetId: tweet._id,
+      type: 'saved',
+      mutation: saveTweetMutation,
     });
   };
 

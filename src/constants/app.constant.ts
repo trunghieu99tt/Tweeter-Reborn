@@ -39,3 +39,8 @@ export enum APP_DISPATCH_ACTIONS {
   SET_LOADING = 'SET_LOADING',
   SET_MODAL = 'SET_MODAL',
 }
+
+export const TYPE_MAPPER = {
+  image: EMedia.Image,
+  video: EMedia.Video,
+};

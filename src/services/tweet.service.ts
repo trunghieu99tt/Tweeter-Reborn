@@ -137,7 +137,7 @@ export const useTweetService = () => {
     }, true);
 
   const saveTweet = async (tweetId: string) =>
-    tryCatchFn(async () => {
+    tryCatchFn<ITweet>(async () => {
       const response = await client.post(`${EEndpoints.Tweet}/save/${tweetId}`);
       return response?.data;
     }, true);
@@ -158,7 +158,7 @@ export const useTweetService = () => {
 
   const getTweet = async ({ queryKey }: QueryFunctionContext) =>
     tryCatchFn<ITweet>(async () => {
-      const [_, id] = queryKey;
+      const [, id] = queryKey;
       const response = await client.get(`${EEndpoints.Tweet}/${id}`);
       return new TweetModel(response?.data?.data).getData();
     });
@@ -166,7 +166,7 @@ export const useTweetService = () => {
   const getTweetsByHashtag =
     (limit: number) =>
     ({ pageParam, queryKey }: QueryFunctionContext) => {
-      const [_, hashtag] = queryKey;
+      const [, hashtag] = queryKey;
       return getList<ITweet>(
         `${EEndpoints.Tweet}/hashtag/${hashtag}`,
         pageParam,

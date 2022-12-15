@@ -25,14 +25,14 @@ const Explore = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const navigate = useNavigate();
-
-  const { screen } = queryStringToObject(location.search);
+  const { hash } = location;
+  const screen = hash.substring(1);
 
   const onChangeScreen = (nextScreen: EExploreScreen) => {
     if (screen !== nextScreen) {
       navigate({
         pathname: location.pathname,
-        search: `?screen=${nextScreen}`,
+        hash: nextScreen,
       });
     }
   };
@@ -79,20 +79,23 @@ const Explore = () => {
     ];
   }, [t]);
 
+  console.log('screen', screen);
+
+  const sidebar = useMemo(() => {
+    return (
+      <LeftSelectableBar<EExploreScreen>
+        data={options}
+        defaultValue={screen as EExploreScreen}
+        onChange={onChangeScreen}
+      />
+    );
+  }, []);
+
   return (
     <React.Fragment>
       <PageMetadata title={t('pages.explore.index')} />
       <LayoutWithHeader>
-        <OneSideBarLayout
-          sideBar={
-            <LeftSelectableBar<EExploreScreen>
-              data={options}
-              selectedValue={screen}
-              onChange={onChangeScreen}
-            />
-          }
-          content={content}
-        />
+        <OneSideBarLayout sideBar={sidebar} content={content} />
       </LayoutWithHeader>
     </React.Fragment>
   );

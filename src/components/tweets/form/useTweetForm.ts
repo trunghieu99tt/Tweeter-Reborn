@@ -39,17 +39,16 @@ export const useTweetForm = ({ tweet }: Props) => {
   const [audience, setAudience] = useState<number>(tweet?.audience || 0);
 
   const onChangeFile = useCallback((files: FileList) => {
-    if (files?.length > 0) {
-      const newMedias: IMedia[] = Array.from(files).map((file: File) => ({
-        id: uuid(),
-        file,
-        url: URL.createObjectURL(file),
-        type: file.type.split('/')[0].includes('image')
-          ? EMedia.Image
-          : EMedia.Video,
-      }));
-      setMedia(newMedias);
-    }
+    if (!files?.length) return;
+    const newMedias: IMedia[] = Array.from(files).map((file: File) => ({
+      id: uuid(),
+      file,
+      url: URL.createObjectURL(file),
+      type: file.type.split('/')[0].includes('image')
+        ? EMedia.Image
+        : EMedia.Video,
+    }));
+    setMedia(newMedias);
   }, []);
 
   const onResetMedia = useCallback(() => {

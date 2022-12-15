@@ -28,13 +28,11 @@ const NotificationItem = ({ data }: Props) => {
   const { markAsRead } = useNotificationService();
 
   const onClickItem = () => {
-    if (data?._id) {
-      navigate(data.url);
-    }
-
-    if (data?._id && !data?.isRead?.some((id) => id === user?._id)) {
+    if (!data?._id) return;
+    if (!data?.isRead?.some((id) => id === user?._id)) {
       markAsRead([data._id]);
     }
+    navigate(data.url);
   };
 
   return (

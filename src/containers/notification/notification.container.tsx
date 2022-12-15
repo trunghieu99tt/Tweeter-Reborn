@@ -32,6 +32,10 @@ type Props = {
 
 const SMALL_LIST_LIMIT = 5;
 
+const notificationSkeletons = [...Array(5)].map((_, idx: number) => (
+  <NotificationItemSkeleton key={idx} />
+));
+
 const NotificationContainer = ({ screen }: Props) => {
   const { t } = useTranslation();
   const { getCurrentUser } = useUserService();
@@ -69,12 +73,6 @@ const NotificationContainer = ({ screen }: Props) => {
   });
   const shouldHaveViewAllButton =
     screen === ENotificationScreen.NewFeed && totalRecords > SMALL_LIST_LIMIT;
-
-  const notificationSkeletons = useMemo(() => {
-    return [...Array(5)].map((_, idx: number) => (
-      <NotificationItemSkeleton key={idx} />
-    ));
-  }, []);
 
   const notificationList = useMemo(() => {
     return notifications?.map((notification) => (

@@ -13,23 +13,21 @@ export const useCommentItem = ({ data }: Props) => {
   const { reactCommentMutation } = useCommentService();
   const { getCurrentUser } = useUserService();
 
-  const currentUser = getCurrentUser();
+  const { _id: currentUserId = '' } = getCurrentUser();
   const [visibleReplyForm, setVisibleReplyForm] = React.useState(false);
   const replyFormRef = React.useRef<HTMLFormElement>(null);
 
   const onShowReplyForm = () => {
     setVisibleReplyForm(true);
-    if (replyFormRef?.current) {
-      replyFormRef.current.focus();
-    }
+    replyFormRef?.current?.focus();
   };
 
   const toggleReact = async () => {
     const initialLikes = [...data.likes];
-    if (data.likes.includes(currentUser?._id)) {
-      data.likes = data.likes.filter((id) => id !== currentUser?._id);
+    if (data.likes.includes(currentUserId)) {
+      data.likes = data.likes.filter((id) => id !== currentUserId);
     } else {
-      data.likes = [...data.likes, currentUser?._id];
+      data.likes = [...data.likes, currentUserId];
     }
 
     reactCommentMutation.mutate(data._id, {
@@ -38,7 +36,7 @@ export const useCommentItem = ({ data }: Props) => {
       },
       onSuccess: (data: unknown) => {
         const updatedComment = new CommentModel(data as IComment).getData();
-        if (updatedComment?.likes?.includes(currentUser._id)) {
+        if (updatedComment?.likes?.includes(currentUserId)) {
           onPushEventBus({
             type: EventBusName.CreateNotification,
             payload: {
@@ -53,7 +51,7 @@ export const useCommentItem = ({ data }: Props) => {
     });
   };
 
-  const didUserLiked = data.likes?.includes(currentUser?._id);
+  const didUserLiked = data.likes?.includes(currentUserId);
   const likedCount = data.likes?.length || 0;
 
   return {

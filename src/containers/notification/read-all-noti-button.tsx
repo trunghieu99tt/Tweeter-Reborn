@@ -1,4 +1,5 @@
 import { INotification } from '@type/notification.type';
+import { IUser } from '@type/user.type';
 import {
   EBorderRadius,
   EFontSize,
@@ -23,24 +24,28 @@ const ReadAllNotificationButton = ({ notifications }: Props) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const markAllAsRead = async () => {
-    console.log('mark all as read');
-    const unreadNotificationIds = notifications
+  const getUnreadNotificationIds = (
+    notifications: INotification[],
+    user: IUser,
+  ) => {
+    return notifications
       .filter((notification) => {
         return notification?.isRead && !notification.isRead.includes(user?._id);
       })
       .map((notification) => notification._id)
       .filter(Boolean);
+  };
 
-    try {
-      if (unreadNotificationIds?.length > 0) {
-        setIsLoading(true);
+  const markAllAsRead = async () => {
+    const unreadNotificationIds = getUnreadNotificationIds(notifications, user);
+
+    if (unreadNotificationIds?.length) {
+      setIsLoading(true);
+      try {
         await markAsRead(unreadNotificationIds);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.error(`markAllAsRead error`, error);
-      if (unreadNotificationIds?.length > 0) {
+      } catch (error) {
+        console.error(`markAllAsRead error`, error);
+      } finally {
         setIsLoading(false);
       }
     }
