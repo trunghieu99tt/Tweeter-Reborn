@@ -4,18 +4,21 @@ import styled from 'styled-components';
 
 type Props = {
   sideBar?: JSX.Element | null;
+  isFullWidth?: boolean;
   content: JSX.Element;
 };
 
-export const OneSideBarLayout = ({ sideBar, content }: Props) => {
-  return (
-    <StyledContainer>
-      <StyledFlex gap={2.5}>
-        <SideBar>{sideBar}</SideBar>
-        <MainContent>{content}</MainContent>
-      </StyledFlex>
-    </StyledContainer>
+export const OneSideBarLayout = ({ sideBar, content, isFullWidth }: Props) => {
+  const element = (
+    <StyledFlex gap={2.5}>
+      <SideBar>{sideBar}</SideBar>
+      <MainContent>{content}</MainContent>
+    </StyledFlex>
   );
+
+  if (isFullWidth) return element;
+
+  return <StyledContainer>{element}</StyledContainer>;
 };
 
 const SideBar = styled.aside`

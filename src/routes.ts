@@ -9,18 +9,21 @@ const SearchPage = React.lazy(() => import('@pages/search'));
 const TweetDetailPage = React.lazy(() => import('@pages/tweet-detail'));
 const HashtagTweets = React.lazy(() => import('@pages/hash-tag-tweets'));
 const ProfilePage = React.lazy(() => import('@pages/profile'));
+const CreateStoryPage = React.lazy(() => import('@pages/story/create'));
 
 export const ROUTES = {
   home: '/',
   auth: '/auth',
   notifications: '/notifications',
-  stories: '/stories',
   explore: '/explore',
   bookmark: '/bookmark',
   search: '/search',
   profile: '/profile',
   hashTags: '/hashtag',
   tweet: '/tweet',
+  story: {
+    create: '/story/create',
+  },
 };
 
 export const routes: {
@@ -74,6 +77,11 @@ export const routes: {
   {
     path: `${ROUTES.profile}/:userId`,
     Element: ProfilePage,
+    isLazy: true,
+  },
+  {
+    path: ROUTES.story.create,
+    Element: CreateStoryPage,
     isLazy: true,
   },
 ];

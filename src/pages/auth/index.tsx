@@ -1,143 +1,24 @@
 import GenderSelector from '@components/selectors/gender-selector';
 import Button from '@components/shared/button';
 import UncontrolledInput from '@components/shared/uncontrolled-input';
-import { ELocalStorageKey } from '@constants';
-import { useLocalStorage } from '@hooks/useLocalStorage';
-import { setGlobalLoading } from '@redux/app/app.slice';
-import { ILogin } from '@type/user.type';
 import { EFontWeight } from 'constants/style.constant';
-import { EGender } from 'constants/user.constant';
-import _ from 'lodash';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiLock, BiMailSend, BiUserCircle, BiUserPin } from 'react-icons/bi';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { ROUTES } from 'routes';
-import { useAuthService } from 'services/auth.service';
-import { AppDispatch } from 'store';
 import styled from 'styled-components';
-
-enum EAuthScreen {
-  Login = 'login',
-  Register = 'register',
-}
-
-type TInputField = {
-  label: string;
-  name: string;
-  icon: JSX.Element;
-  type: string;
-};
-
-const loginFields: TInputField[] = [
-  {
-    label: 'username',
-    name: 'username',
-    icon: <BiUserCircle />,
-    type: 'text',
-  },
-  {
-    label: 'password',
-    name: 'password',
-    icon: <BiLock />,
-    type: 'password',
-  },
-];
-const registerFields: TInputField[] = [
-  {
-    name: 'passwordConfirm',
-    label: 'Confirm Password',
-    icon: <BiLock />,
-    type: 'text',
-  },
-  {
-    label: 'Name',
-    name: 'name',
-    icon: <BiUserPin />,
-    type: 'text',
-  },
-  {
-    label: 'Email',
-    name: 'email',
-    icon: <BiMailSend />,
-    type: 'text',
-  },
-];
-
-const getFieldNames = (fields: TInputField[]) => fields.map(({ name }) => name);
+import { EAuthScreen, loginFields, registerFields, useAuth } from './useAuth';
 
 const Auth = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const [screen, setScreen] = useState<EAuthScreen>(EAuthScreen.Login);
-  const [gender, setGender] = useState<EGender>(EGender.UNKNOWN);
-  const { loginMutation, registerMutation, refreshGetMe } = useAuthService();
-  const formRef = React.useRef<HTMLFormElement>(null);
-  const dispatch = useDispatch<AppDispatch>();
-  const [, setAccessToken] = useLocalStorage(ELocalStorageKey.AccessToken, '');
 
-  const onChangeScreen =
-    (newScreen: EAuthScreen) =>
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      if (screen !== newScreen) {
-        formRef.current.reset();
-        setScreen(newScreen);
-      }
-    };
-
-  const onChangeGender = useCallback(
-    (newGender: EGender) => setGender(newGender),
-    [],
-  );
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const fieldValues = Object.fromEntries(formData.entries());
-
-    const input = _.pick(
-      fieldValues,
-      screen === EAuthScreen.Login
-        ? getFieldNames(loginFields)
-        : [...getFieldNames(loginFields), ...getFieldNames(registerFields)],
-    );
-
-    dispatch(
-      setGlobalLoading({
-        visible: true,
-      }),
-    );
-    try {
-      if (screen === EAuthScreen.Login) {
-        await loginMutation.mutateAsync(input as unknown as ILogin, {
-          onSuccess: (data) => {
-            setAccessToken(data.accessToken);
-          },
-        });
-      } else {
-        await registerMutation.mutateAsync(input, {
-          onSuccess: (data) => {
-            setAccessToken(data.accessToken);
-          },
-        });
-      }
-      await refreshGetMe();
-      navigate(ROUTES.home);
-    } catch (error) {
-      console.log(error);
-    }
-    dispatch(
-      setGlobalLoading({
-        visible: false,
-      }),
-    );
-    event.currentTarget?.reset();
-  };
-
-  const isRegisterScreen = screen === EAuthScreen.Register;
-  const isLoginScreen = screen === EAuthScreen.Login;
+  const {
+    isLoginScreen,
+    isRegisterScreen,
+    onChangeGender,
+    onChangeScreen,
+    onSubmit,
+    formRef,
+    screen,
+  } = useAuth();
 
   return (
     <React.Fragment>
@@ -168,7 +49,7 @@ const Auth = () => {
                   required={isRegisterScreen}
                 />
               ))}
-              <GenderSelector value={gender} onChange={onChangeGender} />
+              <GenderSelector onChange={onChangeGender} />
             </StyledRegisterFields>
 
             <Button type="submit">

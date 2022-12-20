@@ -1,7 +1,7 @@
 import ImageWithPlaceholder from '@components/shared/image-with-place-holder';
 import { EFontSize, EFontWeight } from 'constants/style.constant';
 import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
-import React, { memo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiBookAdd } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ const CreateNewStoryLink = () => {
   const user = getCurrentUser();
 
   return (
-    <Link to={`${ROUTES.stories}/create`}>
+    <Link to={`${ROUTES.story.create}`}>
       <StyledImageWrapper>
         <ImageWithPlaceholder src={user?.avatar || ''} alt={user?.name} />
       </StyledImageWrapper>
@@ -29,7 +29,10 @@ const CreateNewStoryLink = () => {
   );
 };
 
-export default switchRenderIfAuthenticated(memo(CreateNewStoryLink), null);
+export default switchRenderIfAuthenticated(
+  React.memo(CreateNewStoryLink),
+  null,
+);
 
 const StyledImageWrapper = styled.figure`
   width: 100%;

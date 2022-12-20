@@ -37,7 +37,7 @@ const LanguageSelector = () => {
   return (
     <BaseSelector<ELanguage>
       options={options}
-      value={currentLanguage}
+      defaultValue={currentLanguage}
       onChange={onChange}
     />
   );

@@ -1,8 +1,7 @@
 import { useOnClickOutside } from '@hooks/useOnClickOutside';
+import { safeCallFn } from '@utils/helper';
 import { EFontSize } from 'constants/style.constant';
 import React, { useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 import styled from 'styled-components';
 import Dropdown from './drop-down';
 
@@ -14,22 +13,27 @@ type TOptions<T> = {
 };
 
 type Props<T> = {
-  value?: T;
+  defaultValue?: T;
   onChange: (input: T) => void;
   options: TOptions<T>[];
   renderValue?: (value: T) => React.ReactNode;
 };
 
 const BaseSelector = <T,>({
-  value,
-  onChange,
+  defaultValue,
+  onChange: onChangeProp,
   options,
   renderValue,
 }: Props<T>) => {
   const [visibleDropdown, setVisibleDropdown] = useState<boolean>(false);
+  const [value, setValue] = useState(defaultValue);
   const dropdownRef = useRef() as React.RefObject<HTMLDivElement>;
 
   const toggleDropdown = () => setVisibleDropdown((isVisible) => !isVisible);
+  const onChangeValue = (newValue: T) => {
+    safeCallFn(onChangeProp, newValue);
+    setValue(newValue);
+  };
 
   useOnClickOutside(dropdownRef, () => setVisibleDropdown(false));
 
@@ -37,7 +41,7 @@ const BaseSelector = <T,>({
     return options.map((option) => {
       return (
         <SelectedItemSelectionItem
-          onClick={() => onChange(option.value)}
+          onClick={() => onChangeValue(option.value)}
           key={option.id}
         >
           {option?.icon}

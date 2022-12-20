@@ -8,11 +8,11 @@ import { RootState } from 'store';
 import { v4 as uuid } from 'uuid';
 
 type Props = {
-  value: number;
+  defaultValue?: number;
   onChange: (input: number) => void;
 };
 
-const GenderSelector = ({ value, onChange }: Props) => {
+const GenderSelector = ({ defaultValue, onChange }: Props) => {
   const currentLanguage = useSelector(
     (state: RootState) => state.appState.language,
   );
@@ -42,7 +42,11 @@ const GenderSelector = ({ value, onChange }: Props) => {
   }, [currentLanguage]);
 
   return (
-    <BaseSelector<number> options={options} value={value} onChange={onChange} />
+    <BaseSelector<number>
+      options={options}
+      defaultValue={defaultValue}
+      onChange={onChange}
+    />
   );
 };
 

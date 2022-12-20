@@ -1,4 +1,4 @@
 export enum EStoryType {
-  Text = 'TEXT',
-  Image = 'IMAGE',
+  Text = 'Text',
+  Media = 'Media',
 }

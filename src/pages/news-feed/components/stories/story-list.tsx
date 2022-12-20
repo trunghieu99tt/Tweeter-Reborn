@@ -1,18 +1,17 @@
 import { EStoryQuery } from '@constants';
+import switchRenderIfAuthenticated from '@hoc/switchRenderIfAuthenticated';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import {
   flattenInfinityList,
   generateInfinityQueryListConfig,
 } from '@utils/query';
 import _ from 'lodash';
-import { memo } from 'react';
+import React from 'react';
 import EventBus, { EventBusName } from 'services/event-bus';
 import { useStoryService } from 'services/story.service';
 import styled from 'styled-components';
 import CreateStoryLink from './create-story-link';
 import StoryItem from './story-item';
-import React from 'react';
-import switchRenderIfAuthenticated from '@hoc/switchRenderIfAuthenticated';
 
 const MAX_SHOWN_STORY_COUNT = 5;
 
@@ -65,7 +64,7 @@ const StoryList = () => {
   );
 };
 
-export default switchRenderIfAuthenticated(memo(StoryList), null);
+export default switchRenderIfAuthenticated(React.memo(StoryList), null);
 
 const StyledRoot = styled.div`
   display: flex;

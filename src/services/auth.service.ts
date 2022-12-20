@@ -25,7 +25,12 @@ export const useAuthService = () => {
       };
     });
 
-  const register = async (input: any) =>
+  const register = async (
+    input: any,
+  ): Promise<{
+    accessToken: string;
+    user: IUser;
+  }> =>
     tryCatchFn(async () => {
       const response = await client.post(`${EEndpoints.Auth}/signup`, input);
       return response?.data?.accessToken || '';
