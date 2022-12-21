@@ -2,6 +2,7 @@ import AudienceSelector from '@components/selectors/audience-selector';
 import Logo from '@components/shared/logo';
 import UserAvatarSmall from '@components/shared/small-avatar';
 import { EStoryType } from 'constants/story.constant';
+import { EFontSize } from 'constants/style.constant';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import useUserService from 'services/user.service';
@@ -37,16 +38,19 @@ const CreateStoryBar = ({
   ];
 
   return (
-    <div>
+    <StyledRoot>
       <Logo />
       <StyledMain>
-        <h2>{t('stories')}</h2>
+        <StyledHeading>{t('stories')}</StyledHeading>
         <StyledUserInfo>
           <UserAvatarSmall user={user} />
+          <p>{user?.name}</p>
         </StyledUserInfo>
         <StyledStoryConfigWrapper>
           <StyledStoryAudienceWrapper>
-            <p>{t('whoCanSeeYourStory')}</p>
+            <button>
+              <p>{t('story.whoCanSee')}</p>
+            </button>
             <AudienceSelector onChange={onChangeAudience} />
           </StyledStoryAudienceWrapper>
           <StyledStoryTypeWrapper>
@@ -62,15 +66,41 @@ const CreateStoryBar = ({
           </StyledStoryTypeWrapper>
         </StyledStoryConfigWrapper>
       </StyledMain>
-    </div>
+    </StyledRoot>
   );
 };
 
 export default React.memo(CreateStoryBar);
 
+const StyledRoot = styled.div`
+  height: 100vh;
+  overflow: auto;
+  background: ${({ theme }) => theme.backgroundColor6};
+  padding: 1rem;
+`;
+
+const StyledHeading = styled.h2`
+  font-size: 2.4rem;
+  color: #fff;
+`;
+
 const StyledMain = styled.div``;
 
-const StyledUserInfo = styled.div``;
+const StyledUserInfo = styled.div`
+  display: flex;
+  gap: 1rem;
+  algin-items: center;
+  margin-bottom: 2rem;
+
+  img {
+    border-radius: 50%;
+  }
+
+  p {
+    font-size: ${EFontSize.Font7};
+    color: #fff;
+  }
+`;
 
 const StyledStoryConfigWrapper = styled.div``;
 

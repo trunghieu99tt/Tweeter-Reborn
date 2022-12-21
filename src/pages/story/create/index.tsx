@@ -1,14 +1,15 @@
 import { OneSideBarLayout } from '@layout/one-sidebar.layout';
 import { EStoryType } from 'constants/story.constant';
-import React, { useMemo, useState } from 'react';
-import CreateStoryBar from './components/CreateStoryBar';
 import {
-  TextStoryForm,
-  ImageStoryForm,
   EImageFormUploadType,
+  ImageStoryForm,
+  TextStoryForm,
 } from 'facebook-story';
+import React from 'react';
 import { useUploadService } from 'services/upload.service';
+import CreateStoryBar from './components/CreateStoryBar';
 import { useCreateStory } from './useCreateStory';
+import './style.css';
 
 const CreateStoryPage = () => {
   const {
@@ -20,7 +21,7 @@ const CreateStoryPage = () => {
   } = useCreateStory();
   const { uploadImage } = useUploadService();
 
-  const content = useMemo(() => {
+  const content = React.useMemo(() => {
     switch (storyType) {
       case EStoryType.Text:
         return (

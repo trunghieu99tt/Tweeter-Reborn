@@ -14,6 +14,7 @@ export const LIGHT_THEME = {
   backgroundColor3: '#000',
   backgroundColor4: '#f2f2f2', // light 1
   backgroundColor5: '#fafafa', // light 2
+  backgroundColor6: '#242526', // gray 4
 
   borderColor1: '#e0e0e0', // gray 5
 };
@@ -33,6 +34,7 @@ export const DARK_THEME = {
   backgroundColor3: '#fff',
   backgroundColor4: '#f2f2f2',
   backgroundColor5: '#fafafa',
+  backgroundColor6: '#242526', // gray 4
 
   borderColor1: '#e0e0e0',
 };

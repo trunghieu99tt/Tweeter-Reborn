@@ -1,21 +1,18 @@
+import AudienceSelector from '@components/selectors/audience-selector';
 import Button from '@components/shared/button';
 import FileInput from '@components/shared/file-input';
 import { StyledFlex } from '@components/shared/shared-style';
 import TextAreaWithLinks from '@components/shared/textarea-with-links';
 import { EFormType } from '@constants';
+import SectionWithHeadingContainer from '@layout/section-with-heading.layout';
 import { ITweet } from '@type/tweet.type';
 import { EFontSize, EFontWeight } from 'constants/style.constant';
-import SectionWithHeadingContainer from '@layout/section-with-heading.layout';
 import renderOnlyAuthenticated from 'hoc/switchRenderIfAuthenticated';
-import React, { memo, Suspense, useCallback, useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import TweetFormMedia from './tweet-form-media';
 import { useTweetForm } from './useTweetForm';
-
-const AudienceSelector = React.lazy(
-  () => import('@components/selectors/audience-selector'),
-);
 
 type TCreateTweetFormProps = {
   type: EFormType.Create;
@@ -89,14 +86,11 @@ const TweetForm = (props: Props) => {
                 onChange={onChangeFile}
                 isMultiple
               />
-              <Suspense fallback={<div>...Loading...</div>}>
-                <AudienceSelector
-                  value={audience}
-                  onChange={onChangeAudience}
-                />
-              </Suspense>
+              <AudienceSelector
+                defaultValue={audience}
+                onChange={onChangeAudience}
+              />
             </StyledFlex>
-
             <Button onClick={onClickButtonSubmit}>
               {props.type === EFormType.Create ? t('tweet') : t('update')}
             </Button>

@@ -17,5 +17,8 @@
     "tweet": {
       "not-found": "Tweet not found"
     }
+  },
+  "story": {
+    "whoCanSee": "Who can see this story?"
   }
 }
