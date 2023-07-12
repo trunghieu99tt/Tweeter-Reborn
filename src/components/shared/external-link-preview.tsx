@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react';
+import { EEndpoints } from '@constants';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
+import client from 'api/client';
 import { EFontSize } from 'constants/style.constant';
+import React, { useMemo } from 'react';
 import { BiError } from 'react-icons/bi';
 import styled from 'styled-components';
 
@@ -8,6 +10,17 @@ type Props = {
   url: string;
 };
 const ExternalLinkPreview = ({ url }: Props) => {
+  async function getLinkPreview(url: string) {
+    const response = await client.get(`${EEndpoints.LinkPreview}?url=${url}`);
+    const data = response?.data?.data || {};
+    return {
+      title: data?.meta?.title || '',
+      description: data?.meta?.description || '',
+      image: data?.og?.image || '',
+      siteName: data?.og?.site_name || '',
+      hostname: data?.og?.url || '',
+    };
+  }
   const LinkNotFound = useMemo(() => {
     return (
       <StyledLinkNotFound>
@@ -17,7 +30,13 @@ const ExternalLinkPreview = ({ url }: Props) => {
     );
   }, []);
 
-  return <StyledLinkPreview fallback={LinkNotFound} url={url} />;
+  return (
+    <StyledLinkPreview
+      fallback={LinkNotFound}
+      fetcher={getLinkPreview}
+      url={url}
+    />
+  );
 };
 
 export default ExternalLinkPreview;

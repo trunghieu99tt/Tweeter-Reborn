@@ -8,4 +8,5 @@ export enum EEndpoints {
   Upload = 'upload',
   Comment = 'comment',
   Search = 'search',
+  LinkPreview = 'link-preview',
 }

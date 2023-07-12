@@ -1,4 +1,3 @@
-import MyEmojiPicker from '@components/shared/emoji-picker';
 import FileInput from '@components/shared/file-input';
 import Input from '@components/shared/input';
 import MediaViewer from '@components/shared/media-viewer';
@@ -6,13 +5,17 @@ import UserAvatarSmall from '@components/shared/small-avatar';
 import { IComment } from '@type/comment.type';
 import { ITweet } from '@type/tweet.type';
 import switchRenderIfAuthenticated from 'hoc/switchRenderIfAuthenticated';
-import React, { memo } from 'react';
+import React, { Suspense, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImCancelCircle } from 'react-icons/im';
 import { ClipLoader } from 'react-spinners';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
 import { useCommentForm } from './use-comment-form';
+
+const MyEmojiPicker = React.lazy(
+  () => import('@components/shared/emoji-picker'),
+);
 
 type Props = {
   tweet: ITweet;
@@ -61,7 +64,9 @@ const CreateCommentForm = ({ tweet, comment }: Props): JSX.Element => {
               }}
             />
           )}
-          <MyEmojiPicker onEmojiClick={onEmojiClick} />
+          <Suspense fallback={<></>}>
+            <MyEmojiPicker onEmojiClick={onEmojiClick} />
+          </Suspense>
           <FileInput htmlFor={fileInputId} onChange={onChangeFile} />
         </StyledInputWrapper>
       </StyledCommentForm>

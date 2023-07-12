@@ -38,7 +38,9 @@ const MyEmojiPicker = (props: Props): JSX.Element => {
 
   return (
     <StyledRoot ref={ref}>
-      <StyledEmojiWrapper visible={visible}>{emoji}</StyledEmojiWrapper>
+      {visible && (
+        <StyledEmojiWrapper visible={visible}>{emoji}</StyledEmojiWrapper>
+      )}
       <StyledButton onClick={toggle} type="button">
         <HiOutlineEmojiHappy />
       </StyledButton>
@@ -53,8 +55,6 @@ const StyledRoot = styled.div``;
 const StyledEmojiWrapper = styled.div<{
   visible: boolean;
 }>`
-  opacity: ${({ visible }) => (visible ? '1' : '0')};
-  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
   transition: opacity 0.2s ease-in-out;
   position: relative;
   z-index: 1;
