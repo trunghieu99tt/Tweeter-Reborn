@@ -18,6 +18,7 @@ export interface IModalProps {
   header?: React.ReactNode;
   cancelText?: React.ReactNode;
   customHeaderStyles?: string;
+  customRootStyles?: string;
   zIndex?: number;
 
   onOk?: () => void;
@@ -42,15 +43,30 @@ const Modal = (
     onCancel,
 
     customHeaderStyles,
+    customRootStyles,
   }: IModalProps,
   ref: Ref<BaseControlledRef>,
 ): JSX.Element => {
   const { hide, show, visible } = useToggle();
 
-  useImperativeHandle(ref, () => ({ show, hide }), []);
+  useImperativeHandle(
+    ref,
+    () => ({
+      show: () => {
+        show();
+        document.body.style.overflow = 'hidden';
+      },
+      hide: () => {
+        hide();
+        document.body.style.overflow = 'auto';
+      },
+    }),
+    [],
+  );
 
   const onDismiss = useCallback(() => {
     hide();
+    document.body.style.overflow = 'auto';
     safeCallFn(onCancel);
   }, [onCancel]);
 
@@ -59,7 +75,11 @@ const Modal = (
   return (
     <NewAnimatePresence>
       {visible && (
-        <StyledRoot zIndex={zIndex} {...config}>
+        <StyledRoot
+          zIndex={zIndex}
+          {...config}
+          customRootStyles={customRootStyles}
+        >
           <StyledMask onClick={onDismiss} />
           <StyledMainContent>
             <StyledHeader customHeaderStyles={customHeaderStyles}>
@@ -85,6 +105,7 @@ export default forwardRef(Modal);
 
 export const StyledRoot = styled(motion.div)<{
   zIndex?: number;
+  customRootStyles?: string;
 }>`
   display: flex;
   position: fixed;
@@ -95,6 +116,7 @@ export const StyledRoot = styled(motion.div)<{
   align-items: center;
   justify-content: center;
   z-index: ${(props) => (props.zIndex ? props.zIndex : '100')};
+  ${(props) => props.customRootStyles};
 `;
 
 export const StyledMask = styled.div`

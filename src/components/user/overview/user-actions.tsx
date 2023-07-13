@@ -51,6 +51,9 @@ const UserActions = ({ userId }: Props) => {
           header={t('editProfile')}
           body={<div>Edit profile form</div>}
           ref={editUserInfoFormRef}
+          customRootStyles="top: 0;
+                              left: 50%;
+                              transform: translate(-50%, -25%) !important;"
         />
       </Suspense>
       <StyledRoot>{content}</StyledRoot>

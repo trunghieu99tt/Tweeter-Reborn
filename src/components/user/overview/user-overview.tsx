@@ -40,7 +40,7 @@ const UserOverview = ({ loading, user }: Props) => {
   if (loading) return <UserOverviewSkeleton />;
 
   return (
-    <div>
+    <React.Fragment>
       <StyledCoverPhoto img={user?.coverPhoto || ''} />
       <StyledContainer>
         <StyledMain>
@@ -70,7 +70,7 @@ const UserOverview = ({ loading, user }: Props) => {
           <UserActions userId={user?._id} />
         </StyledMain>
       </StyledContainer>
-    </div>
+    </React.Fragment>
   );
 };
 
