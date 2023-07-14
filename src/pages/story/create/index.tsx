@@ -48,6 +48,7 @@ const CreateStoryPage = () => {
   return (
     <OneSideBarLayout
       isFullWidth
+      customSideBarWidth="15%"
       sideBar={
         <CreateStoryBar
           onChangeAudience={setStoryAudience}

@@ -1,9 +1,11 @@
 import AudienceSelector from '@components/selectors/audience-selector';
+import Button from '@components/shared/button';
 import Logo from '@components/shared/logo';
+import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
 import { EStoryType } from 'constants/story.constant';
 import { EFontSize } from 'constants/style.constant';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import useUserService from 'services/user.service';
 import styled from 'styled-components';
@@ -26,16 +28,18 @@ const CreateStoryBar = ({
     onChangeStoryTypeProps(type);
   };
 
-  const storyTypes = [
-    {
-      value: EStoryType.Media,
-      label: t('media'),
-    },
-    {
-      value: EStoryType.Text,
-      label: t('text'),
-    },
-  ];
+  const storyTypes = useMemo(() => {
+    return [
+      {
+        value: EStoryType.Media,
+        label: t('media'),
+      },
+      {
+        value: EStoryType.Text,
+        label: t('text'),
+      },
+    ];
+  }, []);
 
   return (
     <StyledRoot>
@@ -47,23 +51,23 @@ const CreateStoryBar = ({
           <p>{user?.name}</p>
         </StyledUserInfo>
         <StyledStoryConfigWrapper>
-          <StyledStoryAudienceWrapper>
-            <button>
-              <p>{t('story.whoCanSee')}</p>
-            </button>
-            <AudienceSelector onChange={onChangeAudience} />
-          </StyledStoryAudienceWrapper>
-          <StyledStoryTypeWrapper>
-            <p>{t('storyType')}</p>
-            {storyTypes.map((type) => (
-              <StyledStoryTypeOption
-                key={type.value}
-                onClick={onChangeStoryType(type.value)}
-              >
-                {type.label}
-              </StyledStoryTypeOption>
-            ))}
-          </StyledStoryTypeWrapper>
+          <StyledConfigItemWrapper>
+            <StyledSectionTitle>{t('story.whoCanSee')}</StyledSectionTitle>
+            <AudienceSelector defaultValue={0} onChange={onChangeAudience} />
+          </StyledConfigItemWrapper>
+          <StyledConfigItemWrapper>
+            <StyledSectionTitle>{t('storyType')}</StyledSectionTitle>
+            <StyledFlex gap={1}>
+              {storyTypes.map((type) => (
+                <Button
+                  key={type.value}
+                  onClick={onChangeStoryType(type.value)}
+                >
+                  {type.label}
+                </Button>
+              ))}
+            </StyledFlex>
+          </StyledConfigItemWrapper>
         </StyledStoryConfigWrapper>
       </StyledMain>
     </StyledRoot>
@@ -75,13 +79,12 @@ export default React.memo(CreateStoryBar);
 const StyledRoot = styled.div`
   height: 100vh;
   overflow: auto;
-  background: ${({ theme }) => theme.backgroundColor6};
   padding: 1rem;
+  box-shadow: 5px 1px 5px 0px rgb(0 0 0 / 35%);
 `;
 
 const StyledHeading = styled.h2`
   font-size: 2.4rem;
-  color: #fff;
 `;
 
 const StyledMain = styled.div``;
@@ -90,7 +93,7 @@ const StyledUserInfo = styled.div`
   display: flex;
   gap: 1rem;
   algin-items: center;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 
   img {
     border-radius: 50%;
@@ -98,14 +101,16 @@ const StyledUserInfo = styled.div`
 
   p {
     font-size: ${EFontSize.Font7};
-    color: #fff;
   }
 `;
 
+const StyledConfigItemWrapper = styled.div`
+  margin: 1.5rem 0;
+`;
+
+const StyledSectionTitle = styled.p`
+  font-size: ${EFontSize.Font6};
+  margin-bottom: 0.5rem;
+`;
+
 const StyledStoryConfigWrapper = styled.div``;
-
-const StyledStoryAudienceWrapper = styled.div``;
-
-const StyledStoryTypeWrapper = styled.div``;
-
-const StyledStoryTypeOption = styled.button``;

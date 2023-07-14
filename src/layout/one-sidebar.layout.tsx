@@ -6,12 +6,18 @@ type Props = {
   sideBar?: JSX.Element | null;
   isFullWidth?: boolean;
   content: JSX.Element;
+  customSideBarWidth?: string;
 };
 
-export const OneSideBarLayout = ({ sideBar, content, isFullWidth }: Props) => {
+export const OneSideBarLayout = ({
+  sideBar,
+  content,
+  isFullWidth,
+  customSideBarWidth,
+}: Props) => {
   const element = (
     <StyledFlex gap={2.5}>
-      <SideBar>{sideBar}</SideBar>
+      <SideBar customSideBarWidth={customSideBarWidth}>{sideBar}</SideBar>
       <MainContent>{content}</MainContent>
     </StyledFlex>
   );
@@ -21,8 +27,10 @@ export const OneSideBarLayout = ({ sideBar, content, isFullWidth }: Props) => {
   return <StyledContainer>{element}</StyledContainer>;
 };
 
-const SideBar = styled.aside`
-  width: 25%;
+const SideBar = styled.aside<{
+  customSideBarWidth?: string;
+}>`
+  width: ${({ customSideBarWidth }) => customSideBarWidth || '25%'};
 `;
 const MainContent = styled.div`
   flex: 1;

@@ -81,6 +81,8 @@ export default BaseSelector;
 export const Wrapper = styled.div`
   position: relative;
   z-index: 2;
+  border: 1px solid;
+  border-radius: 0.5rem;
 `;
 
 export const StyledSelectedItem = styled.div`

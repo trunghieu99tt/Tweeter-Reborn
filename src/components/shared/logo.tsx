@@ -7,8 +7,13 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from 'store';
 import React from 'react';
+import styled from 'styled-components';
 
-const Logo = (): JSX.Element => {
+type Props = {
+  isDark?: boolean;
+};
+
+const Logo = ({ isDark }: Props): JSX.Element => {
   const theme = useSelector((state: RootState) => state.appState.theme);
   const { width } = useWindowSize();
 
@@ -19,12 +24,16 @@ const Logo = (): JSX.Element => {
   }
 
   return (
-    <div>
-      <Link to="/">
-        <img src={imageSrc} alt="Logo" />
-      </Link>
-    </div>
+    <Link to="/">
+      <StyledLogoImg src={imageSrc} alt="Logo" isDark={isDark} />
+    </Link>
   );
 };
 
 export default Logo;
+
+const StyledLogoImg = styled.img<{
+  isDark?: boolean;
+}>`
+  filter: ${({ isDark }) => (isDark ? 'invert(1)' : 'invert(0)')};
+`;
