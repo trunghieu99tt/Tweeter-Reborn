@@ -1,0 +1,42 @@
+.fs-textStoryForm-root {
+  margin-top: 5rem !important;
+  max-width: 90% !important;
+}
+
+.fs-textStoryForm-textConfig {
+  width: 30% !important;
+}
+
+.fs-textStoryForm-textConfig__textArea {
+  width: 100%;
+}
+
+.fs-textStoryForm-actionBtnGroup__saveBtn {
+  padding: 0.8rem 2.4rem;
+  background: #2f80ed;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-weight: 500;
+  max-width: 10rem;
+  text-align: center;
+  display: block;
+}
+
+.fs-textStoryForm-actionBtnGroup__cancelBtn {
+  padding: 0.8rem 2.4rem;
+  background: #ed2f2f;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-weight: 500;
+  max-width: 10rem;
+  text-align: center;
+  display: block;
+}

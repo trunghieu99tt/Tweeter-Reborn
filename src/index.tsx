@@ -19,6 +19,7 @@ import 'react-image-lightbox/style.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './index.css';
+import './custom-styles/fs-custom.css';
 
 import './i18.config';
 import reportWebVitals from './reportWebVitals';
