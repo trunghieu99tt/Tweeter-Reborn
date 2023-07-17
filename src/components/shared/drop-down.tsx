@@ -77,7 +77,7 @@ const StyledDropdownListItem = styled.li`
 
   &:hover {
     cursor: pointer;
-    background: var(--light-1);
+    background: #f2f2f2;
   }
 
   a {

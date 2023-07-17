@@ -34,7 +34,7 @@ const CreateStoryPage = () => {
         return (
           <ImageStoryForm
             height={500}
-            width={300}
+            width={500}
             onSubmit={onSubmitStory}
             uploadType={EImageFormUploadType.File}
             uploadFunction={uploadImage}
@@ -48,7 +48,7 @@ const CreateStoryPage = () => {
   return (
     <OneSideBarLayout
       isFullWidth
-      customSideBarWidth="15%"
+      customSideBarWidth="20%"
       sideBar={
         <CreateStoryBar
           onChangeAudience={setStoryAudience}

@@ -4,7 +4,7 @@ import Logo from '@components/shared/logo';
 import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
 import { EStoryType } from 'constants/story.constant';
-import { EFontSize } from 'constants/style.constant';
+import { EFontSize, EFontWeight } from 'constants/style.constant';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import useUserService from 'services/user.service';
@@ -79,7 +79,7 @@ export default React.memo(CreateStoryBar);
 const StyledRoot = styled.div`
   height: 100vh;
   overflow: auto;
-  padding: 1rem;
+  padding: 1rem 2.5rem;
   box-shadow: 5px 1px 5px 0px rgb(0 0 0 / 35%);
 `;
 
@@ -87,7 +87,11 @@ const StyledHeading = styled.h2`
   font-size: 2.4rem;
 `;
 
-const StyledMain = styled.div``;
+const StyledMain = styled.div`
+  margin-top: 1.5rem;
+  border-top: 1px solid;
+  padding-top: 1rem;
+`;
 
 const StyledUserInfo = styled.div`
   display: flex;
@@ -105,12 +109,16 @@ const StyledUserInfo = styled.div`
 `;
 
 const StyledConfigItemWrapper = styled.div`
-  margin: 1.5rem 0;
+  margin: 2.5rem 0;
+  padding: 1rem 2rem;
+  border: 1px solid;
+  border-radius: 5px;
 `;
 
 const StyledSectionTitle = styled.p`
-  font-size: ${EFontSize.Font6};
+  font-size: ${EFontSize.Font4};
   margin-bottom: 0.5rem;
+  font-weight: ${EFontWeight.FontWeight500};
 `;
 
 const StyledStoryConfigWrapper = styled.div``;

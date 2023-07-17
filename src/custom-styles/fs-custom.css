@@ -11,7 +11,9 @@
   width: 100%;
 }
 
-.fs-textStoryForm-actionBtnGroup__saveBtn {
+.fs-textStoryForm-actionBtnGroup__saveBtn,
+.fs-imageStoryForm-actionBtnGroup__saveBtn,
+.fs-imageStoryForm-addTextBtn {
   padding: 0.8rem 2.4rem;
   background: #2f80ed;
   color: #fff;
@@ -26,7 +28,9 @@
   display: block;
 }
 
-.fs-textStoryForm-actionBtnGroup__cancelBtn {
+.fs-textStoryForm-actionBtnGroup__cancelBtn,
+.fs-imageStoryForm-actionBtnGroup__cancelBtn,
+.fs-imageStoryForm-deleteTextsBtn {
   padding: 0.8rem 2.4rem;
   background: #ed2f2f;
   color: #fff;
@@ -39,4 +43,34 @@
   max-width: 10rem;
   text-align: center;
   display: block;
+}
+
+.fs-imageStoryForm-root {
+  margin-top: 5rem;
+  flex-direction: column;
+}
+
+.fs-imageStoryForm-actionBtnGroup {
+  display: flex;
+  gap: 2rem;
+}
+
+.fs-imageStoryForm-top__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.fs-imageStoryForm-addTextBtn,
+.fs-imageStoryForm-deleteTextsBtn {
+  max-width: 100%;
+  padding: 1rem;
+}
+
+.fs-imageStoryForm-textColorForm {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
