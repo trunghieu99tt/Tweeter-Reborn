@@ -4,7 +4,7 @@ import { ECommentQuery } from '@constants';
 import switchRenderIfAuthenticated from '@hoc/switchRenderIfAuthenticated';
 import { useInfinityList } from '@hooks/useInfinityList';
 import { IComment } from '@type/comment.type';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Skeleton from 'react-loading-skeleton';
 import { useCommentService } from 'services/comment.service';

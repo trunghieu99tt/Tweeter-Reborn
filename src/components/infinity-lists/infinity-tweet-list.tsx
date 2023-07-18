@@ -3,15 +3,28 @@ import TweetSkeleton from '@components/tweets/item/tweet-item.skeleton';
 import { ETweetQuery } from '@constants';
 import { useInfinityList } from '@hooks/useInfinityList';
 import { ITweet } from '@type/tweet.type';
+import { EFontWeight } from 'constants/style.constant';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useTweetService } from 'services/tweet.service';
+import styled from 'styled-components';
 
 type Props = {
   queryKey: string;
 };
 
 const DEFAULT_TWEET_LIMIT = 5;
+
+const getEmptyMessage = (queryKey: string) => {
+  switch (queryKey) {
+    case ETweetQuery.GetLatestTweets:
+      return 'No tweets found';
+    case ETweetQuery.GetPopularTweets:
+      return 'No popular tweets found';
+    case ETweetQuery.GetBookmarkTweets:
+      return 'No bookmark tweets found';
+  }
+};
 
 const InfinityTweetList = ({ queryKey }: Props) => {
   let queryFunction = null;
@@ -68,6 +81,9 @@ const InfinityTweetList = ({ queryKey }: Props) => {
   return (
     <React.Fragment>
       {isLoading && tweetData.length === 0 && <TweetSkeleton />}
+      {tweetData?.length === 0 && !isLoading && (
+        <StyledEmptyTweetList>{getEmptyMessage(queryKey)}</StyledEmptyTweetList>
+      )}
       <InfiniteScroll
         dataLength={tweetData.length}
         next={fetchNextPage}
@@ -83,3 +99,9 @@ const InfinityTweetList = ({ queryKey }: Props) => {
 };
 
 export default InfinityTweetList;
+
+const StyledEmptyTweetList = styled.h3`
+  text-align: center;
+  font-weight: ${EFontWeight.FontWeight600};
+  margin-top: 5rem;
+`;

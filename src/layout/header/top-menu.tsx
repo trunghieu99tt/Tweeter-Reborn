@@ -22,7 +22,7 @@ const TopMenu = () => {
       },
       {
         name: t('explore'),
-        path: `${ROUTES.explore}?screen=${EExploreScreen.LatestTweets}`,
+        path: `${ROUTES.explore}#${EExploreScreen.LatestTweets}`,
         id: uuid(),
       },
       ...(currentUser?._id && [
