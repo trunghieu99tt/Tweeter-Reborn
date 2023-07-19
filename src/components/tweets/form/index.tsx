@@ -92,7 +92,9 @@ const TweetForm = (props: Props) => {
               />
             </StyledFlex>
             <Button onClick={onClickButtonSubmit}>
-              {props.type === EFormType.Create ? t('tweet') : t('update')}
+              {props.type === EFormType.Create
+                ? t('tweet.create')
+                : t('tweet.update')}
             </Button>
           </StyledFlex>
         </StyledRoot>

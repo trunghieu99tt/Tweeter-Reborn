@@ -20,5 +20,32 @@
   },
   "story": {
     "whoCanSee": "Who can see this story?"
-  }
+  }, 
+  "notification": {
+    "index": "Notifications",
+    "readAll": "Read all",
+    "viewAllNotification": "View all notifications"
+  },
+  "whatOnYourMind": "What's happening?",
+  "tweet.create": "Create Tweet",
+  "tweet.update": "Update Tweet",
+  "everyone": "Everyone",
+  "peopleFollowYou": "People who follow you",
+  "userLikedTweet": "User who liked this tweet",
+  "userSavedTweet": "User who saved this tweet",
+  "userRetweetedTweet": "User who retweeted this tweet",
+  "reportUser": "Report user",
+  "editProfile": "Edit profile",
+  "updateYourAvatar": "Update your avatar",
+  "authenticationGreeting": "Welcome back, please login to your account.",
+  "dontHaveAnAccount": "Don't have an account?",
+  "doYouHaveAnAccount": "Do you have an account?",
+  "registerHere": "Register here",
+  "loginHere": "Login here",
+  "popularTag": "Popular tag",
+  "tweet": "Tweet", 
+  "createStory": "Create story",
+  "notFound": "Not found",
+  "story.whoCanSee": "Who can see this story?",
+  "storyType": "Story type"
 }

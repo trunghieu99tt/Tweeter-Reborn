@@ -53,7 +53,7 @@ const ReadAllNotificationButton = ({ notifications }: Props) => {
 
   return (
     <StyledReadAllButton onClick={markAllAsRead} disabled={isLoading}>
-      {t('readAll')}
+      {t('notification.readAll')}
       {isLoading && <StyledLoader />}
     </StyledReadAllButton>
   );

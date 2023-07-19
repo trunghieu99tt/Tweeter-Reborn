@@ -8,7 +8,6 @@ import PageMetadata from '@components/shared/page-metadata';
 import { ETweetQuery, EUserQuery } from '@constants';
 import LayoutWithHeader from '@layout/layout-with-header';
 import { OneSideBarLayout } from '@layout/one-sidebar.layout';
-import { queryStringToObject } from '@utils/helper';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';

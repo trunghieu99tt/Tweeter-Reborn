@@ -104,7 +104,7 @@ const NotificationContainer = ({ screen }: Props) => {
 
   return (
     <SectionWithHeadingContainer
-      title={t('notification')}
+      title={t('notification.index')}
       content={
         <StyledContainer screen={screen}>
           <StyledHeader>
@@ -120,7 +120,7 @@ const NotificationContainer = ({ screen }: Props) => {
           {screen === ENotificationScreen.NewFeed &&
             shouldHaveViewAllButton && (
               <StyledGoToNotificationListPage to={ROUTES.notifications}>
-                {t('viewAllNotification')}
+                {t('notification.viewAllNotification')}
               </StyledGoToNotificationListPage>
             )}
         </StyledContainer>
