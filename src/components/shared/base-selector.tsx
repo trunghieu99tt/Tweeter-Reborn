@@ -51,20 +51,19 @@ const BaseSelector = <T,>({
     });
   }, [options]);
 
-  const SelectedItem = options.find((option) => option.value === value);
-
   const selectedItem = useMemo(() => {
+    const currentValue = options.find((option) => option.value === value);
     if (renderValue && typeof renderValue === 'function') {
       return renderValue(value);
     }
 
     return (
       <React.Fragment>
-        <StyledSelectedItemIcon>{SelectedItem?.icon}</StyledSelectedItemIcon>
-        <StyledSelectedItemText>{SelectedItem?.label}</StyledSelectedItemText>
+        <StyledSelectedItemIcon>{currentValue?.icon}</StyledSelectedItemIcon>
+        <StyledSelectedItemText>{currentValue?.label}</StyledSelectedItemText>
       </React.Fragment>
     );
-  }, [renderValue]);
+  }, [renderValue, value]);
 
   return (
     <Wrapper ref={dropdownRef}>

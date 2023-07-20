@@ -1,7 +1,7 @@
 import { StyledFlex } from '@components/shared/shared-style';
 import UserAvatarSmall from '@components/shared/small-avatar';
 import { ITweet } from '@type/tweet.type';
-import { EFontSize } from 'constants/style.constant';
+import { EFontSize, EFontWeight } from 'constants/style.constant';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import React, { memo } from 'react';
@@ -58,6 +58,8 @@ const StyledHeader = styled.div`
   padding: 1rem 0;
   gap: 1.5rem;
   margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: ${EFontWeight.FontWeight500};
 `;
 
 const StyledContent = styled.p`

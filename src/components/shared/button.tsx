@@ -28,7 +28,6 @@ const StyledRoot = styled.button`
   align-items: center;
   gap: 1.5rem;
   font-weight: ${EFontWeight.FontWeight500};
-  max-width: 10rem;
   text-align: center;
   display: block;
 

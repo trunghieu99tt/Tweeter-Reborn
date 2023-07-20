@@ -71,6 +71,9 @@ const ProfilePage = () => {
       break;
     case EProfileScreen.Medias:
       content = <ProfileMediaPage />;
+      break;
+    default:
+      content = <ProfileHomePage />;
   }
 
   const options = useMemo((): TLeftSelectableSideBarItem<EProfileScreen>[] => {

@@ -1,4 +1,5 @@
 {
+  "page.newsFeed": "New feed",
   "pages": {
     "home": "Home", 
     "profile": {
@@ -47,5 +48,8 @@
   "createStory": "Create story",
   "notFound": "Not found",
   "story.whoCanSee": "Who can see this story?",
-  "storyType": "Story type"
+  "storyType": "Story type",
+  "searchCategory": "Search category",
+  "searchPlaceholder": "Input keyword",
+  "tweet.report": "Report tweet"
 }

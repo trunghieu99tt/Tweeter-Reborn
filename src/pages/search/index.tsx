@@ -65,6 +65,7 @@ const SearchPage = () => {
                 <StyledInput
                   type="text"
                   name="search"
+                  placeholder={t('searchPlaceholder')}
                   onChange={onChange}
                   value={query.search}
                 />
@@ -121,6 +122,7 @@ const StyledSearchForm = styled.section`
   box-shadow: ${EBoxShadow.BoxShadow1};
   padding: 2rem;
   border-radius: 0.5rem;
+  justify-content: center;
 `;
 
 const StyledInput = styled.input`
