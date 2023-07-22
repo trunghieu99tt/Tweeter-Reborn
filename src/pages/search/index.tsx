@@ -89,8 +89,7 @@ const SearchPage = () => {
                   {t('search')}
                 </StyledSubmitButton>
               </StyledSearchForm>
-              {loading && <Loading />}
-
+              <Loading />
               {response && (
                 <StyledSearchResult>
                   {(response?.data?.length > 0 && resultContent) || (

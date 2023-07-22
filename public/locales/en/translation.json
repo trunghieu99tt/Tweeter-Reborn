@@ -51,5 +51,8 @@
   "storyType": "Story type",
   "searchCategory": "Search category",
   "searchPlaceholder": "Input keyword",
-  "tweet.report": "Report tweet"
+  "tweet.report": "Report tweet", 
+  "addAComment": "Add a comment", 
+  "allTweetByHashtag": "All tweet by hashtag",
+  "searchNoResult": "No result found"
 }

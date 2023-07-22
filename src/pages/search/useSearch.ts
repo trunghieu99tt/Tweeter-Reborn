@@ -2,6 +2,8 @@ import { EEndpoints } from '@constants';
 import { IGetList } from '@type/app.type';
 import { getList } from '@utils/query';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'store';
 
 export enum ESearchType {
   Tweet = 'tweet',
@@ -36,6 +38,7 @@ const useSearch = () => {
     type: ESearchType;
     data: any[];
   } | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -46,13 +49,15 @@ const useSearch = () => {
   };
 
   const onSubmit = async () => {
+    if (query.search.trim() === '') return;
     setLoading(true);
+    dispatch({});
     const { data } = await requestSearch(query);
-    setLoading(false);
     setResponse({
       type: query.category,
       data,
     });
+    setLoading(false);
   };
   return {
     query,
