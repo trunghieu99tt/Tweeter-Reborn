@@ -38,7 +38,6 @@ const useSearch = () => {
     type: ESearchType;
     data: any[];
   } | null>(null);
-  const dispatch = useDispatch<AppDispatch>();
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -48,10 +47,10 @@ const useSearch = () => {
     });
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
     if (query.search.trim() === '') return;
+    e.preventDefault();
     setLoading(true);
-    dispatch({});
     const { data } = await requestSearch(query);
     setResponse({
       type: query.category,

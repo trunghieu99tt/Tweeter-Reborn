@@ -6,9 +6,10 @@ import { IHashtag } from '@type/hash-tag.type';
 import { ITweet } from '@type/tweet.type';
 import { IUser } from '@type/user.type';
 import { EBoxShadow, EFontSize, EFontWeight } from 'constants/style.constant';
-import React, { lazy, Suspense, useMemo } from 'react';
+import React, { Suspense, lazy, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineFileSearch } from 'react-icons/ai';
+import { ClipLoader } from 'react-spinners';
 import styled from 'styled-components';
 import { ESearchType, useSearch } from './useSearch';
 
@@ -61,7 +62,7 @@ const SearchPage = () => {
         <StyledContainer>
           <StyledRoot>
             <main>
-              <StyledSearchForm>
+              <StyledSearchForm onSubmit={onSubmit}>
                 <StyledInput
                   type="text"
                   name="search"
@@ -84,13 +85,18 @@ const SearchPage = () => {
                     <option value="people">{t('people')}</option>
                   </StyledCategorySelections>
                 </StyledFlex>
-                <StyledSubmitButton onClick={onSubmit}>
+                <StyledSubmitButton onClick={onSubmit} type="submit">
                   <AiOutlineFileSearch />
                   {t('search')}
                 </StyledSubmitButton>
               </StyledSearchForm>
+              {loading && (
+                <StyledLoading>
+                  <ClipLoader />
+                </StyledLoading>
+              )}
               <Loading />
-              {response && (
+              {!loading && response && (
                 <StyledSearchResult>
                   {(response?.data?.length > 0 && resultContent) || (
                     <StyledNoResultFound>
@@ -113,7 +119,7 @@ const StyledRoot = styled.div`
   margin-top: 2rem;
 `;
 
-const StyledSearchForm = styled.section`
+const StyledSearchForm = styled.form`
   display: flex;
   align-items: center;
   gap: 3rem;
@@ -169,4 +175,9 @@ const StyledSearchResult = styled.section`
 const StyledNoResultFound = styled.p`
   font-size: ${EFontSize.Font6};
   text-align: center;
+`;
+
+const StyledLoading = styled.div`
+  text-align: center;
+  margin-top: 5rem;
 `;
