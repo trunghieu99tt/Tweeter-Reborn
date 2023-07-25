@@ -89,13 +89,15 @@ const StyledMain = styled.div`
   max-width: 1440px;
   margin: 0 auto;
   background: ${({ theme }) => theme.backgroundColor1};
-  transform: translateY(-50%);
   padding: 2rem 2.5rem 3.5rem 2.5rem;
   box-shadow: ${EBoxShadow.BoxShadow1};
   border-radius: 12px;
   display: flex;
   gap: 2.5rem;
   min-height: 18rem;
+  margin-top: -5%;
+  margin-bottom: 5rem;
+  position: relative;
 
   @media (max-width: 1024px) {
     transform: translateY(0);

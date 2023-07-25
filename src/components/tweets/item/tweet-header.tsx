@@ -212,4 +212,7 @@ const StyledRetweetedBy = styled(Link)`
   align-items: center;
   font-weight: ${EFontWeight.FontWeight500};
   color: ${({ theme }) => theme.textColor2};
+  margin-bottom: 2rem;
+  display: inline-block;
+  border-bottom: 2px solid;
 `;

@@ -91,20 +91,20 @@ const TweetInteraction = ({ tweet }: Props) => {
 
         <StyledInteractionButtonGroup>
           <StyledInteractionButton
-            onClick={onRetweet}
-            retweeted={retweeted}
-            interactionType={EInteractionButton.Share}
-          >
-            <FiRefreshCw />
-            <span>{retweeted ? t('retweeted') : t('retweet')}</span>
-          </StyledInteractionButton>
-          <StyledInteractionButton
             onClick={onReactTweet}
             liked={liked}
             interactionType={EInteractionButton.Like}
           >
             <FaRegHeart />
             <span>{liked ? t('liked') : t('like')}</span>
+          </StyledInteractionButton>
+          <StyledInteractionButton
+            onClick={onRetweet}
+            retweeted={retweeted}
+            interactionType={EInteractionButton.Share}
+          >
+            <FiRefreshCw />
+            <span>{retweeted ? t('retweeted') : t('retweet')}</span>
           </StyledInteractionButton>
           <StyledInteractionButton
             onClick={onSaveTweet}

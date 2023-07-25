@@ -61,6 +61,8 @@ export const StyledRoot = styled.div`
   border-radius: 8px;
   padding: 2rem;
   padding-left: 0;
+  position: sticky;
+  top: 10rem;
 
   @media (max-width: 1024px) {
     width: 100%;

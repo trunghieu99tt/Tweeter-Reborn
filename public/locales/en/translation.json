@@ -54,5 +54,7 @@
   "tweet.report": "Report tweet", 
   "addAComment": "Add a comment", 
   "allTweetByHashtag": "All tweet by hashtag",
-  "searchNoResult": "No result found"
+  "searchNoResult": "No result found",
+  "tweet.delete": "Delete tweet",
+  "sendMessage": "Send message"
 }
