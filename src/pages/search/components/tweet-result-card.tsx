@@ -49,6 +49,7 @@ const StyledRoot = styled(Link)`
   display: block;
   color: #000;
   width: 100%;
+  margin: 2rem 0;
 `;
 
 const StyledHeader = styled.div`
