@@ -44,7 +44,7 @@ const InfinityUserList = ({ queryKey }: Props) => {
         loader={<UserCardSkeleton />}
       >
         {peopleData?.map((user: IUser) => (
-          <UserCard user={user} key={`infinity-user-list-${user._id}`} />
+          <UserCard data={user} key={`infinity-user-list-${user._id}`} />
         ))}
       </InfiniteScroll>
     </React.Fragment>

@@ -49,7 +49,7 @@ const SearchPage = () => {
             fallback={<div>Loading...</div>}
             key={`user-result-${user._id}`}
           >
-            <UserCard user={user} />
+            <UserCard data={user} />
           </Suspense>
         ));
     }

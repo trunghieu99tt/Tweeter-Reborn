@@ -36,7 +36,7 @@ const InteractingUserStatistic = ({ user }: Props) => {
 
     return [
       userListData.map((user: IUser) => (
-        <UserCard user={user} key={`user-card-${user._id}`} />
+        <UserCard data={user} key={`user-card-${user._id}`} />
       )),
       modalUserListHeader,
     ];

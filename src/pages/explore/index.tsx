@@ -1,6 +1,6 @@
 import InfinityMediaList from '@components/infinity-lists/infinity-media-list';
 import InfinityTweetList from '@components/infinity-lists/infinity-tweet-list';
-import InfinityUserList from '@components/infinity-lists/infinity-user-list';
+import VirtualUserList from '@components/infinity-lists/virtual-user-list';
 import LeftSelectableBar, {
   TLeftSelectableSideBarItem,
 } from '@components/shared/left-selectable-bar';
@@ -40,7 +40,7 @@ const Explore = () => {
 
   switch (screen) {
     case EExploreScreen.PopularUser:
-      content = <InfinityUserList queryKey={EUserQuery.GetPopularUser} />;
+      content = <VirtualUserList queryKey={EUserQuery.GetPopularUser} />;
       break;
     case EExploreScreen.LatestMedias:
       content = <InfinityMediaList queryKey={[ETweetQuery.GetTweetMedias]} />;

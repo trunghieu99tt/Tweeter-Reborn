@@ -3,30 +3,31 @@ import UserAvatarSmall from '@components/shared/small-avatar';
 import { EProfileScreen } from '@pages/profile';
 import { IUser } from '@type/user.type';
 import { EBoxShadow, EFontSize } from 'constants/style.constant';
-import React, { memo } from 'react';
+import React, { CSSProperties, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ROUTES } from 'routes';
 import styled from 'styled-components';
 
 interface Props {
-  user: IUser;
+  data: IUser;
+  style?: CSSProperties;
 }
 
-const UserCard = ({ user }: Props) => {
+const UserCard = ({ data, style }: Props) => {
   const { t } = useTranslation();
 
-  const followersCount = user.followers ? user.followers.length : 0;
+  const followersCount = data.followers ? data.followers.length : 0;
 
   return (
-    <StyledRoot>
+    <StyledRoot style={style}>
       <StyledFlex justify="space-between">
         <StyledFlex gap={1.8}>
-          <UserAvatarSmall user={user} />
+          <UserAvatarSmall user={data} />
           <Link
-            to={`${ROUTES.profile}/${user._id}?screen=${EProfileScreen.Home}`}
+            to={`${ROUTES.profile}/${data._id}?screen=${EProfileScreen.Home}`}
           >
-            <StyledUserName>{user.name}</StyledUserName>
+            <StyledUserName>{data.name}</StyledUserName>
             <StyledUserFollowers>
               {followersCount}{' '}
               {`${t('follower')}${followersCount > 1 ? 's' : ''}`}
@@ -34,7 +35,7 @@ const UserCard = ({ user }: Props) => {
           </Link>
         </StyledFlex>
       </StyledFlex>
-      <StyledUserBio>{user?.bio}</StyledUserBio>
+      <StyledUserBio>{data?.bio}</StyledUserBio>
     </StyledRoot>
   );
 };
@@ -53,6 +54,7 @@ const StyledRoot = styled.article`
   border-radius: 0.8rem;
   min-width: 50rem;
   max-width: 100%;
+  height: 17.5rem !important;
 `;
 
 const StyledUserName = styled.p`

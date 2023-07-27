@@ -56,7 +56,7 @@ const TweetInteraction = ({ tweet }: Props) => {
 
   const userList = useMemo(() => {
     return userListData.map((user: IUser) => {
-      return <UserCard key={`user-list-card-${user._id}`} user={user} />;
+      return <UserCard key={`user-list-card-${user._id}`} data={user} />;
     });
   }, [userListData]);
 
