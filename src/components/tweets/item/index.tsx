@@ -12,11 +12,12 @@ import TweetSkeleton from './tweet-item.skeleton';
 type Props = {
   data: ITweet;
   isLoading?: boolean;
+  style?: CSSProperties;
 };
 
-const TweetItem = ({ data, isLoading }: Props) => {
+const TweetItem = ({ data, isLoading, style }: Props) => {
   return (
-    <StyledRoot>
+    <StyledRoot style={style}>
       {isLoading && <TweetSkeleton />}
       <TweetItemHeader tweet={data} />
       <div>
@@ -33,7 +34,6 @@ const TweetItem = ({ data, isLoading }: Props) => {
 export default React.memo(TweetItem);
 
 const StyledRoot = styled.article<{
-  customStyles?: CSSProperties;
   height?: number;
 }>`
   background: ${({ theme }) => theme.backgroundColor1};

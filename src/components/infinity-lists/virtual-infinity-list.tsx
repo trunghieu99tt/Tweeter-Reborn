@@ -11,7 +11,11 @@ type VirtualInfinityListProps<T> = {
   ItemSkeleton?: any;
 };
 
-export const VirtualInfinityList = <T,>({
+export const VirtualInfinityList = <
+  T extends {
+    _id: string;
+  },
+>({
   hasNextPage,
   isNextPageLoading,
   items,
@@ -19,8 +23,6 @@ export const VirtualInfinityList = <T,>({
   Item,
   ItemSkeleton,
 }: VirtualInfinityListProps<T>) => {
-  console.log('items', items);
-
   const itemCount = hasNextPage ? items.length + 1 : items.length;
   const loadMoreItems = isNextPageLoading
     ? () => {

@@ -5,7 +5,6 @@ import { useInfinityList } from '@hooks/useInfinityList';
 import { IUser } from '@type/user.type';
 import useUserService from 'services/user.service';
 import { VirtualInfinityList } from './virtual-infinity-list';
-import { sleep } from '@utils/helper';
 
 type Props = {
   queryKey: string;
