@@ -4,11 +4,13 @@ import { IUser } from '@type/user.type';
 import { nFormatter } from '@utils/helper';
 import { EFontSize, EFontWeight } from 'constants/style.constant';
 import { EUserListType } from 'constants/user.constant';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Suspense } from 'react';
+import React, { Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import styled from 'styled-components';
 import UserCard from '../card';
+import UserCardSkeleton from '../card/skeleton';
+import { VirtualInfinityList } from '@components/infinity-lists/virtual-infinity-list';
 
 type Props = {
   user: IUser;
@@ -19,27 +21,39 @@ const InteractingUserStatistic = ({ user }: Props) => {
   const [type, setType] = useState<EUserListType | ''>('');
   const userListModalRef = useRef<BaseControlledRef>(null);
 
-  const [userList, modalUserListHeader] = useMemo(() => {
+  const modalUserListHeader = useMemo(() => {
+    switch (type) {
+      case EUserListType.Following:
+        return t('followers');
+      case EUserListType.Followed:
+        return t('following');
+    }
+  }, [user, type, t]);
+
+  const userList = useMemo(() => {
     let userListData: IUser[] = [];
-    let modalUserListHeader = '';
 
     switch (type) {
       case EUserListType.Following:
         userListData = user.followers;
-        modalUserListHeader = t('followers');
         break;
       case EUserListType.Followed:
         userListData = user.following;
-        modalUserListHeader = t('following');
         break;
     }
 
-    return [
-      userListData.map((user: IUser) => (
-        <UserCard data={user} key={`user-card-${user._id}`} />
-      )),
-      modalUserListHeader,
-    ];
+    return (
+      <VirtualInfinityList
+        Item={UserCard}
+        hasNextPage={false}
+        isNextPageLoading={false}
+        loadNextPage={() => {
+          return;
+        }}
+        items={userListData}
+        height={400}
+      />
+    );
   }, [user, type]);
 
   const showUserListModal = useCallback(

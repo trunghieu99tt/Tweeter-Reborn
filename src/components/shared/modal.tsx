@@ -5,6 +5,7 @@ import { EBorder, EFontSize, EFontWeight } from 'constants/style.constant';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, {
   forwardRef,
+  memo,
   Ref,
   useCallback,
   useImperativeHandle,
@@ -101,7 +102,7 @@ const Modal = (
   );
 };
 
-export default forwardRef(Modal);
+export default memo(forwardRef(Modal));
 
 export const StyledRoot = styled(motion.div)<{
   zIndex?: number;

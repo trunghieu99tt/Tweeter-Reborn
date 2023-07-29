@@ -9,6 +9,9 @@ type VirtualInfinityListProps<T> = {
   loadNextPage: () => void;
   Item: any;
   ItemSkeleton?: any;
+  height?: number;
+  width?: number;
+  itemSize?: number;
 };
 
 export const VirtualInfinityList = <
@@ -22,6 +25,9 @@ export const VirtualInfinityList = <
   loadNextPage,
   Item,
   ItemSkeleton,
+  height,
+  width,
+  itemSize,
 }: VirtualInfinityListProps<T>) => {
   const itemCount = hasNextPage ? items.length + 1 : items.length;
   const loadMoreItems = isNextPageLoading
@@ -64,12 +70,12 @@ export const VirtualInfinityList = <
       {({ onItemsRendered, ref }) => (
         <FixedSizeList
           className="List"
-          height={800}
+          height={height ?? 800}
           itemCount={itemCount}
-          itemSize={200}
+          itemSize={itemSize ?? 200}
           onItemsRendered={onItemsRendered}
           ref={ref}
-          width={800}
+          width={width ?? 800}
         >
           {WrappedItem}
         </FixedSizeList>
