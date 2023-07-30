@@ -1,3 +1,4 @@
+import { VirtualInfinityList } from '@components/infinity-lists/virtual-infinity-list';
 import Modal from '@components/shared/modal';
 import { BaseControlledRef } from '@type/app.type';
 import { IUser } from '@type/user.type';
@@ -6,11 +7,8 @@ import { EFontSize, EFontWeight } from 'constants/style.constant';
 import { EUserListType } from 'constants/user.constant';
 import React, { Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import styled from 'styled-components';
 import UserCard from '../card';
-import UserCardSkeleton from '../card/skeleton';
-import { VirtualInfinityList } from '@components/infinity-lists/virtual-infinity-list';
 
 type Props = {
   user: IUser;

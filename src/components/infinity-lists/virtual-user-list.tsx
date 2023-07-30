@@ -42,6 +42,7 @@ const VirtualUserList = ({ queryKey }: Props) => {
         fetchNextPage();
       }}
       items={peopleData}
+      height={window?.innerHeight * 0.95 ?? 800}
     />
   );
 };

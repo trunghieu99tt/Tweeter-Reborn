@@ -53,8 +53,9 @@ const StyledRoot = styled.article`
   margin-bottom: 1rem;
   border-radius: 0.8rem;
   min-width: 50rem;
-  max-width: 100%;
+  max-width: 95%;
   height: 17.5rem !important;
+  margin: 1rem;
 `;
 
 const StyledUserName = styled.p`

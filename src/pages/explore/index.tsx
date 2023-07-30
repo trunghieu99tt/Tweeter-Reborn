@@ -78,8 +78,6 @@ const Explore = () => {
     ];
   }, [t]);
 
-  console.log('screen', screen);
-
   const sidebar = useMemo(() => {
     return (
       <LeftSelectableBar<EExploreScreen>

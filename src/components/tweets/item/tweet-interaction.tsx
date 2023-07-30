@@ -12,6 +12,7 @@ import { FaRegHeart } from 'react-icons/fa';
 import { FiRefreshCw } from 'react-icons/fi';
 import styled, { css } from 'styled-components';
 import { useTweetInteraction } from './use-tweet-interaction';
+import { VirtualInfinityList } from '@components/infinity-lists/virtual-infinity-list';
 
 const Modal = React.lazy(() => import('@components/shared/modal'));
 
@@ -55,9 +56,18 @@ const TweetInteraction = ({ tweet }: Props) => {
   const { t } = useTranslation();
 
   const userList = useMemo(() => {
-    return userListData.map((user: IUser) => {
-      return <UserCard key={`user-list-card-${user._id}`} data={user} />;
-    });
+    return (
+      <VirtualInfinityList
+        Item={UserCard}
+        hasNextPage={false}
+        isNextPageLoading={false}
+        loadNextPage={() => {
+          return;
+        }}
+        items={userListData}
+        height={400}
+      />
+    );
   }, [userListData]);
 
   return (
