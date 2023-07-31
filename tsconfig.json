@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "allowJs": true,
     "declaration": true,
@@ -28,5 +32,7 @@
     "noEmit": true
   },
   "extends": "./tsconfig.path.json",
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
