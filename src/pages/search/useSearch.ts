@@ -2,8 +2,6 @@ import { EEndpoints } from '@constants';
 import { IGetList } from '@type/app.type';
 import { getList } from '@utils/query';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'store';
 
 export enum ESearchType {
   Tweet = 'tweet',
